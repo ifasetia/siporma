@@ -13,7 +13,7 @@
 
 <div class="mt-4">
     @if(auth()->user()->role === 'super_admin')
-        <p>Anda memiliki akses penuh sebagai Super Admin dinda.</p>
+        <p>Anda memiliki akses penuh sebagai Super Admin.</p>
 
     @elseif(auth()->user()->role === 'admin')
         <p>Anda dapat mengelola data sebagai Admin.</p>
