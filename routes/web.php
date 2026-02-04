@@ -15,22 +15,26 @@ Route::middleware('auth')->group(function () {
         return view('dashboard.index');
     })->name('dashboard');
 
-    // Profile
-    Route::get('/profile', [ProfileController::class, 'edit'])
-        ->name('profile.edit');
+    // // Profile
+    // Route::get('/profile', [ProfileController::class, 'edit'])
+    //     ->name('profile.edit');
 
-    Route::patch('/profile', [ProfileController::class, 'update'])
-        ->name('profile.update');
+    // Route::patch('/profile', [ProfileController::class, 'update'])
+    //     ->name('profile.update');
 
-    Route::delete('/profile', [ProfileController::class, 'destroy'])
-        ->name('profile.destroy');
+    // Route::delete('/profile', [ProfileController::class, 'destroy'])
+    //     ->name('profile.destroy');
 });
 
 // ADMIN & SUPER ADMIN ONLY
 Route::middleware(['auth', 'can:admin'])->group(function () {
 
     Route::resource('kegiatan', KegiatanController::class);
-
 });
 
-require __DIR__.'/auth.php';
+Route::get('/profile', function () {
+    return view('profile');
+})->middleware(['auth']);
+
+
+require __DIR__ . '/auth.php';

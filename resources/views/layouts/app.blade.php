@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
@@ -15,7 +15,7 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
-   
+
     <div class="flex min-h-screen bg-gray-100">
     <x-sidebar />
 
@@ -29,4 +29,5 @@
 </div>
 
 </body>
-</html>
+</html> --}}
+@extends('layouts.template')
