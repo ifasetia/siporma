@@ -1,18 +1,13 @@
 @extends('layouts.app')
 
-@section('title','Profile')
+@section('title','Kampus')
 
 @section('content')
-<!-- Breadcrumb Start -->
-<div x-data="{ pageName: `Profile`}">
-    <include src="./partials/breadcrumb.html" />
-</div>
-<!-- Breadcrumb End -->
 
 <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] lg:p-6">
-    <h3 class="mb-5 text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-7">
+    {{-- <h3 class="mb-5 text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-7">
         Data Kampus
-    </h3>
+    </h3> --}}
 
     <div class="p-5 mb-6 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
         <div class="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
@@ -22,7 +17,7 @@
                 </div>
                 <div class="order-3 xl:order-2">
                     <h4 class="mb-2 text-lg font-semibold text-center text-gray-800 dark:text-white/90 xl:text-left">
-                        Musharof Chowdhury
+                        Kelola master data kampus
                     </h4>
                     <div class="flex flex-col items-center gap-1 text-center xl:flex-row xl:gap-3 xl:text-left">
                         <p class="text-sm text-gray-500 dark:text-gray-400">
@@ -35,36 +30,6 @@
                     </div>
                 </div>
                 <div class="flex items-center order-2 gap-2 grow xl:order-3 xl:justify-end">
-                    <button
-                        class="flex h-11 w-11 items-center justify-center gap-2 rounded-full border border-gray-300 bg-white text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200">
-                        <svg class="fill-current" width="20" height="20" viewBox="0 0 20 20" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M11.6666 11.2503H13.7499L14.5833 7.91699H11.6666V6.25033C11.6666 5.39251 11.6666 4.58366 13.3333 4.58366H14.5833V1.78374C14.3118 1.7477 13.2858 1.66699 12.2023 1.66699C9.94025 1.66699 8.33325 3.04771 8.33325 5.58342V7.91699H5.83325V11.2503H8.33325V18.3337H11.6666V11.2503Z"
-                                fill="" />
-                        </svg>
-                    </button>
-
-                    <button
-                        class="flex h-11 w-11 items-center justify-center gap-2 rounded-full border border-gray-300 bg-white text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200">
-                        <svg class="fill-current" width="20" height="20" viewBox="0 0 20 20" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M15.1708 1.875H17.9274L11.9049 8.75833L18.9899 18.125H13.4424L9.09742 12.4442L4.12578 18.125H1.36745L7.80912 10.7625L1.01245 1.875H6.70078L10.6283 7.0675L15.1708 1.875ZM14.2033 16.475H15.7308L5.87078 3.43833H4.23162L14.2033 16.475Z"
-                                fill="" />
-                        </svg>
-                    </button>
-
-                    <button
-                        class="flex h-11 w-11 items-center justify-center gap-2 rounded-full border border-gray-300 bg-white text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200">
-                        <svg class="fill-current" width="20" height="20" viewBox="0 0 20 20" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M5.78381 4.16645C5.78351 4.84504 5.37181 5.45569 4.74286 5.71045C4.11391 5.96521 3.39331 5.81321 2.92083 5.32613C2.44836 4.83904 2.31837 4.11413 2.59216 3.49323C2.86596 2.87233 3.48886 2.47942 4.16715 2.49978C5.06804 2.52682 5.78422 3.26515 5.78381 4.16645ZM5.83381 7.06645H2.50048V17.4998H5.83381V7.06645ZM11.1005 7.06645H7.78381V17.4998H11.0672V12.0248C11.0672 8.97475 15.0422 8.69142 15.0422 12.0248V17.4998H18.3338V10.8914C18.3338 5.74978 12.4505 5.94145 11.0672 8.46642L11.1005 7.06645Z"
-                                fill="" />
-                        </svg>
-                    </button>
-
                     <button
                         class="flex h-11 w-11 items-center justify-center gap-2 rounded-full border border-gray-300 bg-white text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200">
                         <svg class="fill-current" width="20" height="20" viewBox="0 0 20 20" fill="none"
@@ -87,22 +52,24 @@
                 </svg>
                 Edit
             </button>
+            <button
+                class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow hover:bg-blue-700 transition">
+                <x-heroicon-c-plus-circle class="h-5 w-5" />
+                <span>Tambah</span>
+            </button>
         </div>
     </div>
 
     <div class="p-5 mb-6 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6 w-full">
-        <h4 class="text-lg font-semibold text-gray-800 dark:text-white/90 mb-4">
+        {{-- <h4 class="text-lg font-semibold text-gray-800 dark:text-white/90 mb-4">
             Data Kampus
-        </h4>
+        </h4> --}}
 
         <div class="w-full overflow-x-auto">
-            <table
-                id="kampusTable"
-                class="min-w-full divide-y divide-gray-200 text-sm text-gray-700"
-            >
+            <table id="kampusTable" class="min-w-full divide-y divide-gray-200 text-sm text-gray-700">
                 <thead class="bg-gray-50 text-gray-600 uppercase text-xs font-medium">
                     <tr>
-                        <th class="px-6 py-3 text-left w-16 bg-red-700">No</th>
+                        <th class="px-6 py-3 text-center w-16">No</th>
                         <th class="px-6 py-3 text-left">Nama Kampus</th>
                         <th class="px-6 py-3 text-left">Email Kampus</th>
                         <th class="px-6 py-3 text-left">Alamat Kampus</th>
@@ -120,38 +87,60 @@
 
 @push('scripts')
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () {
 
-    if (!window.$) {
-        console.error('jQuery NOT loaded');
-        return;
-    }
-
- $('#kampusTable').DataTable({
-        processing: true,
-        serverSide: true,
-        responsive: true,
-        ajax: "{{ route('kampus-datatables') }}",
-        columns: [
-            { data: 'DT_RowIndex', name: 'DT_RowIndex', width: '50px', orderable: false, searchable: false },
-        { data: 'km_nama_kampus', name: 'km_nama_kampus', width: '200px' },
-        { data: 'km_email', name: 'km_email', width: '250px' },
-        { data: 'km_alamat', name: 'km_alamat', width: '300px' },
-        { data: 'km_telepon', name: 'km_telepon', width: '150px' },
-        { data: 'aksi', name: 'aksi', width: '200px', orderable: false, searchable: false },
-        ],
-        drawCallback: function () {
-            $('#kampusTable tbody tr').each(function (index) {
-                $(this).removeClass('bg-white bg-gray-50');
-                $(this).addClass(index % 2 === 0 ? 'bg-white' : 'bg-gray-50');
-            }).hover(
-                function () { $(this).addClass('shadow-md'); },
-                function () { $(this).removeClass('shadow-md'); }
-            );
+        if (!window.$) {
+            console.error('jQuery NOT loaded');
+            return;
         }
+
+        $('#kampusTable').DataTable({
+            processing: true,
+            serverSide: true,
+            responsive: true,
+            ajax: "{{ route('kampus-datatables') }}",
+            columns: [{
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    width: '50px',
+                    orderable: false,
+                    searchable: false,
+                    className: 'text-center'
+                },
+                {
+                    data: 'km_nama_kampus',
+                    name: 'km_nama_kampus',
+                    width: '200px'
+                },
+                {
+                    data: 'km_email',
+                    name: 'km_email',
+                    width: '250px'
+                },
+                {
+                    data: 'km_alamat',
+                    name: 'km_alamat',
+                    width: '300px'
+                },
+                {
+                    data: 'km_telepon',
+                    name: 'km_telepon',
+                    width: '150px',
+                    className: 'text-center'
+                },
+                {
+                    data: 'aksi',
+                    name: 'aksi',
+                    width: '200px',
+                    orderable: false,
+                    searchable: false,
+                    className: 'text-center'
+                },
+            ],
+        });
+
+
     });
 
-});
 </script>
 @endpush
-
