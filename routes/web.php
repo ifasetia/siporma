@@ -30,10 +30,10 @@ Route::middleware('auth')->group(function () {
 });
 
 // ADMIN & SUPER ADMIN ONLY
-Route::middleware(['auth', 'can:admin'])->group(function () {
+// Route::middleware(['auth', 'can:admin'])->group(function () {
 
-    Route::resource('kegiatan', KegiatanController::class);
-});
+//     Route::resource('kegiatan', KegiatanController::class);
+// });
 
 Route::get('/profile', function () {
     return view('pages.profile.index');
@@ -48,6 +48,16 @@ Route::get('/kampus', [KampusController::class, 'index'])
 Route::get('/kampus-datatables', [KampusController::class, 'datatable'])
     ->middleware(['auth'])
     ->name('kampus-datatables');
+
+Route::post('/kampus-store', [KampusController::class, 'store'])
+    ->middleware(['auth'])
+    ->name('kampus-store');
+
+Route::delete('/kampus/{id}', [KampusController::class, 'destroy'])
+    ->name('kampus-destroy');
+
+
+
 
 
 // Route::prefix('kampus')->name('kampus.')->group(function () {

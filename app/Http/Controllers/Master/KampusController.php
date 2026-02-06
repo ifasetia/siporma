@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreKampusRequest;
 use Illuminate\Http\Request;
 use App\Models\Master\Kampus;
 use Yajra\DataTables\Facades\DataTables;
@@ -18,16 +19,13 @@ class KampusController extends Controller
 
     public function datatable(Request $request)
     {
-        $query = Kampus::query();
 
-        // dd($query->get());
-
-        $query = Kampus::query();
+        $query = Kampus::query()->latest('created_at');
 
         return DataTables::of($query)
-        ->addIndexColumn()
-        ->addColumn('aksi', function ($row) {
-            return '
+            ->addIndexColumn()
+            ->addColumn('aksi', function ($row) {
+                return '
             <div class="flex items-center justify-center gap-1.5">
                 <a href=""
                     class="inline-flex items-center gap-1.5 rounded-md bg-blue-50 px-2.5 py-1 text-xs font-medium text-blue-600 hover:bg-blue-100 transition">
@@ -38,7 +36,7 @@ class KampusController extends Controller
                     </svg>
                     Edit
                 </a>
-                <button data-id=""
+                <button data-id="' . $row->km_id . '"
                     class="btn-delete inline-flex items-center gap-1.5 rounded-md bg-red-50 px-2.5 py-1 text-xs font-medium text-red-600 hover:bg-red-100 transition">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
@@ -48,10 +46,9 @@ class KampusController extends Controller
                     Hapus
                 </button>
             </div>';
-        })
-        ->rawColumns(['aksi'])
-        ->make(true);
-
+            })
+            ->rawColumns(['aksi'])
+            ->make(true);
     }
 
     // FORM TAMBAH
@@ -63,21 +60,34 @@ class KampusController extends Controller
 
 
     // SIMPAN DATA
-    public function store(Request $request)
+    public function store(StoreKampusRequest $request)
     {
-        $request->validate([
-            'nama_kampus' => 'required|string|max:255',
-            'alamat'      => 'nullable|string',
-            'kota'        => 'nullable|string|max:100',
-            'email'       => 'nullable|email',
-            'telepon'     => 'nullable|string|max:20',
-        ]);
+        // dd($request->all());
+        if (!$request->expectsJson()) {
+            abort(400, 'Invalid request type');
+        }
+        // 1. ambil data valid dari input form
+        $data = $request->validated();
 
-        Kampus::create($request->all());
+        // 2. simpan ke database sesuai field model & migration
+        // $kampus = Kampus::create($data);
+        $kampus = new Kampus();
 
-        return redirect()
-            ->route('kampus.index')
-            ->with('success', 'Data kampus berhasil ditambahkan');
+
+        $kampus->km_nama_kampus = $data['km_nama_kampus'];
+        $kampus->km_kode_kampus = $data['km_kode_kampus'];
+        $kampus->km_email = $data['km_email_kampus'];
+        $kampus->km_alamat = $data['km_alamat_kampus'];
+        $kampus->km_telepon = $data['km_telepon'];
+        $kampus->save();
+
+
+        // 3. kirim response ke frontend ajax
+        return response()->json([
+            'success' => true,
+            'message' => 'Data kampus berhasil ditambahkan',
+            'data' => $kampus
+        ], 201);
     }
 
     // FORM EDIT
@@ -105,12 +115,14 @@ class KampusController extends Controller
     }
 
     // HAPUS DATA
-    public function destroy(Kampus $kampus)
+    public function destroy($id)
     {
-        $kampus->delete();
+        $data = Kampus::findOrFail($id);
+        $data->delete();
 
-        return redirect()
-            ->route('kampus.index')
-            ->with('success', 'Data kampus berhasil dihapus');
+        return response()->json([
+            'success' => true,
+            'message' => 'Data berhasil dihapus'
+        ]);
     }
 }

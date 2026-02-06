@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','Kampus')
+@section('title','Master kampus')
 
 @section('content')
 
@@ -12,8 +12,8 @@
     <div class="p-5 mb-6 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
         <div class="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
             <div class="flex flex-col items-center w-full gap-6 xl:flex-row">
-                <div class="w-20 h-20 overflow-hidden border border-gray-200 rounded-full dark:border-gray-800">
-                    <img src="./images/user/owner.jpg" alt="user" />
+                <div class="w-25 h-25 overflow-hidden   dark:border-gray-800">
+                    <img src="{{ asset('images/icon/kampus.png') }}" alt="user" />
                 </div>
                 <div class="order-3 xl:order-2">
                     <h4 class="mb-2 text-lg font-semibold text-center text-gray-800 dark:text-white/90 xl:text-left">
@@ -52,7 +52,7 @@
                 </svg>
                 Edit
             </button>
-            <button
+            <button id="btnOpen"
                 class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow hover:bg-blue-700 transition">
                 <x-heroicon-c-plus-circle class="h-5 w-5" />
                 <span>Tambah</span>
@@ -81,9 +81,13 @@
             </table>
         </div>
     </div>
-
 </div>
+
+
+
 @endsection
+{{-- MODAL --}}
+@include('pages.master.kampus.add')
 
 @push('scripts')
 <script>
@@ -94,7 +98,8 @@
             return;
         }
 
-        $('#kampusTable').DataTable({
+
+        window.table = $('#kampusTable').DataTable({
             processing: true,
             serverSide: true,
             responsive: true,
@@ -138,8 +143,6 @@
                 },
             ],
         });
-
-
     });
 
 </script>
