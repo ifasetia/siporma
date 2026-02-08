@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreKampusRequest extends FormRequest
 {
@@ -13,10 +14,22 @@ class StoreKampusRequest extends FormRequest
 
     public function rules(): array
     {
+        $id = $this->route('id');
         return [
             'km_nama_kampus'    => 'required|string|max:255',
-            'km_kode_kampus'    => 'required|string|max:20|unique:ms_kampus,km_kode_kampus',
-            'km_email_kampus'   => 'required|email|unique:ms_kampus,km_email',
+            'km_kode_kampus' => [
+                'required',
+                'string',
+                'max:20',
+                Rule::unique('ms_kampus', 'km_kode_kampus')
+                    ->ignore($id, 'km_id')
+            ],
+            'km_email_kampus'   => [
+                'required',
+                'email',
+                Rule::unique('ms_kampus', 'km_email')
+                    ->ignore($id, 'km_id')
+            ],
             'km_alamat_kampus'  => 'required|string',
             'km_telepon'        => 'required|string|min:10|max:15',
         ];

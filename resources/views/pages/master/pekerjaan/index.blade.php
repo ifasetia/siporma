@@ -31,18 +31,28 @@
                 </div>
             </div>
 
-            <button id="btnOpen"
+            {{-- <button id="btnOpen"
                 class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow hover:bg-blue-700 transition">
                 <x-heroicon-c-plus-circle class="h-5 w-5" />
                 <span>Tambah</span>
-            </button>
+            </button> --}}
+            <a href="{{ route('pekerjaan.create') }}"
+                class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow hover:bg-blue-700 transition">
+                <x-heroicon-c-plus-circle class="h-5 w-5" />
+                <span>Tambah</span>
+            </a>
+
         </div>
     </div>
 
     <div class="p-5 mb-6 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6 w-full">
-
+  @if(session('success'))
+        <div class="mb-4 p-4 rounded-lg bg-green-100 text-green-700">
+            {{ session('success') }}
+        </div>
+        @endif
         <div class="w-full overflow-x-auto">
-            <table id="kampusTable" class="min-w-full divide-y divide-gray-200 text-sm text-gray-700">
+            <table id="kampusPekerjaan" class="min-w-full divide-y divide-gray-200 text-sm text-gray-700">
                 <thead class="bg-gray-50 text-gray-600 uppercase text-xs font-medium">
                     <tr>
                         <th class="px-6 py-3 text-center w-16">No</th>
@@ -62,9 +72,6 @@
 
 
 @endsection
-{{-- MODAL --}}
-@include('pages.master.kampus.add')
-@include('pages.master.kampus.edit')
 
 @push('scripts')
 <script>
@@ -76,11 +83,11 @@
         }
 
 
-        window.table = $('#kampusTable').DataTable({
+        window.table = $('#kampusPekerjaan').DataTable({
             processing: true,
             serverSide: true,
             responsive: true,
-            ajax: "{{ route('kampus.datatables') }}",
+            ajax: "{{ route('pekerjaan.datatables') }}",
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex',
@@ -90,23 +97,23 @@
                     className: 'text-center'
                 },
                 {
-                    data: 'km_nama_kampus',
-                    name: 'km_nama_kampus',
+                    data: 'pk_nama_pekerjaan',
+                    name: 'pk_nama_pekerjaan',
                     width: '200px'
                 },
                 {
-                    data: 'km_email',
-                    name: 'km_email',
+                    data: 'pk_level_pekerjaan',
+                    name: 'pk_level_pekerjaan',
                     width: '250px'
                 },
                 {
-                    data: 'km_alamat',
-                    name: 'km_alamat',
+                    data: 'pk_deskripsi_pekerjaan',
+                    name: 'pk_deskripsi_pekerjaan',
                     width: '300px'
                 },
                 {
-                    data: 'km_telepon',
-                    name: 'km_telepon',
+                    data: 'pk_minimal_skill',
+                    name: 'pk_minimal_skill',
                     width: '150px',
                     className: 'text-center'
                 },

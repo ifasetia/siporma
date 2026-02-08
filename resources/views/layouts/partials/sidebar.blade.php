@@ -79,10 +79,10 @@
               href="#"
               @click.prevent="selected = (selected === 'Master' ? '':'Master')"
               class="menu-item group"
-              :class=" (selected === 'Master') || (page === 'kampus' || page === 'analytics' || page === 'marketing' || page === 'crm' || page === 'stocks') ? 'menu-item-active' : 'menu-item-inactive'"
+              :class=" (selected === 'Master') || (page === 'kampus' || page === 'analytics' || page === 'pekerjaan' || page === 'crm' || page === 'stocks') ? 'menu-item-active' : 'menu-item-inactive'"
             >
               <svg
-                :class="(selected === 'Master') || (page === 'kampus' || page === 'analytics' || page === 'marketing' || page === 'crm' || page === 'stocks') ? 'menu-item-icon-active'  :'menu-item-icon-inactive'"
+                :class="(selected === 'Master') || (page === 'kampus' || page === 'analytics' || page === 'pekerjaan' || page === 'crm' || page === 'stocks') ? 'menu-item-icon-active'  :'menu-item-icon-inactive'"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
@@ -132,11 +132,23 @@
                 :class="sidebarToggle ? 'lg:hidden' : 'flex'"
                 class="menu-dropdown mt-2 flex flex-col gap-1 pl-9"
               >
+                  <li>
+                    <a
+                    href="{{ route('pekerjaan.index') }}"
+                    class="menu-dropdown-item group
+                        {{ request()->routeIs('pekerjaan.index')
+                            ? 'menu-dropdown-item-active'
+                            : 'menu-dropdown-item-inactive' }}"
+                >
+                    Tipe Pekerjaan
+                </a>
+
+                </li>
                 <li>
                     <a
-                    href="{{ route('kampus') }}"
+                    href="{{ route('kampus.index') }}"
                     class="menu-dropdown-item group
-                        {{ request()->routeIs('kampus')
+                        {{ request()->routeIs('kampus.index')
                             ? 'menu-dropdown-item-active'
                             : 'menu-dropdown-item-inactive' }}"
                 >

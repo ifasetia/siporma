@@ -4,3 +4,6 @@
 /* @tailwind base;
 @tailwind components;
 @tailwind utilities; */
+.swal2-container {
+    z-index: 9999999 !important;
+}

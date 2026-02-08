@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div id="eventModal" class="fixed inset-0 z-999999 hidden p-5 overflow-y-auto" role="dialog" aria-modal="true">
+<div id="eventEditModal" class="fixed inset-0 z-999999 hidden p-5 overflow-y-auto" role="dialog" aria-modal="true">
 
     <!-- Overlay -->
     <div class="fixed inset-0 bg-gray-400/50 backdrop-blur-sm"></div>
@@ -13,16 +13,16 @@
                 ✕
             </button>
 
-            <form id="submitFormKampus" class="flex flex-col gap-6" action="{{ route('kampus.store') }}" method="POST"
+            <form id="submitFormEditKampus" class="flex flex-col gap-6" action="" method="POST"
                 enctype="multipart/form-data">
                 @csrf
                 <!-- Header -->
                 <div>
-                    <h5 id="eventModalLabel" class="font-semibold text-gray-800 text-xl dark:text-white">
-                        Tambah Data Kampus Mahasiswa
+                    <h5 id="eventEditModalLabel" class="font-semibold text-gray-800 text-xl dark:text-white">
+                        Edit Data Kampus Mahasiswa
                     </h5>
                     <p class="text-sm text-gray-500 dark:text-gray-400">
-                        Silahkan isi form berikut untuk menambahkan data kampus mahasiswa baru.
+                        Silahkan isi form berikut untuk mengedit data kampus mahasiswa.
                     </p>
                 </div>
 
@@ -74,7 +74,7 @@
                         Tutup
                     </button>
 
-                    <button type="button" id="btnSimpanKampus"
+                    <button type="button" id="btnEditKampus"
                         class="w-24 bg-brand-500 hover:bg-brand-600 rounded-lg px-4 py-2 text-sm text-white disabled:bg-grey-400">
                         Simpan
                     </button>
@@ -107,40 +107,32 @@
             console.error('jQuery NOT loaded');
             return;
         }
-
         // MODAL HANDLER
-        const $modal = $('#eventModal');
+        const $modalEdit = $('#eventEditModal');
         // OPEN MODAL
         window.openModal = function () {
-            $modal.removeClass('hidden');
+            $modalEdit.removeClass('hidden');
             $('body').addClass('overflow-hidden');
-            resetKampusForm();
         };
-
         // CLOSE MODAL
         function closeModal() {
-            $modal.addClass('hidden');
+            $modalEdit.addClass('hidden');
             $('body').removeClass('overflow-hidden');
-            resetKampusForm();
+            resetKampusEditForm();
         }
-
         // CLOSE BUTTON & OVERLAY
         $(document).on('click', '.modal-close-btn', function () {
             closeModal();
         });
-
         // ESC KEY CLOSE
         $(document).on('keydown', function (e) {
             if (e.key === 'Escape') {
                 closeModal();
             }
         });
-
-        $('#eventModal .modal-dialog').on('click', function (e) {
+        $('#eventEditModal .modal-dialog').on('click', function (e) {
             e.stopPropagation();
         });
-
-        $('#btnOpen').on('click', openModal);
 
         // SAAT MERAH KLIK HILANKAN MERAHNYA
         $('.input-field').on('input', function () {
@@ -149,169 +141,134 @@
         });
 
 
-        function resetKampusForm() {
-            const form = $('#submitFormKampus');
+        function resetKampusEditForm() {
+            const form = $('#submitFormEditKampus');
             form[0].reset();
             form.find('input[type=hidden]').val('');
             $('.error').text('');
         }
 
 
+
+
         /*
         |--------------------------------------------------------------------------
-        | ➕ ADD DATA KAMPUS
-        |--------------------------------------------------------------------------
-        | Flow:
-        | 1. Klik tombol simpan
-        | 2. Validasi form
-        | 3. SweetAlert loading
-        | 4. AJAX POST
-        | 5. Reload DataTables
+        | ✏️ EDIT DATA KAMPUS - LOAD DATA + FULL SWEETALERT LOADING
         |--------------------------------------------------------------------------
         */
-        $('#btnSimpanKampus').on('click', function (e) {
-            e.preventDefault();
-            const form = $('#submitFormKampus');
-            const url = form.attr('action');
-            const data = form.serialize();
-            const btn = $(this);
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            // reset error dulu
-            $('.error').text('');
-            $('.input-field').removeClass('border-red-500 focus:border-red-500');
-            btn.prop('disabled', true).text('Menyimpan...');
-            // SWEETALERT LOADING
+
+        $(document).on('click', '.btn-edit', function () {
+            const id = $(this).data('id');
+            /*
+            |--------------------------------------------------------------------------
+            | SWEETALERT LOADING FETCH DATA
+            |--------------------------------------------------------------------------
+            */
             Swal.fire({
-                title: 'Menyimpan data...',
-                text: 'Mohon tunggu sebentar',
-                icon: 'info',
+                title: 'Mengambil data...',
+                html: 'Mohon tunggu sebentar',
                 allowOutsideClick: false,
+                allowEscapeKey: false,
                 showConfirmButton: false,
                 didOpen: () => {
                     Swal.showLoading();
                 }
             });
+            /*
+            |--------------------------------------------------------------------------
+            | AJAX GET DATA
+            |--------------------------------------------------------------------------
+            */
             $.ajax({
-                url: url,
-                method: 'POST',
-                data: data,
-                success: function (response) {
-                    if (response.success) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Berhasil!',
-                            text: response.message || 'Data berhasil disimpan',
-                            timer: 1500,
-                            showConfirmButton: false
-                        });
-                        closeModal();
-                        resetKampusForm();
-                        window.table.ajax.reload(null, false);
-                    }
+                url: `/kampus/${id}/edit`,
+                type: 'GET',
+                success: function (res) {
+                    Swal.close(); // tutup loading
+                    openEditModal(res.data);
                 },
                 error: function (xhr) {
-                    Swal.close(); // tutup loading dulu
-                    if (xhr.status === 422) {
-                        const errors = xhr.responseJSON.errors;
-                        Object.keys(errors).forEach(function (key) {
-                            $(`[data-error="${key}"]`).text(errors[key][0]);
-                            $(`[name="${key}"]`)
-                                .addClass('border-red-500 focus:border-red-500');
-                        });
-                        return;
-                    }
-                    let message = 'Terjadi kesalahan server';
-                    if (xhr.responseJSON && xhr.responseJSON.message) {
-                        message = xhr.responseJSON.message;
-                    }
                     Swal.fire({
                         icon: 'error',
-                        title: 'Oops...',
-                        text: message
+                        title: 'Gagal mengambil data',
+                        text: xhr.responseJSON ?.message ||
+                            'Terjadi kesalahan server'
                     });
-                },
-                complete: function () {
-                    btn.prop('disabled', false).text('Simpan');
                 }
             });
         });
 
 
+        function openEditModal(data) {
+            $modalEdit.removeClass('hidden');
+            $('body').addClass('overflow-hidden');
+            // Set form action to update route
+            const form = $('#submitFormEditKampus');
+            form.attr('action', `/kampus/${data.km_id}/update`);
+            // Fill form fields with existing data
+            form.find('input[name="km_nama_kampus"]').val(data.km_nama_kampus);
+            form.find('input[name="km_kode_kampus"]').val(data.km_kode_kampus);
+            form.find('input[name="km_email_kampus"]').val(data.km_email);
+            form.find('textarea[name="km_alamat_kampus"]').val(data.km_alamat);
+            form.find('input[name="km_telepon"]').val(data.km_telepon);
+        }
+
 
         /*
         |--------------------------------------------------------------------------
-        | 🗑️ DELETE DATA KAMPUS
-        |--------------------------------------------------------------------------
-        | Flow:
-        | 1. Klik tombol delete
-        | 2. Konfirmasi SweetAlert
-        | 3. Loading SweetAlert
-        | 4. AJAX DELETE
-        | 5. Reload DataTables
+        | ✏️ UPDATE DATA KAMPUS
         |--------------------------------------------------------------------------
         */
-        $(document).on('click', '.btn-delete', function () {
-            const id = $(this).data('id');
-            const token = $('meta[name="csrf-token"]').attr('content');
+        $('#btnEditKampus').on('click', function (e) {
+            e.preventDefault();
+            const form = $('#submitFormEditKampus');
+            const url = form.attr('action');
+            const btn = $(this);
+            $('.error').text('');
+            $('.input-field').removeClass('border-red-500');
+            btn.prop('disabled', true).text('Mengupdate...');
             Swal.fire({
-                title: 'Yakin hapus data?',
-                text: "Data tidak bisa dikembalikan!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Ya, hapus!',
-                cancelButtonText: 'Batal',
-                buttonsStyling: false,
-                customClass: {
-                    confirmButton: 'bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg',
-                    cancelButton: 'bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-lg ml-2'
+                title: 'Mengupdate data...',
+                text: 'Mohon tunggu sebentar',
+                icon: 'info',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                didOpen: () => Swal.showLoading()
+            });
+            $.ajax({
+                url: url,
+                method: 'POST',
+                data: form.serialize(),
+                success: function (response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil!',
+                        text: response.message,
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+                    closeModal();
+                    window.table.ajax.reload(null, false);
+                },
+                error: function (xhr) {
+                    Swal.close();
+                    if (xhr.status === 422) {
+                        const errors = xhr.responseJSON.errors;
+                        Object.keys(errors).forEach(function (key) {
+                            $(`[data-error="${key}"]`).text(errors[key][0]);
+                            $(`[name="${key}"]`)
+                                .addClass('border-red-500');
+                        });
+                        return;
+                    }
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Gagal update data'
+                    });
+                },
+                complete: function () {
+                    btn.prop('disabled', false).text('Simpan');
                 }
-            }).then((result) => {
-                if (!result.isConfirmed) return;
-                Swal.fire({
-                    title: 'Menyimpan data...',
-                    text: 'Mohon tunggu sebentar',
-                    icon: 'info',
-                    allowOutsideClick: false,
-                    showConfirmButton: false,
-                    didOpen: () => {
-                        Swal.showLoading();
-                    }
-                });
-
-                $.ajax({
-                    url: `/kampus/${id}`,
-                    type: 'DELETE',
-                    data: {
-                        _token: token
-                    },
-
-                    success: function (res) {
-
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Berhasil!',
-                            text: res.message,
-                            timer: 1500,
-                            showConfirmButton: false
-                        });
-                        window.table.ajax.reload(null, false);
-                    },
-                    error: function (xhr) {
-                        let message = 'Gagal menghapus data';
-                        if (xhr.responseJSON && xhr.responseJSON.message) {
-                            message = xhr.responseJSON.message;
-                        }
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: message
-                        });
-                    }
-                });
             });
         });
     });

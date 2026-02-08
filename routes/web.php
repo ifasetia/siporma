@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\Master\KampusController;
+use App\Http\Controllers\Master\PekerjaanController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -40,34 +41,33 @@ Route::get('/profile', function () {
 })->middleware(['auth'])->name('profile');
 
 
-
-Route::get('/kampus', [KampusController::class, 'index'])
-    ->middleware(['auth'])
-    ->name('kampus');
-
-Route::get('/kampus-datatables', [KampusController::class, 'datatable'])
-    ->middleware(['auth'])
-    ->name('kampus-datatables');
-
-Route::post('/kampus-store', [KampusController::class, 'store'])
-    ->middleware(['auth'])
-    ->name('kampus-store');
-
-Route::delete('/kampus/{id}', [KampusController::class, 'destroy'])
-    ->name('kampus-destroy');
+Route::middleware(['auth'])
+    ->prefix('pekerjaan')
+    ->name('pekerjaan.')
+    ->group(function () {
+        Route::get('/', [PekerjaanController::class, 'index'])->name('index');
+        Route::get('/datatables', [PekerjaanController::class, 'datatable'])->name('datatables');
+        Route::get('/create', [PekerjaanController::class, 'create'])->name('create');
+        Route::post('/store', [PekerjaanController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [PekerjaanController::class, 'edit'])->name('edit');
+        Route::put('/{id}/update', [PekerjaanController::class, 'update'])->name('update');
+        Route::delete('/{id}/delete', [PekerjaanController::class, 'destroy'])->name('delete');
+    });
 
 
 
+Route::middleware(['auth'])
+    ->prefix('kampus')
+    ->name('kampus.')
+    ->group(function () {
+        Route::get('/', [KampusController::class, 'index'])->name('index');
+        Route::get('/datatables', [KampusController::class, 'datatable'])->name('datatables');
+        Route::post('/store', [KampusController::class, 'store'])->name('store');
+        Route::delete('/{id}', [KampusController::class, 'destroy'])->name('destroy');
+        Route::get('/{id}/edit', [KampusController::class, 'edit'])->name('edit');
+        Route::post('/{id}/update', [KampusController::class, 'update'])->name('update');
+    });
 
-
-// Route::prefix('kampus')->name('kampus.')->group(function () {
-//     Route::get('/', [KampusController::class, 'index'])->name('index');
-//     Route::get('/create', [KampusController::class, 'create'])->name('create');
-//     Route::post('/', [KampusController::class, 'store'])->name('store');
-//     Route::get('/{kampus}/edit', [KampusController::class, 'edit'])->name('edit');
-//     Route::put('/{kampus}', [KampusController::class, 'update'])->name('update');
-//     Route::delete('/{kampus}', [KampusController::class, 'destroy'])->name('destroy');
-// });
 
 
 require __DIR__ . '/auth.php';
