@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             KampusSeeder::class,
             PekerjaanSeeder::class,
+            ProfileSeeder::class,
         ]);
     }
 }
