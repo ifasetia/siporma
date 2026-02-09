@@ -5,12 +5,11 @@
         class="flex items-center gap-2 pt-8 sidebar-header pb-7">
         <a href="{{ route('dashboard') }}">
             <span class="logo" :class="sidebarToggle ? 'hidden' : ''">
-                <img class="dark:hidden" src="../../../images/logo/logo.svg" alt="Logo" />
-                <img class="hidden dark:block" src="../../../images/logo/logo-dark.svg" alt="Logo" />
+                <img class="dark:hidden w-12" src="{{ asset('images/icon/prov_sumbar.png') }}" alt="Logo" />
             </span>
 
             <img class="logo-icon" :class="sidebarToggle ? 'lg:block' : 'hidden'"
-                src="../../../images/logo/logo-icon.svg" alt="Logo" />
+                src="{{ asset('images/icon/prov_sumbar.png') }}" alt="Logo" />
         </a>
     </div>
     <!-- SIDEBAR HEADER -->
@@ -80,10 +79,10 @@
               href="#"
               @click.prevent="selected = (selected === 'Master' ? '':'Master')"
               class="menu-item group"
-              :class=" (selected === 'Master') || (page === 'kampus' || page === 'analytics' || page === 'marketing' || page === 'crm' || page === 'stocks') ? 'menu-item-active' : 'menu-item-inactive'"
+              :class=" (selected === 'Master') || (page === 'kampus' || page === 'analytics' || page === 'pekerjaan' || page === 'crm' || page === 'stocks') ? 'menu-item-active' : 'menu-item-inactive'"
             >
               <svg
-                :class="(selected === 'Master') || (page === 'kampus' || page === 'analytics' || page === 'marketing' || page === 'crm' || page === 'stocks') ? 'menu-item-icon-active'  :'menu-item-icon-inactive'"
+                :class="(selected === 'Master') || (page === 'kampus' || page === 'analytics' || page === 'pekerjaan' || page === 'crm' || page === 'stocks') ? 'menu-item-icon-active'  :'menu-item-icon-inactive'"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
@@ -133,11 +132,23 @@
                 :class="sidebarToggle ? 'lg:hidden' : 'flex'"
                 class="menu-dropdown mt-2 flex flex-col gap-1 pl-9"
               >
+                  <li>
+                    <a
+                    href="{{ route('pekerjaan.index') }}"
+                    class="menu-dropdown-item group
+                        {{ request()->routeIs('pekerjaan.index')
+                            ? 'menu-dropdown-item-active'
+                            : 'menu-dropdown-item-inactive' }}"
+                >
+                    Tipe Pekerjaan
+                </a>
+
+                </li>
                 <li>
                     <a
-                    href="{{ route('kampus') }}"
+                    href="{{ route('kampus.index') }}"
                     class="menu-dropdown-item group
-                        {{ request()->routeIs('kampus')
+                        {{ request()->routeIs('kampus.index')
                             ? 'menu-dropdown-item-active'
                             : 'menu-dropdown-item-inactive' }}"
                 >

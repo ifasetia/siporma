@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('km_email')->unique();
             $table->text('km_alamat');
             $table->string('km_telepon', 15);
-            $table->string('km_foto'); // path foto
+            $table->string('km_foto')->nullable(); // path foto
             $table->timestamps();
         });
     }
