@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Support\Str;
+use App\Models\Profile;
 
 class User extends Authenticatable
 {
@@ -55,9 +57,11 @@ class User extends Authenticatable
 {
     static::created(function ($user) {
         $user->profile()->create([
+            'pr_id'   => Str::uuid(),
             'pr_nama' => $user->name,
         ]);
     });
 }
+
 
 }
