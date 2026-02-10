@@ -5,6 +5,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\Master\KampusController;
 use App\Http\Controllers\Master\PekerjaanController;
+use App\Http\Controllers\UserController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -66,6 +68,18 @@ Route::middleware(['auth'])
         Route::delete('/{id}', [KampusController::class, 'destroy'])->name('destroy');
         Route::get('/{id}/edit', [KampusController::class, 'edit'])->name('edit');
         Route::post('/{id}/update', [KampusController::class, 'update'])->name('update');
+    });
+
+Route::middleware(['auth'])
+    ->prefix('user')
+    ->name('user.')
+    ->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('index');
+        Route::get('/datatables', [UserController::class, 'datatable'])->name('datatables');
+        Route::post('/store', [UserController::class, 'store'])->name('store');
+        Route::delete('/{id}', [UserController::class, 'destroy'])->name('destroy');
+        Route::get('/{id}/edit', [UserController::class, 'edit'])->name('edit');
+        Route::post('/{id}/update', [UserController::class, 'update'])->name('update');
     });
 
 
