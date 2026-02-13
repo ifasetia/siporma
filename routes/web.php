@@ -6,6 +6,7 @@ use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\Master\KampusController;
 use App\Http\Controllers\Master\PekerjaanController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DatainternController;
 
 
 Route::get('/user', [UserController::class, 'index']);
@@ -91,6 +92,16 @@ Route::middleware(['auth'])
         Route::post('/{id}/update', [UserController::class, 'update'])->name('update');
     });
 
-
+Route::middleware(['auth'])
+    ->prefix('data-intern')
+    ->name('data-intern.')
+    ->group(function () {
+        Route::get('/', [DatainternController::class,'index'])->name('index');
+        Route::get('/datatables', [DatainternController::class,'datatable'])->name('datatables');
+        Route::get('/{id}/detail',[DatainternController::class,'detail'])->name('detail');
+        Route::post('/store', [DatainternController::class,'store'])->name('store');
+        Route::get('/{id}/edit', [DataInternController::class, 'edit']);
+        Route::post('/{id}/update', [DataInternController::class, 'update']);
+    });
 
 require __DIR__ . '/auth.php';

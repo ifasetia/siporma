@@ -108,30 +108,30 @@ document.addEventListener('DOMContentLoaded', function () {
     window.openModal = function () {
         $modal.removeClass('hidden');
         $('body').addClass('overflow-hidden');
-        resetUserForm();
+        resetInternForm();
     };
 
     function closeModal() {
         $modal.addClass('hidden');
         $('body').removeClass('overflow-hidden');
-        resetUserForm();
+        resetInternForm();
     }
 
     $(document).on('click', '.modal-close-btn', closeModal);
 
     $('#btnOpen').on('click', openModal);
 
-    function resetUserForm() {
-        const form = $('#submitFormUser');
+    function resetInternForm() {
+        const form = $('#submitFormIntern');
         form[0].reset();
         $('.error').text('');
         $('.input-field').removeClass('border-red-500');
     }
 
-    $('#btnSimpanUser').on('click', function (e) {
+    $('#btnSimpanIntern').on('click', function (e) {
         e.preventDefault();
 
-        const form = $('#submitFormUser');
+        const form = $('#submitFormIntern');
         const url = form.attr('action');
         const data = form.serialize();
         const btn = $(this);
@@ -157,19 +157,24 @@ document.addEventListener('DOMContentLoaded', function () {
                     timer: 1500,
                     showConfirmButton: false
                 });
+
                 closeModal();
                 window.table.ajax.reload(null, false);
             },
             error: function (xhr) {
                 Swal.close();
+
                 if (xhr.status === 422) {
                     const errors = xhr.responseJSON.errors;
+
                     Object.keys(errors).forEach(key => {
                         $(`[data-error="${key}"]`).text(errors[key][0]);
                         $(`[name="${key}"]`).addClass('border-red-500');
                     });
+
                     return;
                 }
+
                 Swal.fire('Error', 'Terjadi kesalahan', 'error');
             },
             complete: function () {
