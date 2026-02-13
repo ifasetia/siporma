@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Master\Kampus;
 
 class Profile extends Model
 {
     use HasFactory;
+
+    protected $table = 'profiles';
 
     protected $primaryKey = 'pr_id';
     public $incrementing = false;
@@ -40,4 +43,12 @@ class Profile extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    // RELASI KE MASTER KAMPUS
+    public function kampus()
+    {
+        return $this->belongsTo(Kampus::class,'pr_kampus_id','km_id');
+    }
+
+
 }
