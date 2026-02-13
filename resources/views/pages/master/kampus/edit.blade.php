@@ -5,7 +5,7 @@
     <div class="fixed inset-0 bg-gray-400/50 backdrop-blur-sm"></div>
     <div class="min-h-full flex items-center justify-center">
         <!-- Dialog -->
-        <div class="relative w-full max-w-[700px] rounded-3xl bg-white p-6 lg:p-11 ">
+        <div class="modal-dialog relative w-full max-w-[700px] rounded-3xl bg-white p-6 lg:p-11 ">
 
             <!-- Close Button -->
             <button type="button"
@@ -16,6 +16,7 @@
             <form id="submitFormEditKampus" class="flex flex-col gap-6" action="" method="POST"
                 enctype="multipart/form-data">
                 @csrf
+                @method('PUT')
                 <!-- Header -->
                 <div>
                     <h5 id="eventEditModalLabel" class="font-semibold text-gray-800 text-xl dark:text-white">
