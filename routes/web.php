@@ -8,6 +8,14 @@ use App\Http\Controllers\Master\PekerjaanController;
 use App\Http\Controllers\UserController;
 
 
+Route::get('/user', [UserController::class, 'index']);
+Route::get('/user/datatable', [UserController::class, 'datatable']);
+
+Route::get('/user/{id}/edit', [UserController::class, 'edit']);
+Route::post('/user/{id}/update', [UserController::class, 'update']);
+Route::delete('/user/{id}', [UserController::class, 'destroy']);
+
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -49,10 +57,9 @@ Route::middleware(['auth'])
     ->group(function () {
         Route::get('/', [PekerjaanController::class, 'index'])->name('index');
         Route::get('/datatables', [PekerjaanController::class, 'datatable'])->name('datatables');
-        Route::get('/create', [PekerjaanController::class, 'create'])->name('create');
         Route::post('/store', [PekerjaanController::class, 'store'])->name('store');
         Route::get('/{id}/edit', [PekerjaanController::class, 'edit'])->name('edit');
-        Route::put('/{id}/update', [PekerjaanController::class, 'update'])->name('update');
+        Route::put('/{id}/update', [PekerjaanController::class, 'update'])->name('update'); // Pakai PUT
         Route::delete('/{id}/delete', [PekerjaanController::class, 'destroy'])->name('delete');
     });
 
@@ -68,6 +75,8 @@ Route::middleware(['auth'])
         Route::delete('/{id}', [KampusController::class, 'destroy'])->name('destroy');
         Route::get('/{id}/edit', [KampusController::class, 'edit'])->name('edit');
         Route::post('/{id}/update', [KampusController::class, 'update'])->name('update');
+        // Di web.php bagian kampus
+        Route::put('/{id}/update', [KampusController::class, 'update'])->name('update');
     });
 
 Route::middleware(['auth'])

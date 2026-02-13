@@ -7,7 +7,7 @@ use App\Models\Master\Pekerjaan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
-use Yajra\DataTables\DataTables;
+use Yajra\DataTables\Facades\DataTables; // Pastikan pakai Facades agar lebih stabil
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Route;
 
@@ -21,39 +21,31 @@ class PekerjaanController extends Controller
 
     public function datatable(Request $request)
     {
-
         $query = Pekerjaan::query()->latest('created_at');
 
         return DataTables::of($query)
             ->addIndexColumn()
             ->addColumn('aksi', function ($row) {
-                $editBtn = '<a href="' . route('pekerjaan.edit', $row->pk_id_pekerjaan) . '"
-                                class="inline-flex items-center gap-1.5 rounded-md bg-blue-50 px-2.5 py-1 text-xs font-medium text-blue-600 hover:bg-blue-100 transition">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M16.862 3.487a2.25 2.25 0 113.182 3.182L7.5 19.213 3 21l1.787-4.5L16.862 3.487z"/>
-                                </svg>
-                                Edit
-                            </a>';
+                return '
+                <div class="flex items-center justify-center gap-1.5">
+                    <button type="button"
+                        data-id="' . $row->pk_id_pekerjaan . '"
+                        class="btn-edit inline-flex items-center gap-1.5 rounded-md bg-blue-50 px-2.5 py-1 text-xs font-medium text-blue-600 hover:bg-blue-100 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 3.487a2.25 2.25 0 113.182 3.182L7.5 19.213 3 21l1.787-4.5L16.862 3.487z"/>
+                        </svg>
+                        Edit
+                    </button>
 
-                // CSRF token
-                $csrf = csrf_token();
-
-                $deleteBtn = '<form action="' . route('pekerjaan.delete', $row->pk_id_pekerjaan) . '" method="POST" class="inline-block" onsubmit="return confirm(\'Yakin hapus data ini?\')">
-                    <input type="hidden" name="_token" value="' . $csrf . '">
-                    <input type="hidden" name="_method" value="DELETE">
-                    <button type="submit" class="inline-flex items-center gap-1.5 rounded-md bg-red-50 px-2.5 py-1 text-xs font-medium text-red-600 hover:bg-red-100 transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M6 7h12M9 7V5h6v2m-7 0l1 12h8l1-12"/>
+                    <button type="button"
+                        data-id="' . $row->pk_id_pekerjaan . '"
+                        class="btn-delete inline-flex items-center gap-1.5 rounded-md bg-red-50 px-2.5 py-1 text-xs font-medium text-red-600 hover:bg-red-100 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 7h12M9 7V5h6v2m-7 0l1 12h8l1-12"/>
                         </svg>
                         Hapus
                     </button>
-                </form>';
-
-                return '<div class="flex items-center justify-center gap-1.5">' . $editBtn . $deleteBtn . '</div>';
+                </div>';
             })
             ->rawColumns(['aksi'])
             ->make(true);
@@ -66,8 +58,12 @@ class PekerjaanController extends Controller
 
     public function store(Request $request)
     {
-        try {
+        // Wajib request AJAX/JSON untuk sistem Modal
+        if (!$request->expectsJson()) {
+            abort(400, 'Invalid request type');
+        }
 
+        try {
             $data = $request->validate([
                 'pk_kode_tipe_pekerjaan' => 'required|string|max:50',
                 'pk_nama_pekerjaan' => 'required|string|max:255',
@@ -86,104 +82,93 @@ class PekerjaanController extends Controller
             ]);
 
             DB::beginTransaction();
-            Pekerjaan::create($data);
-
-
-            // $pekerjaan = new Pekerjaan();
-
-            // $pekerjaan->pk_kode_tipe_pekerjaan = $request->pk_kode_tipe_pekerjaan;
-            // $pekerjaan->pk_nama_pekerjaan = $request->pk_nama_pekerjaan;
-            // $pekerjaan->pk_deskripsi_pekerjaan = $request->pk_deskripsi_pekerjaan;
-            // $pekerjaan->pk_level_pekerjaan = $request->pk_level_pekerjaan;
-            // $pekerjaan->pk_estimasi_durasi_hari = $request->pk_estimasi_durasi_hari;
-            // $pekerjaan->pk_minimal_skill = $request->pk_minimal_skill;
-
-            // $pekerjaan->save();
-
+            $pekerjaan = Pekerjaan::create($data);
             DB::commit();
 
-            return redirect()
-                ->route('pekerjaan.index')
-                ->with('success', 'Data pekerjaan berhasil ditambahkan');
+            return response()->json([
+                'success' => true,
+                'message' => 'Data pekerjaan berhasil ditambahkan',
+                'data' => $pekerjaan
+            ], 201);
+
         } catch (ValidationException $e) {
-
-            return back()
-                ->withErrors($e->validator)
-                ->withInput()
-                ->with('error', 'Periksa kembali input anda');
+            return response()->json([
+                'success' => false,
+                'errors' => $e->errors()
+            ], 422);
         } catch (\Throwable $e) {
-
             DB::rollBack();
-
-            return back()
-                ->withInput()
-                ->with('error', 'Terjadi kesalahan sistem. Silakan coba lagi.');
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan sistem: ' . $e->getMessage()
+            ], 500);
         }
     }
 
     public function edit($id)
     {
         $pekerjaan = Pekerjaan::findOrFail($id);
-        return view('pages.master.pekerjaan.edit', compact('pekerjaan'));
+
+        return response()->json([
+            'success' => true,
+            'data' => $pekerjaan
+        ]);
     }
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'pk_kode_tipe_pekerjaan' => 'required',
-            'pk_nama_pekerjaan' => 'required',
-            'pk_deskripsi_pekerjaan' => 'required',
-            'pk_level_pekerjaan' => 'required',
-            'pk_estimasi_durasi_hari' => 'required|numeric',
-            'pk_minimal_skill' => 'required',
-        ]);
-
         try {
+            $data = $request->validate([
+                'pk_kode_tipe_pekerjaan' => 'required',
+                'pk_nama_pekerjaan' => 'required',
+                'pk_deskripsi_pekerjaan' => 'required',
+                'pk_level_pekerjaan' => 'required',
+                'pk_estimasi_durasi_hari' => 'required|numeric',
+                'pk_minimal_skill' => 'required',
+            ]);
+
             DB::beginTransaction();
-
             $pekerjaan = Pekerjaan::findOrFail($id);
-
-            $pekerjaan->pk_kode_tipe_pekerjaan = $request->pk_kode_tipe_pekerjaan;
-            $pekerjaan->pk_nama_pekerjaan = $request->pk_nama_pekerjaan;
-            $pekerjaan->pk_deskripsi_pekerjaan = $request->pk_deskripsi_pekerjaan;
-            $pekerjaan->pk_level_pekerjaan = $request->pk_level_pekerjaan;
-            $pekerjaan->pk_estimasi_durasi_hari = $request->pk_estimasi_durasi_hari;
-            $pekerjaan->pk_minimal_skill = $request->pk_minimal_skill;
-
-            $pekerjaan->save();
-
+            $pekerjaan->update($data);
             DB::commit();
 
-            return redirect()->route('pekerjaan.index')
-                ->with('success', 'Data pekerjaan berhasil diupdate');
+            return response()->json([
+                'success' => true,
+                'message' => 'Data pekerjaan berhasil diupdate'
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Ini untuk menangkap error validasi dan mengirimnya ke JavaScript
+            return response()->json([
+                'success' => false,
+                'errors' => $e->errors()
+            ], 422);
         } catch (\Exception $e) {
             DB::rollBack();
-
-            return redirect()->back()
-                ->withInput()
-                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal update: ' . $e->getMessage()
+            ], 500);
         }
     }
-
 
     public function destroy($id)
     {
         try {
             DB::beginTransaction();
-
-            // pakai model Eloquent
             $pekerjaan = Pekerjaan::findOrFail($id);
             $pekerjaan->delete();
-
             DB::commit();
 
-            return redirect()->route('pekerjaan.index')
-                ->with('success', 'Data pekerjaan berhasil dihapus');
+            return response()->json([
+                'success' => true,
+                'message' => 'Data pekerjaan berhasil dihapus'
+            ]);
         } catch (\Exception $e) {
             DB::rollBack();
-
-            return redirect()->back()
-                ->with('error', 'Terjadi kesalahan saat menghapus: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal menghapus: ' . $e->getMessage()
+            ], 500);
         }
     }
 }

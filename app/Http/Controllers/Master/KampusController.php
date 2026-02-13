@@ -114,29 +114,39 @@ class KampusController extends Controller
     }
 
     // UPDATE DATA
-    public function update(StoreKampusRequest $request, $id)
+    public function update(Request $request, $id) // Gunakan Request biasa agar lebih fleksibel
     {
-        // wajib request ajax/json
+        // 1. Wajib request ajax/json
         if (!$request->expectsJson()) {
             abort(400, 'Invalid request type');
         }
 
-        // ambil data validasi
-        $data = $request->validated();
+        // 2. Validasi field yang BENAR (sesuaikan dengan input name di blade)
+        $data = $request->validate([
+            'km_nama_kampus'   => 'required|string|max:255',
+            'km_kode_kampus'   => 'required|string|max:50',
+            'km_email_kampus'  => 'required|email',
+            'km_alamat_kampus' => 'required|string',
+            'km_telepon'       => 'required|string|max:20',
+        ], [
+            'km_nama_kampus.required' => 'Nama kampus wajib diisi',
+            'km_email_kampus.email'   => 'Format email tidak valid',
+            // tambahkan pesan custom lainnya jika perlu
+        ]);
 
-        // cari data kampus
+        // 3. Cari data kampus
         $kampus = Kampus::findOrFail($id);
 
-        // update field
+        // 4. Update field (pastikan key $data sesuai dengan key di array validasi di atas)
         $kampus->km_nama_kampus = $data['km_nama_kampus'];
         $kampus->km_kode_kampus = $data['km_kode_kampus'];
-        $kampus->km_email = $data['km_email_kampus'];
-        $kampus->km_alamat = $data['km_alamat_kampus'];
-        $kampus->km_telepon = $data['km_telepon'];
+        $kampus->km_email       = $data['km_email_kampus'];
+        $kampus->km_alamat      = $data['km_alamat_kampus'];
+        $kampus->km_telepon     = $data['km_telepon'];
 
         $kampus->save();
 
-        // response ajax
+        // 5. Response ajax
         return response()->json([
             'success' => true,
             'message' => 'Data kampus berhasil diupdate',
