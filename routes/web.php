@@ -8,90 +8,55 @@ use App\Http\Controllers\Master\PekerjaanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DatainternController;
 
-
-Route::get('/user', [UserController::class, 'index']);
-Route::get('/user/datatable', [UserController::class, 'datatable']);
-
-Route::get('/user/{id}/edit', [UserController::class, 'edit']);
-Route::post('/user/{id}/update', [UserController::class, 'update']);
-Route::delete('/user/{id}', [UserController::class, 'destroy']);
-
-
+// 1. Halaman Depan (Public)
 Route::get('/', function () {
     return view('welcome');
 });
 
+// 2. Grup Route yang Wajib Login (Auth)
 Route::middleware('auth')->group(function () {
 
-    // Dashboard (SEMUA ROLE LOGIN)
+    // Dashboard
     Route::get('/dashboard', function () {
         return view('pages.dashboard.index');
     })->name('dashboard');
 
+    // Profile (Menggunakan View di pages/profile/index.blade.php)
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    // Management User (Lengkap dengan DataTable)
+    Route::prefix('user')->name('user.')->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('index');
+        Route::get('/datatables', [UserController::class, 'datatable'])->name('datatables');
+        Route::post('/store', [UserController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [UserController::class, 'edit'])->name('edit');
+        Route::post('/{id}/update', [UserController::class, 'update'])->name('update');
+        Route::delete('/{id}', [UserController::class, 'destroy'])->name('destroy');
+    });
 
-    // // Profile
-    // Route::get('/profile', [ProfileController::class, 'edit'])
-    //     ->name('profile.edit');
-
-    // Route::patch('/profile', [ProfileController::class, 'update'])
-    //     ->name('profile.update');
-
-    // Route::delete('/profile', [ProfileController::class, 'destroy'])
-    //     ->name('profile.destroy');
-});
-
-// ADMIN & SUPER ADMIN ONLY
-// Route::middleware(['auth', 'can:admin'])->group(function () {
-
-//     Route::resource('kegiatan', KegiatanController::class);
-// });
-
-Route::get('/profile', function () {
-    return view('pages.profile.index');
-})->middleware(['auth'])->name('profile');
-
-
-Route::middleware(['auth'])
-    ->prefix('pekerjaan')
-    ->name('pekerjaan.')
-    ->group(function () {
+    // Master Data Pekerjaan
+    Route::prefix('pekerjaan')->name('pekerjaan.')->group(function () {
         Route::get('/', [PekerjaanController::class, 'index'])->name('index');
         Route::get('/datatables', [PekerjaanController::class, 'datatable'])->name('datatables');
         Route::post('/store', [PekerjaanController::class, 'store'])->name('store');
         Route::get('/{id}/edit', [PekerjaanController::class, 'edit'])->name('edit');
-        Route::put('/{id}/update', [PekerjaanController::class, 'update'])->name('update'); // Pakai PUT
+        Route::put('/{id}/update', [PekerjaanController::class, 'update'])->name('update');
         Route::delete('/{id}/delete', [PekerjaanController::class, 'destroy'])->name('delete');
     });
 
-
-
-Route::middleware(['auth'])
-    ->prefix('kampus')
-    ->name('kampus.')
-    ->group(function () {
+    // Master Data Kampus
+    Route::prefix('kampus')->name('kampus.')->group(function () {
         Route::get('/', [KampusController::class, 'index'])->name('index');
         Route::get('/datatables', [KampusController::class, 'datatable'])->name('datatables');
         Route::post('/store', [KampusController::class, 'store'])->name('store');
-        Route::delete('/{id}', [KampusController::class, 'destroy'])->name('destroy');
         Route::get('/{id}/edit', [KampusController::class, 'edit'])->name('edit');
-        Route::post('/{id}/update', [KampusController::class, 'update'])->name('update');
-        // Di web.php bagian kampus
-        Route::put('/{id}/update', [KampusController::class, 'update'])->name('update');
+        Route::put('/{id}/update', [KampusController::class, 'update'])->name('update'); // Pakai PUT sesuai kodinganmu
+        Route::delete('/{id}', [KampusController::class, 'destroy'])->name('destroy');
     });
 
-Route::middleware(['auth'])
-    ->prefix('user')
-    ->name('user.')
-    ->group(function () {
-        Route::get('/', [UserController::class, 'index'])->name('index');
-        Route::get('/datatables', [UserController::class, 'datatable'])->name('datatables');
-        Route::post('/store', [UserController::class, 'store'])->name('store');
-        Route::delete('/{id}', [UserController::class, 'destroy'])->name('destroy');
-        Route::get('/{id}/edit', [UserController::class, 'edit'])->name('edit');
-        Route::post('/{id}/update', [UserController::class, 'update'])->name('update');
-    });
-
+<<<<<<< HEAD
 Route::middleware(['auth'])
     ->prefix('data-intern')
     ->name('data-intern.')
@@ -103,5 +68,12 @@ Route::middleware(['auth'])
         Route::get('/{id}/edit', [DataInternController::class, 'edit']);
         Route::post('/{id}/update', [DataInternController::class, 'update']);
     });
+=======
+    // Kegiatan (Jika nanti diaktifkan oleh Admin)
+    // Route::resource('kegiatan', KegiatanController::class);
 
+});
+>>>>>>> dinda
+
+// 3. Auth Routes (Login, Register, dll dari Breeze)
 require __DIR__ . '/auth.php';

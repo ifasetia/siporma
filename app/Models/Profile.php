@@ -34,8 +34,13 @@ class Profile extends Model
         'pr_internship_end',
         'pr_supervisor_name',
         'pr_supervisor_contact',
-
         'pr_posisi',
+
+        'pr_instagram',
+        'pr_linkedin',
+        'pr_github',
+        'pr_whatsapp',
+        'pr_facebook',
     ];
 
     // RELASI KE USER

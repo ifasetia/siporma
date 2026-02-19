@@ -159,9 +159,16 @@
           href="#"
           @click.prevent="dropdownOpen = ! dropdownOpen"
         >
-          <span class="mr-3 h-11 w-11 overflow-hidden rounded-full">
-            <img src="{{ asset('images/user/owner.jpg') }}" alt="User" />
-          </span>
+        <span class="mr-3 h-11 w-11 overflow-hidden rounded-full border border-gray-200 dark:border-gray-800 bg-gray-100 flex items-center justify-center">
+                @if(Auth::user()->profile && Auth::user()->profile->pr_photo)
+                    {{-- Pastikan path-nya benar: asset('storage/' . $path) --}}
+                    <img src="{{ asset('storage/' . Auth::user()->profile->pr_photo) }}"
+                        alt="User" class="h-full w-full object-cover" />
+                @else
+                    {{-- Inisial Nama jika foto kosong --}}
+                    <span class="text-blue-600 font-bold text-lg">{{ substr(Auth::user()->name, 0, 1) }}</span>
+                @endif
+        </span>
 
           <span class="text-theme-sm mr-1 block font-medium"> {{ Auth::user()->name }} </span>
 
@@ -206,10 +213,8 @@
             class="flex flex-col gap-1 border-b border-gray-200 pt-4 pb-3 dark:border-gray-800"
           >
             <li>
-              <a
-                href="{{ route('profile') }}"
-                class="group text-theme-sm flex items-center gap-3 rounded-lg px-3 py-2 font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
-              >
+              <a href="{{ route('profile.edit') }}"
+   class="group text-theme-sm flex items-center gap-3 rounded-lg px-3 py-2 font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300">
                 <svg
                   class="fill-gray-500 group-hover:fill-gray-700 dark:fill-gray-400 dark:group-hover:fill-gray-300"
                   width="24"
