@@ -56,7 +56,6 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{id}', [KampusController::class, 'destroy'])->name('destroy');
     });
 
-<<<<<<< HEAD
 Route::middleware(['auth'])
     ->prefix('data-intern')
     ->name('data-intern.')
@@ -68,12 +67,12 @@ Route::middleware(['auth'])
         Route::get('/{id}/edit', [DataInternController::class, 'edit']);
         Route::post('/{id}/update', [DataInternController::class, 'update']);
     });
-=======
+
     // Kegiatan (Jika nanti diaktifkan oleh Admin)
     // Route::resource('kegiatan', KegiatanController::class);
 
 });
->>>>>>> dinda
+
 
 // 3. Auth Routes (Login, Register, dll dari Breeze)
 require __DIR__ . '/auth.php';
