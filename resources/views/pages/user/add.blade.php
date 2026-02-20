@@ -128,60 +128,67 @@ document.addEventListener('DOMContentLoaded', function () {
         $('.input-field').removeClass('border-red-500');
     }
 
-    $('#btnSimpanIntern').on('click', function (e) {
-        e.preventDefault();
+    $('#btnSimpanUser').on('click', function (e) {
+    e.preventDefault();
 
-        const form = $('#submitFormIntern');
-        const url = form.attr('action');
-        const data = form.serialize();
-        const btn = $(this);
+    const form = $('#submitFormUser');
+    const url = form.attr('action');
+    const data = form.serialize();
+    const btn = $(this);
 
-        $('.error').text('');
-        btn.prop('disabled', true).text('Menyimpan...');
+    $('.error').text('');
+    $('.input-field').removeClass('border-red-500');
 
-        Swal.fire({
-            title: 'Menyimpan data...',
-            allowOutsideClick: false,
-            didOpen: () => Swal.showLoading()
-        });
+    btn.prop('disabled', true).text('Menyimpan...');
 
-        $.ajax({
-            url: url,
-            method: 'POST',
-            data: data,
-            success: function (res) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Berhasil!',
-                    text: res.message,
-                    timer: 1500,
-                    showConfirmButton: false
+    Swal.fire({
+        title: 'Menyimpan data...',
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        didOpen: () => Swal.showLoading()
+    });
+
+    $.ajax({
+        url: url,
+        method: 'POST',
+        data: data,
+        success: function () {
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                timer: 1200,
+                showConfirmButton: false
+            });
+
+            $('#eventModal').addClass('hidden');
+            $('body').removeClass('overflow-hidden');
+
+            window.table.ajax.reload(null,false);
+        },
+        error: function (xhr) {
+
+            Swal.close();
+
+            if (xhr.status === 422) {
+                const errors = xhr.responseJSON.errors;
+
+                Object.keys(errors).forEach(key => {
+                    $(`[data-error="${key}"]`).text(errors[key][0]);
+                    $(`[name="${key}"]`).addClass('border-red-500');
                 });
 
-                closeModal();
-                window.table.ajax.reload(null, false);
-            },
-            error: function (xhr) {
-                Swal.close();
-
-                if (xhr.status === 422) {
-                    const errors = xhr.responseJSON.errors;
-
-                    Object.keys(errors).forEach(key => {
-                        $(`[data-error="${key}"]`).text(errors[key][0]);
-                        $(`[name="${key}"]`).addClass('border-red-500');
-                    });
-
-                    return;
-                }
-
-                Swal.fire('Error', 'Terjadi kesalahan', 'error');
-            },
-            complete: function () {
-                btn.prop('disabled', false).text('Simpan');
+                return;
             }
-        });
+
+            Swal.fire('Error','Terjadi kesalahan','error');
+        },
+        complete: function () {
+            btn.prop('disabled', false).text('Simpan');
+        }
     });
+});
+
 
 });
 </script>

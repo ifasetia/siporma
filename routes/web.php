@@ -66,6 +66,8 @@ Route::middleware(['auth'])
         Route::post('/store', [DatainternController::class,'store'])->name('store');
         Route::get('/{id}/edit', [DataInternController::class, 'edit']);
         Route::post('/{id}/update', [DataInternController::class, 'update']);
+        Route::post('/{id}/toggle-status',[DatainternController::class,'toggleStatus']);
+
     });
 
     // Kegiatan (Jika nanti diaktifkan oleh Admin)
