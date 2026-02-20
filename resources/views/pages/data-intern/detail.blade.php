@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function () {
             $('#d_nama').text(profile?.pr_nama ?? '-');
             $('#d_email').text(res.data.email ?? '-');
             $('#d_nim').text(profile?.pr_nim ?? '-');
-            $('#d_kampus').text(profile?.pr_kampus ?? '-');
+            $('#d_kampus').text(profile?.kampus?.km_nama_kampus ?? '-');
             $('#d_jurusan').text(profile?.pr_jurusan ?? '-');
             $('#d_hp').text(profile?.pr_no_hp ?? '-');
             $('#d_gender').text(profile?.pr_jenis_kelamin ?? '-');

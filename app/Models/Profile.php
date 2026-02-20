@@ -28,6 +28,7 @@ class Profile extends Model
         'pr_status',
 
         'pr_nim',
+        'pr_kampus_id', // <<< TAMBAH INI
         'pr_kampus',
         'pr_jurusan',
         'pr_internship_start',
@@ -52,7 +53,7 @@ class Profile extends Model
     // RELASI KE MASTER KAMPUS
     public function kampus()
     {
-        return $this->belongsTo(Kampus::class,'pr_kampus_id','km_id');
+        return $this->belongsTo(Master\Kampus::class,'pr_kampus_id','km_id');
     }
 
 
