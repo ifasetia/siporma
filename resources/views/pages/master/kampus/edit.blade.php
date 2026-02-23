@@ -131,9 +131,6 @@
                 closeModal();
             }
         });
-        $('#eventEditModal .modal-dialog').on('click', function (e) {
-            e.stopPropagation();
-        });
 
         // SAAT MERAH KLIK HILANKAN MERAHNYA
         $('.input-field').on('input', function () {
@@ -145,7 +142,6 @@
         function resetKampusEditForm() {
             const form = $('#submitFormEditKampus');
             form[0].reset();
-            form.find('input[type=hidden]').val('');
             $('.error').text('');
         }
 

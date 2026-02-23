@@ -4,11 +4,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\Master\KampusController;
+use App\Http\Controllers\Master\JurusanController;
 use App\Http\Controllers\Master\PekerjaanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DatainternController;
 use App\Http\Controllers\DataadminController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\Master\SupervisorController;
 
 // 1. Halaman Depan (Public)
 Route::get('/', function () {
@@ -54,7 +56,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/datatables', [KampusController::class, 'datatable'])->name('datatables');
         Route::post('/store', [KampusController::class, 'store'])->name('store');
         Route::get('/{id}/edit', [KampusController::class, 'edit'])->name('edit');
-        Route::put('/{id}/update', [KampusController::class, 'update'])->name('update'); // Pakai PUT sesuai kodinganmu
+        Route::put('/{id}/update', [KampusController::class, 'update'])->name('update');
         Route::delete('/{id}', [KampusController::class, 'destroy'])->name('destroy');
     });
 
@@ -106,6 +108,34 @@ Route::middleware(['auth'])
     });
     // Kegiatan (Jika nanti diaktifkan oleh Admin)
     // Route::resource('kegiatan', KegiatanController::class);
+    // Master Data Jurusan
+    Route::prefix('jurusan')->name('jurusan.')->group(function () {
+        Route::get('/', [JurusanController::class, 'index'])->name('index');
+        Route::get('/datatables', [JurusanController::class, 'datatable'])->name('datatables');
+        Route::post('/store', [JurusanController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [JurusanController::class, 'edit'])->name('edit');
+        Route::put('/{id}/update', [JurusanController::class, 'update'])->name('update');
+        Route::delete('/{id}', [JurusanController::class, 'destroy'])->name('destroy');
+    });
+
+    // Master Data Supervisor
+    Route::get('supervisor/datatables', [SupervisorController::class, 'datatable'])->name('supervisor.datatables');
+    Route::resource('supervisor', SupervisorController::class);
+    Route::post('supervisor/{id}/update', [SupervisorController::class, 'update'])->name('supervisor.update');
+
+    // Data Intern
+    Route::middleware(['auth'])
+        ->prefix('data-intern')
+        ->name('data-intern.')
+        ->group(function () {
+            Route::get('/', [DatainternController::class,'index'])->name('index');
+            Route::get('/datatables', [DatainternController::class,'datatable'])->name('datatables');
+            Route::get('/{id}/detail', [DatainternController::class,'detail'])->name('detail');
+            Route::post('/store', [DatainternController::class,'store'])->name('store');
+            Route::get('/{id}/edit', [DatainternController::class, 'edit'])->name('edit');
+            Route::post('/{id}/update', [DatainternController::class, 'update'])->name('update');
+            Route::post('/{id}/toggle-status', [DatainternController::class,'toggleStatus'])->name('toggle-status');
+        });
 
 });
 
