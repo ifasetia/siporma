@@ -1,5 +1,5 @@
 <!-- MODAL EDIT INTERN -->
-<div id="internEditModal" class="fixed inset-0 z-999999 hidden p-5 overflow-y-auto" role="dialog" aria-modal="true">
+<div id="adminEditModal" class="fixed inset-0 z-999999 hidden p-5 overflow-y-auto" role="dialog" aria-modal="true">
 
     <!-- Overlay -->
     <div class="fixed inset-0 bg-gray-400/50 backdrop-blur-sm"></div>
@@ -14,13 +14,13 @@
                 ✕
             </button>
 
-            <form id="submitFormEditIntern" class="flex flex-col gap-4" action="" method="POST">
+            <form id="submitFormEditAdmin" class="flex flex-col gap-4" action="" method="POST">
 @csrf
 
             <!-- Header -->
             <div>
-                <h5 class="font-semibold text-gray-800 text-xl">Edit Data Intern</h5>
-                <p class="text-sm text-gray-500">Silahkan edit data intern berikut.</p>
+                <h5 class="font-semibold text-gray-800 text-xl">Edit Data Admin</h5>
+                <p class="text-sm text-gray-500">Silahkan edit data admin berikut.</p>
             </div>
 
 
@@ -29,116 +29,84 @@
 
 <div>
 <label>Nama</label>
-<input name="name" placeholder="Masukkan nama lengkap"
-class="form-input input-field h-11 w-full rounded-lg border border-gray-300 px-4 text-sm focus:ring-2 focus:outline-none">
+<input 
+    name="name"
+    placeholder="Masukkan nama lengkap"
+    class="form-input input-field h-11 w-full rounded-lg border border-gray-300 px-4 text-sm focus:ring-2 focus:outline-none">
 <span class="error text-xs text-red-500" data-error="name"></span>
 </div>
 
+
 <div>
 <label>Email</label>
-<input name="email" placeholder="contoh@email.com"
-class="form-input input-field h-11 w-full rounded-lg border border-gray-300 px-4 text-sm focus:ring-2 focus:outline-none">
+<input 
+    name="email"
+    placeholder="Masukkan email aktif"
+    class="form-input input-field h-11 w-full rounded-lg border border-gray-300 px-4 text-sm focus:ring-2 focus:outline-none">
 <span class="error text-xs text-red-500" data-error="email"></span>
 </div>
 
+
+<!-- PROFILE -->
 <div>
 <label>No HP</label>
 <input 
-
-    name="pr_no_hp" placeholder="08xxxxxxxxxx"
-class="form-input input-field phone-input h-11 w-full rounded-lg border border-gray-300 px-4 text-sm">
+    name="pr_no_hp"
+    placeholder="Contoh: 081234567890"
+    class="form-input input-field phone-input h-11 w-full rounded-lg border border-gray-300 px-4 text-sm focus:ring-2 focus:outline-none">
 <span class="error text-xs text-red-500" data-error="pr_no_hp"></span>
 </div>
 
+
 <div>
-<label>Kampus</label>
-<select name="pr_kampus_id"
-class="form-input input-field h-11 w-full rounded-lg border border-gray-300 px-4 text-sm">
-<option value="">-- Pilih Kampus --</option>
-@foreach($kampus as $k)
-<option value="{{ $k->km_id }}">{{ $k->km_nama_kampus }}</option>
-@endforeach
+<label>Posisi</label>
+
+<select 
+    name="pr_posisi"
+    class="form-input input-field h-11 w-full rounded-lg border border-gray-300 px-4 text-sm focus:ring-2 focus:outline-none">
+
+    <option value="">-- Pilih Posisi --</option>
+    <option value="ASN">ASN</option>
+    <option value="Non ASN">Non ASN</option>
+
 </select>
-<span class="error text-xs text-red-500" data-error="pr_kampus_id"></span>
+
+<span class="error text-xs text-red-500" data-error="pr_posisi"></span>
 </div>
 
-<div>
-<label>Jurusan</label>
-<input name="pr_jurusan" placeholder="Contoh: Sistem Informasi"
-class="form-input input-field h-11 w-full rounded-lg border border-gray-300 px-4 text-sm">
-<span class="error text-xs text-red-500" data-error="pr_jurusan"></span>
-</div>
-
-<div>
-<label>NIM</label>
-<input name="pr_nim" placeholder="Masukkan NIM"
-class="form-input input-field h-11 w-full rounded-lg border border-gray-300 px-4 text-sm">
-<span class="error text-xs text-red-500" data-error="pr_nim"></span>
-</div>
 
 <div>
 <label>Jenis Kelamin</label>
-<select name="pr_jenis_kelamin"
-class="form-input input-field h-11 w-full rounded-lg border border-gray-300 px-4 text-sm">
-<option value="">Pilih</option>
-<option value="Laki-laki">Laki-laki</option>
-<option value="Perempuan">Perempuan</option>
+<select 
+    name="pr_jenis_kelamin"
+    class="form-input input-field h-11 w-full rounded-lg border border-gray-300 px-4 text-sm focus:ring-2 focus:outline-none">
+    <option value="">-- Pilih Jenis Kelamin --</option>
+    <option value="Laki-laki">Laki-laki</option>
+    <option value="Perempuan">Perempuan</option>
 </select>
 <span class="error text-xs text-red-500" data-error="pr_jenis_kelamin"></span>
 </div>
+
 
 <div>
 <label>Tanggal Lahir</label>
 <input
     type="text"
     name="pr_tanggal_lahir"
-    class="form-input input-field date-input h-11 w-full rounded-lg border border-gray-300 px-4 text-sm"
+    class="form-input input-field date-input h-11 w-full rounded-lg border border-gray-300 px-4 text-sm focus:ring-2 focus:outline-none"
     placeholder="DD/MM/YYYY">
 <span class="error text-xs text-red-500" data-error="pr_tanggal_lahir"></span>
 </div>
 
+
 <div>
 <label>Alamat</label>
-<textarea name="pr_alamat" placeholder="Alamat lengkap"
-class="form-input input-field h-20 w-full rounded-lg border border-gray-300 px-4 text-sm"></textarea>
+<textarea 
+    name="pr_alamat"
+    placeholder="Masukkan alamat lengkap"
+    class="form-input input-field w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:ring-2 focus:outline-none"></textarea>
 <span class="error text-xs text-red-500" data-error="pr_alamat"></span>
 </div>
-
-<div>
-<label>Mulai Magang</label>
-<input
-    type="text"
-    name="pr_internship_start"
-    class="form-input input-field date-input h-11 w-full rounded-lg border border-gray-300 px-4 text-sm"
-    placeholder="DD/MM/YYYY">
-<span class="error text-xs text-red-500" data-error="pr_internship_start"></span>
-</div>
-
-<div>
-<label>Selesai Magang</label>
-<input
-    type="text"
-    name="pr_internship_end"
-    class="form-input input-field date-input h-11 w-full rounded-lg border border-gray-300 px-4 text-sm"
-    placeholder="DD/MM/YYYY">
-<span class="error text-xs text-red-500" data-error="pr_internship_end"></span>
-</div>
-
-<div>
-<label>Nama Supervisor</label>
-<input name="pr_supervisor_name" placeholder="Nama pembimbing"
-class="form-input input-field h-11 w-full rounded-lg border border-gray-300 px-4 text-sm">
-<span class="error text-xs text-red-500" data-error="pr_supervisor_name"></span>
-</div>
-
-<div>
-<label>Kontak Supervisor</label>
-<input 
-    name="pr_supervisor_contact" placeholder="08xxxxxxxx"
-class="form-input input-field phone-input h-11 w-full rounded-lg border border-gray-300 px-4 text-sm">
-<span class="error text-xs text-red-500" data-error="pr_supervisor_contact"></span>
-</div>
-
 
 <div>
 <label class="block mb-2 text-sm font-medium text-gray-700">
@@ -187,7 +155,7 @@ class="form-input input-field phone-input h-11 w-full rounded-lg border border-g
                         Tutup
                     </button>
 
-                    <button type="button" id="btnEditIntern"
+                    <button type="button" id="btnEditAdmin"
                         class="w-24 bg-brand-500 hover:bg-brand-600 rounded-lg px-4 py-2 text-sm text-white">
                         Simpan
                     </button>
@@ -214,7 +182,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     e.target.value = v;
 });
-
     // ==========================
     // PHONE NUMBER ONLY
     // ==========================
@@ -232,24 +199,22 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 
-    function formatTanggal(val){
+    function dbToDisplay(val){
     if(!val) return '';
-    const d = new Date(val);
-    return ('0'+d.getDate()).slice(-2)+'/'+
-           ('0'+(d.getMonth()+1)).slice(-2)+'/'+
-           d.getFullYear();
+    const p = val.split('-'); // yyyy-mm-dd
+    return p[2]+'/'+p[1]+'/'+p[0];
 }
 
-    const $modalEdit = $('#internEditModal');
+    const $modalEdit = $('#adminEditModal');
 
     function closeModal() {
         $modalEdit.addClass('hidden');
         $('body').removeClass('overflow-hidden');
-        resetInternEditForm();
+        resetAfAdminEditForm();
     }
 
-    function resetInternEditForm() {
-        const form = $('#submitFormEditIntern');
+    function resetAdminEditForm() {
+        const form = $('#submitFormEditAdmin');
         form[0].reset();
         $('.error').text('');
         $('.input-field').removeClass('border-red-500');
@@ -262,12 +227,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // ==========================
     $(document).on('click', '.btn-edit', function () {
 
-    function dbToDisplay(val){
-            if(!val) return '';
-            const p = val.split('-'); // yyyy-mm-dd
-            return p[2]+'/'+p[1]+'/'+p[0];
-        }
-
         const id = $(this).data('id');
 
         Swal.fire({
@@ -279,51 +238,41 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         $.ajax({
-            url: `/data-intern/${id}/edit`,
+            url: `/data-admin/${id}/edit`,
             type: 'GET',
             success: function (res) {
 
-    Swal.close();
+                Swal.close();
 
-    const data = res.data;
-    const profile = data.profile ?? {};
+                const data = res.data;
+                const profile = data.profile ?? {};
 
-    const form = $('#submitFormEditIntern');
-    form.attr('action', `/data-intern/${data.id}/update`);
+                const form = $('#submitFormEditAdmin');
+                form.attr('action', `/data-admin/${data.id}/update`);
 
-    form.find('input[name="name"]').val(data.name ?? '');
-    form.find('input[name="email"]').val(data.email ?? '');
+                form.find('input[name="name"]').val(data.name ?? '');
+                form.find('input[name="email"]').val(data.email ?? '');
 
-    form.find('input[name="pr_no_hp"]').val(profile.pr_no_hp ?? '');
-    form.find('input[name="pr_nim"]').val(profile.pr_nim ?? '');
-    form.find('input[name="pr_jurusan"]').val(profile.pr_jurusan ?? '');
-    form.find('textarea[name="pr_alamat"]').val(profile.pr_alamat ?? '');
-    form.find('select[name="pr_kampus_id"]').val(profile.pr_kampus_id ?? '');
-    form.find('select[name="pr_jenis_kelamin"]').val(profile.pr_jenis_kelamin ?? '');
+                form.find('input[name="pr_no_hp"]').val(profile.pr_no_hp ?? '');
+                form.find('textarea[name="pr_alamat"]').val(profile.pr_alamat ?? '');
+                form.find('select[name="pr_jenis_kelamin"]').val(profile.pr_jenis_kelamin ?? '');
+                form.find('select[name="pr_posisi"]').val(profile.pr_posisi ?? '');
 
-    form.find('input[name="pr_tanggal_lahir"]').val(dbToDisplay(profile.pr_tanggal_lahir));
-    form.find('input[name="pr_internship_start"]').val(dbToDisplay(profile.pr_internship_start));
-    form.find('input[name="pr_internship_end"]').val(dbToDisplay(profile.pr_internship_end));
+                form.find('input[name="pr_tanggal_lahir"]').val(dbToDisplay(profile.pr_tanggal_lahir));
 
-    form.find('input[name="pr_supervisor_name"]').val(profile.pr_supervisor_name ?? '');
-    form.find('input[name="pr_supervisor_contact"]').val(profile.pr_supervisor_contact ?? '');
+                if(profile.pr_status === 'aktif'){
+                    $('#statusToggle').prop('checked', true);
+                    $('#statusText').text('Aktif');
+                    $('input[name="pr_status"]').val('aktif');
+                }else{
+                    $('#statusToggle').prop('checked', false);
+                    $('#statusText').text('Nonaktif');
+                    $('input[name="pr_status"]').val('nonaktif');
+                }
 
-    
-    if(profile.pr_status === 'aktif'){
-        $('#statusToggle').prop('checked', true);
-        $('#statusText').text('Aktif');
-        $('input[name="pr_status"]').val('aktif');
-    }else{
-        $('#statusToggle').prop('checked', false);
-        $('#statusText').text('Nonaktif');
-        $('input[name="pr_status"]').val('nonaktif');
-    }
-
-    $('#internEditModal').removeClass('hidden');
-    $('body').addClass('overflow-hidden');
-
-        },
-
+                $('#adminEditModal').removeClass('hidden');
+                $('body').addClass('overflow-hidden');
+            },
             error: function (xhr) {
                 Swal.fire({
                     icon: 'error',
@@ -339,11 +288,11 @@ document.addEventListener('DOMContentLoaded', function () {
     // ==========================
     // UPDATE INTERN
     // ==========================
-    $('#btnEditIntern').on('click', function (e) {
+    $('#btnEditAdmin').on('click', function (e) {
 
         e.preventDefault();
 
-        const form = $('#submitFormEditIntern');
+        const form = $('#submitFormEditAdmin');
         const url = form.attr('action');
         const btn = $(this);
 
@@ -387,7 +336,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     Object.keys(errors).forEach(function (key) {
                         $(`[data-error="${key}"]`).text(errors[key][0]);
-                        $(`[name="${key}"]`).addClass('border-red-500');
+                        $(`[name="${key}"]`).addClass('border-red-500 ring-1 ring-red-500');
                     });
 
                     return;
@@ -396,7 +345,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
-                    text: 'Gagal update data intern'
+                    text: 'Gagal update data admin'
                 });
             },
             complete: function () {
@@ -435,7 +384,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
 
                 $.ajax({
-                    url:`/data-intern/${id}`,
+                    url:`/data-admin/${id}`,
                     type:'DELETE',
                     data:{
                         _token:$('meta[name="csrf-token"]').attr('content')
@@ -497,6 +446,7 @@ $('#statusToggle').on('change', function(){
 
 });
 });
+
 
 </script>
 @endpush
