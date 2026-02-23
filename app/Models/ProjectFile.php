@@ -11,6 +11,7 @@ class ProjectFile extends Model
     public $incrementing = false;
 
     protected $fillable = [
+        'id',
         'project_id',
         'file_path',
         'file_type'
