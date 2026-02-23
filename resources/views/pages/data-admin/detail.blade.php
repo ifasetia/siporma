@@ -33,21 +33,6 @@
                 </div>
 
                 <div>
-                    <label class="block font-medium text-gray-500">NIM</label>
-                    <p id="d_nim" class="mt-1 text-gray-800"></p>
-                </div>
-
-                <div>
-                    <label class="block font-medium text-gray-500">Kampus</label>
-                    <p id="d_kampus" class="mt-1 text-gray-800"></p>
-                </div>
-
-                <div>
-                    <label class="block font-medium text-gray-500">Jurusan</label>
-                    <p id="d_jurusan" class="mt-1 text-gray-800"></p>
-                </div>
-
-                <div>
                     <label class="block font-medium text-gray-500">No HP</label>
                     <p id="d_hp" class="mt-1 text-gray-800"></p>
                 </div>
@@ -73,25 +58,11 @@
                 </div>
 
                 <div>
-                    <label class="block font-medium text-gray-500">Mulai Magang</label>
-                    <p id="d_start" class="mt-1 text-gray-800"></p>
+                    <label class="block font-medium text-gray-500">Posisi</label>
+                    <p id="d_posisi" class="mt-1 text-gray-800"></p>
                 </div>
 
-                <div>
-                    <label class="block font-medium text-gray-500">Selesai Magang</label>
-                    <p id="d_end" class="mt-1 text-gray-800"></p>
-                </div>
-
-                <div>
-                    <label class="block font-medium text-gray-500">Nama Supervisor</label>
-                    <p id="d_spv" class="mt-1 text-gray-800"></p>
-                </div>
-
-                <div>
-                    <label class="block font-medium text-gray-500">Kontak Supervisor</label>
-                    <p id="d_spv_contact" class="mt-1 text-gray-800"></p>
-                </div>
-            </div>
+                </div>  
 
             <!-- FOOTER -->
             <div class="flex justify-end gap-3 pt-6">
@@ -109,16 +80,16 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
+    if (!window.$) {
+        console.error('jQuery NOT loaded');
+        return;
+    }
+
     function dbToDisplay(val){
     if(!val) return '-';
     const p = val.split('-'); // yyyy-mm-dd
     return p[2]+'/'+p[1]+'/'+p[0];
 }
-
-    if (!window.$) {
-        console.error('jQuery NOT loaded');
-        return;
-    }
 
     // OPEN DETAIL
     $(document).on('click','.btn-detail',function(){
@@ -133,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function () {
             didOpen: () => Swal.showLoading()
         });
 
-        $.get(`/data-intern/${id}/detail`, function(res){
+        $.get(`/data-admin/${id}/detail`, function(res){
 
             Swal.close();
 
@@ -141,9 +112,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             $('#d_nama').text(profile?.pr_nama ?? '-');
             $('#d_email').text(res.data.email ?? '-');
-            $('#d_nim').text(profile?.pr_nim ?? '-');
-            $('#d_kampus').text(profile?.kampus?.km_nama_kampus ?? '-');
-            $('#d_jurusan').text(profile?.pr_jurusan ?? '-');
             $('#d_hp').text(profile?.pr_no_hp ?? '-');
             $('#d_gender').text(profile?.pr_jenis_kelamin ?? '-');
             $('#d_birth').text(dbToDisplay(profile?.pr_tanggal_lahir));
@@ -163,11 +131,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     </span>
                 `);
             }
-
-            $('#d_start').text(dbToDisplay(profile?.pr_internship_start));
-            $('#d_end').text(dbToDisplay(profile?.pr_internship_end));
-            $('#d_spv').text(profile?.pr_supervisor_name ?? '-');
-            $('#d_spv_contact').text(profile?.pr_supervisor_contact ?? '-');
+            $('#d_posisi').text(profile?.pr_posisi ?? '-');
 
 
             $('#detailModal').removeClass('hidden');

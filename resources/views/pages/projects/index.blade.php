@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title','Data User')
+@section('title','Project Saya')
 
 @section('content')
 
 <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] lg:p-6">
     {{-- <h3 class="mb-5 text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-7">
-        Data User
+        Project Saya
     </h3> --}}
 
     <div class="p-5 mb-6 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
@@ -17,7 +17,7 @@
                 </div>
                 <div class="order-3 xl:order-2">
                     <h4 class="mb-2 text-lg font-semibold text-center text-gray-800 dark:text-white/90 xl:text-left">
-                        Kelola data user
+                        Kelola project saya
                     </h4>
                     <div class="flex flex-col items-center gap-1 text-center xl:flex-row xl:gap-3 xl:text-left">
                         <p class="text-sm text-gray-500 dark:text-gray-400">
@@ -42,14 +42,16 @@
     <div class="p-5 mb-6 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6 w-full">
 
         <div class="w-full overflow-x-auto">
-            <table id="userTable" class="min-w-full divide-y divide-gray-200 text-sm text-gray-700">
+            <table id="projectTable" class="min-w-full divide-y divide-gray-200 text-sm text-gray-700">
                 <thead class="bg-gray-50 text-gray-600 uppercase text-xs font-medium">
                     <tr>
-                        <th class="px-6 py-3 text-center w-16">No</th>
-                        <th class="px-6 py-3 text-left">Nama</th>
-                        <th class="px-6 py-3 text-left">Email</th>
-                        <th class="px-6 py-3 text-left">Role</th>
-                        <th class="px-6 py-3 text-center w-44">Aksi</th>
+                        <tr>
+                            <th class="px-6 py-3 text-center w-16">No</th>
+                            <th class="px-6 py-3 text-left">Judul Project</th>
+                            <th class="px-6 py-3 text-left">Teknologi</th>
+                            <th class="px-6 py-3 text-left">Status</th>
+                            <th class="px-6 py-3 text-center w-44">Aksi</th>
+                        </tr>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-100"></tbody>
@@ -62,8 +64,8 @@
 
 @endsection
 {{-- MODAL --}}
-@include('pages.user.add')
-@include('pages.user.edit')
+@include('pages.projects.add')
+@include('pages.projects.edit')
 
 @push('scripts')
 <script>
@@ -75,43 +77,43 @@
         }
 
 
-        window.table = $('#userTable').DataTable({
-            processing: true,
-            serverSide: true,
-            responsive:false,
-            scrollX:true,  
-            ajax: "{{ route('user.datatables') }}",
-        columns: [
-            {
-                data: 'DT_RowIndex',
-                name: 'DT_RowIndex',
-                width: '50px',
-                orderable: false,
-                searchable: false,
-                className: 'text-center'
-            },
-            {
-                data: 'name',
-                name: 'name'
-            },
-            {
-                data: 'email',
-                name: 'email'
-            },
-            {
-                data: 'role',
-                name: 'role'
-            },
-            {
-                data: 'aksi',
-                name: 'aksi',
-                orderable: false,
-                searchable: false,
-                className: 'text-center'
-            },
-        ],
+        window.table = $('#projectTable').DataTable({
+    processing: true,
+    serverSide: true,
+    ajax: "{{ route('projects.datatables') }}",
 
-        });
+    columns: [
+        {
+            data: 'DT_RowIndex',
+            name: 'DT_RowIndex',
+            orderable:false,
+            searchable:false,
+            className:'text-center'
+        },
+        {
+            data: 'title',
+            name: 'title'
+        },
+        {
+            data: 'technologies',
+            name: 'technologies'
+        },
+        {
+            data: 'status',
+            name: 'status',
+            orderable:false,
+            searchable:false
+        },
+        {
+            data: 'aksi',
+            name: 'aksi',
+            orderable:false,
+            searchable:false,
+            className:'text-center'
+        },
+    ]
+});
+        
     });
 
 </script>

@@ -22,20 +22,41 @@ class UserController extends Controller
             ->addIndexColumn()
             ->addColumn('aksi', function ($row) {
                 return '
-                    <div class="flex items-center justify-center gap-1.5">
+                <div class="flex items-center justify-center gap-1.5">
 
-                        <button type="button" data-id="' . $row->id . '"
-                            class="btn-edit inline-flex items-center gap-1.5 rounded-md bg-blue-50 px-2.5 py-1 text-xs font-medium text-blue-600 hover:bg-blue-100 transition">
-                            Edit
-                        </button>
+                    <!-- EDIT -->
+                    <button
+                        type="button"
+                        data-id="'.$row->id.'"
+                        class="btn-edit inline-flex items-center gap-1.5 rounded-md bg-blue-50 px-2.5 py-1 text-xs font-medium text-blue-600 hover:bg-blue-100 transition">
 
-                        <button type="button" data-id="' . $row->id . '"
-                            class="btn-delete inline-flex items-center gap-1.5 rounded-md bg-red-50 px-2.5 py-1 text-xs font-medium text-red-600 hover:bg-red-100 transition">
-                            Hapus
-                        </button>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M16.862 3.487a2.25 2.25 0 113.182 3.182L7.5 19.213 3 21l1.787-4.5L16.862 3.487z"/>
+                        </svg>
 
-                    </div>';
+                        Edit
+                    </button>
+
+                    <!-- DELETE -->
+                    <button
+                        type="button"
+                        data-id="'.$row->id.'"
+                        class="btn-delete inline-flex items-center gap-1.5 rounded-md bg-red-50 px-2.5 py-1 text-xs font-medium text-red-600 hover:bg-red-100 transition">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M6 7h12M9 7V5h6v2m-7 0l1 12h8l1-12"/>
+                        </svg>
+
+                        Hapus
+                    </button>
+
+                </div>';
             })
+        ->rawColumns(['aksi'])
             ->rawColumns(['aksi'])
             ->make(true);
     }

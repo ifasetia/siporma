@@ -7,6 +7,8 @@ use App\Http\Controllers\Master\KampusController;
 use App\Http\Controllers\Master\PekerjaanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DatainternController;
+use App\Http\Controllers\DataadminController;
+use App\Http\Controllers\ProjectController;
 
 // 1. Halaman Depan (Public)
 Route::get('/', function () {
@@ -67,9 +69,41 @@ Route::middleware(['auth'])
         Route::get('/{id}/edit', [DataInternController::class, 'edit']);
         Route::post('/{id}/update', [DataInternController::class, 'update']);
         Route::post('/{id}/toggle-status',[DatainternController::class,'toggleStatus']);
+        Route::delete('/{id}', [DatainternController::class,'destroy'])->name('destroy');
 
     });
 
+
+    Route::middleware(['auth'])
+    ->prefix('data-admin')
+    ->name('data-admin.')
+    ->group(function () {
+        Route::get('/', [DataadminController::class,'index'])->name('index');
+        Route::get('/datatables', [DataadminController::class,'datatable'])->name('datatables');
+        Route::get('/{id}/detail',[DataadminController::class,'detail'])->name('detail');
+        Route::post('/store', [DataadminController::class,'store'])->name('store');
+        Route::get('/{id}/edit', [DataadminController::class, 'edit']);
+        Route::post('/{id}/update', [DataadminController::class, 'update']);
+        Route::post('/{id}/toggle-status',[DataadminController::class,'toggleStatus']);
+        Route::delete('/{id}', [DataadminController::class,'destroy'])->name('destroy');
+
+    });
+
+
+    Route::prefix('projects')
+    ->name('projects.')
+    ->group(function () {
+
+        Route::get('/', [ProjectController::class,'index'])->name('index');
+        Route::get('/datatables', [ProjectController::class,'datatable'])->name('datatables');
+
+        Route::post('/store', [ProjectController::class,'store'])->name('store');
+        Route::get('/{id}/edit', [ProjectController::class,'edit'])->name('edit');
+        Route::post('/{id}/update', [ProjectController::class,'update'])->name('update');
+
+        Route::delete('/{id}', [ProjectController::class,'destroy'])->name('destroy');
+
+    });
     // Kegiatan (Jika nanti diaktifkan oleh Admin)
     // Route::resource('kegiatan', KegiatanController::class);
 

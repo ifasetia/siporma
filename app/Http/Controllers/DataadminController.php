@@ -14,13 +14,13 @@ use Carbon\Carbon;
 
 
 
-class DatainternController extends Controller
+class DataadminController extends Controller
 {
     public function index()
     {
          $kampus = Kampus::orderBy('km_nama_kampus')->get();
 
-        return view('pages.data-intern.index', compact('kampus'));
+        return view('pages.data-admin.index', compact('kampus'));
         
 
     }
@@ -38,8 +38,8 @@ class DatainternController extends Controller
 
     public function datatable(Request $request)
 {
-    $query = User::with(['profile.kampus'])
-        ->where('role','intern')
+    $query = User::with(['profile'])
+        ->where('role','admin')
         ->latest();
 
 
@@ -49,11 +49,12 @@ class DatainternController extends Controller
         ->addColumn('pr_nama', fn($row)=> $row->profile->pr_nama ?? '-')
         ->addColumn('email', fn($row)=> $row->email)
         ->addColumn('pr_no_hp', fn($row)=> $row->profile->pr_no_hp ?? '-')
-        ->addColumn('pr_nim', fn($row)=> $row->profile->pr_nim ?? '-')
-        ->addColumn('pr_kampus', function ($row) { 
-            return $row->profile?->kampus?->km_nama_kampus ?? '-';
-            })
-        ->addColumn('pr_jurusan', fn($row)=> $row->profile->pr_jurusan ?? '-')
+        ->addColumn('pr_posisi', fn($row)=> $row->profile->pr_posisi ?? '-')
+        //->addColumn('pr_nim', fn($row)=> $row->profile->pr_nim ?? '-')
+        //->addColumn('pr_kampus', function ($row) { 
+            //return $row->profile?->kampus?->km_nama_kampus ?? '-';
+           // })
+        //->addColumn('pr_jurusan', fn($row)=> $row->profile->pr_jurusan ?? '-')
 
         // ===== STATUS TOGGLE
         ->addColumn('status', function($row){
@@ -156,13 +157,7 @@ class DatainternController extends Controller
                 'pr_tanggal_lahir' => 'required',
                 'pr_status' => 'required',
 
-                'pr_nim' => 'required',
-                'pr_kampus' => 'required',
-                'pr_jurusan' => 'required',
-                'pr_internship_start' => 'required',
-                'pr_internship_end' => 'required',
-                'pr_supervisor_name' => 'required',
-                'pr_supervisor_contact' => 'required',
+                'pr_posisi' => 'required',
 
             ], [
 
@@ -173,13 +168,7 @@ class DatainternController extends Controller
                 'pr_tanggal_lahir.required' => 'Tanggal lahir wajib diisi',
                 'pr_status.required' => 'Status wajib diisi',
 
-                'pr_nim.required' => 'NIM wajib diisi',
-                'pr_kampus.required' => 'Kampus wajib diisi',
-                'pr_jurusan.required' => 'Jurusan wajib diisi',
-                'pr_internship_start.required' => 'Tanggal mulai wajib diisi',
-                'pr_internship_end.required' => 'Tanggal selesai wajib diisi',
-                'pr_supervisor_name.required' => 'Nama supervisor wajib diisi',
-                'pr_supervisor_contact.required' => 'Kontak supervisor wajib diisi',
+                'pr_posisi.required' => 'Posisi wajib dipilih', 
             ]);
 
             DB::beginTransaction();
@@ -187,8 +176,8 @@ class DatainternController extends Controller
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => bcrypt('intern123'),
-                'role' => 'intern'
+                'password' => bcrypt('admin123'),
+                'role' => 'admin'
             ]);
 
             Profile::create([
@@ -200,20 +189,14 @@ class DatainternController extends Controller
                 'pr_jenis_kelamin' => $request->pr_jenis_kelamin,
                 'pr_tanggal_lahir' => $request->pr_tanggal_lahir,
                 'pr_status' => $request->pr_status,
-                'pr_nim' => $request->pr_nim,
-                'pr_kampus_id' => $request->pr_kampus_id,
-                'pr_jurusan' => $request->pr_jurusan,
-                'pr_internship_start' => $request->pr_internship_start,
-                'pr_internship_end' => $request->pr_internship_end,
-                'pr_supervisor_name' => $request->pr_supervisor_name,
-                'pr_supervisor_contact' => $request->pr_supervisor_contact,
+                'pr_posisi' => $request->pr_posisi,
             ]);
 
             DB::commit();
 
             return redirect()
-                ->route('data-intern.index')
-                ->with('success', 'Data intern berhasil ditambahkan');
+                ->route('data-admin.index')
+                ->with('success', 'Data admin berhasil ditambahkan');
 
         } catch (ValidationException $e) {
 
@@ -242,9 +225,9 @@ class DatainternController extends Controller
 }
 
 
+
 public function update(Request $request, $id)
 {
-    // WAJIB AJAX / JSON
     if (!$request->expectsJson()) {
         abort(400, 'Invalid request type');
     }
@@ -257,17 +240,11 @@ public function update(Request $request, $id)
             'email' => 'required|email',
 
             'pr_no_hp' => 'required',
-            'pr_nim' => 'required',
-            'pr_jurusan' => 'required',
-            'pr_kampus_id' => 'required',
+            'pr_posisi' => 'required',
             'pr_jenis_kelamin' => 'required',
             'pr_tanggal_lahir' => 'required',
             'pr_alamat' => 'required',
             'pr_status' => 'required',
-            'pr_internship_start' => 'required',
-            'pr_internship_end' => 'required',
-            'pr_supervisor_name' => 'required',
-            'pr_supervisor_contact' => 'required',
 
         ], [
 
@@ -276,26 +253,12 @@ public function update(Request $request, $id)
             'email.email' => 'Format email tidak valid',
 
             'pr_no_hp.required' => 'No HP wajib diisi',
-            'pr_nim.required' => 'NIM wajib diisi',
-            'pr_jurusan.required' => 'Jurusan wajib diisi',
-            'pr_kampus_id.required' => 'Kampus wajib dipilih',
+            'pr_posisi.required' => 'Posisi wajib dipilih',
             'pr_jenis_kelamin.required' => 'Jenis kelamin wajib dipilih',
             'pr_tanggal_lahir.required' => 'Tanggal lahir wajib diisi',
             'pr_alamat.required' => 'Alamat wajib diisi',
             'pr_status.required' => 'Status wajib diisi',
-            'pr_internship_start.required' => 'Tanggal mulai wajib diisi',
-            'pr_internship_end.required' => 'Tanggal selesai wajib diisi',
-            'pr_supervisor_name.required' => 'Nama supervisor wajib diisi',
-            'pr_supervisor_contact.required' => 'Kontak supervisor wajib diisi',
         ]);
-
-        // =======================
-        // STEP 4 — CONVERT TANGGAL
-        // =======================
-
-        $tanggal_lahir = Carbon::createFromFormat('d/m/Y',$data['pr_tanggal_lahir'])->format('Y-m-d');
-        $start = Carbon::createFromFormat('d/m/Y',$data['pr_internship_start'])->format('Y-m-d');
-        $end = Carbon::createFromFormat('d/m/Y',$data['pr_internship_end'])->format('Y-m-d');
 
         DB::beginTransaction();
 
@@ -306,26 +269,21 @@ public function update(Request $request, $id)
             'email' => $data['email'],
         ]);
 
+        $ttl = Carbon::createFromFormat('d/m/Y', $data['pr_tanggal_lahir'])->format('Y-m-d');
+
         $user->profile->update([
             'pr_no_hp' => $data['pr_no_hp'],
-            'pr_nim' => $data['pr_nim'],
-            'pr_jurusan' => $data['pr_jurusan'],
-            'pr_kampus_id' => $data['pr_kampus_id'],
+            'pr_posisi' => $data['pr_posisi'],
             'pr_jenis_kelamin' => $data['pr_jenis_kelamin'],
-            'pr_tanggal_lahir' => $tanggal_lahir,
+            'pr_tanggal_lahir' => $ttl,
             'pr_alamat' => $data['pr_alamat'],
             'pr_status' => $data['pr_status'],
-            'pr_internship_start' => $start,
-            'pr_internship_end' => $end,
-            'pr_supervisor_name' => $data['pr_supervisor_name'],
-            'pr_supervisor_contact' => $data['pr_supervisor_contact'],
         ]);
-
         DB::commit();
 
         return response()->json([
             'success' => true,
-            'message' => 'Data intern berhasil diupdate'
+            'message' => 'Data admin berhasil diupdate'
         ], 200);
 
     } catch (ValidationException $e) {
@@ -373,7 +331,7 @@ public function update(Request $request, $id)
                 $user->delete();
 
                 return response()->json([
-                    'message' => 'Data intern berhasil dihapus'
+                    'message' => 'Data admin berhasil dihapus'
                 ]);
 
             } catch (\Exception $e) {

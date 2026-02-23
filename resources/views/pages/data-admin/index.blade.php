@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','Data Interns')
+@section('title','Data Admin')
 
 @section('content')
 
@@ -12,12 +12,12 @@
 
             <div class="flex flex-col items-center w-full gap-6 xl:flex-row">
                 <div class="w-25 h-25 overflow-hidden">
-                    <img src="{{ asset('images/icon/kampus.png') }}" alt="intern" />
+                    <img src="{{ asset('images/icon/kampus.png') }}" alt="admin" />
                 </div>
 
                 <div>
                     <h4 class="mb-2 text-lg font-semibold text-gray-800">
-                        Kelola data interns
+                        Kelola data admin
                     </h4>
 
                     <div class="flex items-center gap-3 text-sm text-gray-500">
@@ -42,7 +42,7 @@
     <div class="p-5 border border-gray-200 rounded-2xl lg:p-6">
 
         <div class="w-full overflow-x-auto">
-            <table id="internTable" class="min-w-full divide-y divide-gray-200 text-sm text-gray-700">
+            <table id="adminTable" class="min-w-full divide-y divide-gray-200 text-sm text-gray-700">
 
                 <thead class="bg-gray-50 text-xs uppercase font-medium text-gray-600">
                     <tr>
@@ -50,8 +50,7 @@
                         <th class="px-6 py-3 text-left">Nama</th>
                         <th class="px-6 py-3 text-left">Email</th>
                         <th class="px-6 py-3 text-left">No HP</th>
-                        <th class="px-6 py-3 text-left">Kampus</th>
-                        <th class="px-6 py-3 text-left">Jurusan</th>
+                        <th class="px-6 py-3 text-left">Posisi</th>
                         <th class="px-6 py-3 text-center w-28">Status</th>
                         <th class="px-6 py-3 text-center w-28">Detail</th>
                         <th class="px-6 py-3 text-center w-36">Aksi</th>
@@ -68,9 +67,9 @@
 @endsection
 
 {{-- MODAL --}}
-@include('pages.data-intern.add')
-@include('pages.data-intern.edit')
-@include('pages.data-intern.detail')
+@include('pages.data-admin.add')
+@include('pages.data-admin.edit')
+@include('pages.data-admin.detail')
 
 @push('scripts')
 <script>
@@ -81,12 +80,12 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
     }
 
-    window.table = $('#internTable').DataTable({
+    window.table = $('#adminTable').DataTable({
         processing: true,
         serverSide: true,
         responsive: false,
         scrollX: true,
-        ajax: "{{ route('data-intern.datatables') }}",
+        ajax: "{{ route('data-admin.datatables') }}",
 
         columns: [
             {
@@ -99,8 +98,7 @@ document.addEventListener('DOMContentLoaded', function () {
             { data: 'pr_nama', name: 'pr_nama' },
             { data: 'email', name: 'email' },
             { data: 'pr_no_hp', name: 'pr_no_hp' },
-            { data: 'pr_kampus', name: 'pr_kampus' },
-            { data: 'pr_jurusan', name: 'pr_jurusan' },
+            { data: 'pr_posisi', name: 'pr_posisi' },
 
 
             { data:'status', orderable:false, searchable:false },
@@ -141,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if(result.isConfirmed){
 
-            $.post(`/data-intern/${id}/toggle-status`,{
+            $.post(`/data-admin/${id}/toggle-status`,{
                 _token:$('meta[name="csrf-token"]').attr('content')
             },function(){
 

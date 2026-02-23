@@ -245,50 +245,51 @@ document.addEventListener('DOMContentLoaded', function () {
     // ==========================
     // DELETE USER
     // ==========================
-    $(document).on('click', '.btn-delete', function () {
-        const id = $(this).data('id');
+    $(document).on('click','.btn-delete',function(){
 
-        Swal.fire({
-            title: 'Yakin hapus user ini?',
-            text: "Data user akan dihapus permanen!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Ya, Hapus!',
-            cancelButtonText: 'Batal'
-        }).then((result) => {
+    const id = $(this).data('id');
+    const row = $(this).closest('tr');
+    const name = row.find('td:eq(1)').text();
 
-            if (result.isConfirmed) {
+    Swal.fire({
+        icon:'warning',
+        title:'Hapus Permanen',
+        html:`Anda yakin ingin menghapus permanen akun <b>${name}</b>?`,
+        showCancelButton:true,
+        confirmButtonText:'Ya, hapus',
+        cancelButtonText:'Batal',
+        confirmButtonColor:'#dc2626'
+    }).then((res)=>{
 
-                $.ajax({
-                    url: `/user/${id}`,
-                    type: "DELETE",
-                    data: {
-                        _token: $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function (res) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Berhasil',
-                            text: res.message,
-                            timer: 1500,
-                            showConfirmButton: false
-                        });
+        if(res.isConfirmed){
 
-                        window.table.ajax.reload(null, false);
-                    },
-                    error: function () {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Gagal',
-                            text: 'User gagal dihapus'
-                        });
-                    }
+            Swal.fire({
+                title:'Menghapus...',
+                allowOutsideClick:false,
+                showConfirmButton:false,
+                didOpen:()=>Swal.showLoading()
+            });
+
+            $.post(`/user/${id}/delete`,{
+                _token:$('meta[name="csrf-token"]').attr('content')
+            },function(resp){
+
+                Swal.fire({
+                    icon:'success',
+                    title:'Berhasil',
+                    text:resp.message,
+                    timer:1200,
+                    showConfirmButton:false
                 });
 
-            }
+                window.table.ajax.reload(null,false);
 
-        });
+            });
+
+        }
+
     });
 
+});
 });
 </script>
