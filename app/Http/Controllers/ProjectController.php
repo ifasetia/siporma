@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Models\ProjectMember;
 use App\Models\ProjectFile;
+use App\Models\ProjectLink;
+use App\Models\ProjectPhoto;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
