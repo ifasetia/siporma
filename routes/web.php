@@ -11,6 +11,7 @@ use App\Http\Controllers\DatainternController;
 use App\Http\Controllers\DataadminController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\Master\SupervisorController;
+use App\Http\Controllers\Master\TeknologiController;
 
 // 1. Halaman Depan (Public)
 Route::get('/', function () {
@@ -58,6 +59,16 @@ Route::middleware('auth')->group(function () {
         Route::get('/{id}/edit', [KampusController::class, 'edit'])->name('edit');
         Route::put('/{id}/update', [KampusController::class, 'update'])->name('update');
         Route::delete('/{id}', [KampusController::class, 'destroy'])->name('destroy');
+    });
+
+    // Master Data Teknologi
+    Route::prefix('teknologi')->name('teknologi.')->group(function () {
+        Route::get('/', [TeknologiController::class, 'index'])->name('index');
+        Route::get('/datatables', [TeknologiController::class, 'datatable'])->name('datatables');
+        Route::post('/store', [TeknologiController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [TeknologiController::class, 'edit'])->name('edit');
+        Route::put('/{id}/update', [TeknologiController::class, 'update'])->name('update');
+        Route::delete('/{id}', [TeknologiController::class, 'destroy'])->name('destroy');
     });
 
 Route::middleware(['auth'])

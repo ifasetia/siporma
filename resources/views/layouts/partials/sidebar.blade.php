@@ -287,6 +287,13 @@
                 </li>
 
                 <li>
+                    <a href="{{ route('teknologi.index') }}"
+                    class="menu-dropdown-item group {{ request()->routeIs('teknologi.index') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}">
+                    Teknologi
+                    </a>
+                </li>
+
+                <li>
                 <a
                     href="index.html"
                     class="menu-dropdown-item group"
