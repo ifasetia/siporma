@@ -1,0 +1,324 @@
+<div id="eventModal" class="fixed inset-0 z-999999 hidden p-5 overflow-y-auto" role="dialog" aria-modal="true">
+
+    <div class="fixed inset-0 bg-gray-400/50 backdrop-blur-sm"></div>
+    <div class="min-h-full flex items-center justify-center">
+        <div class="relative w-full max-w-[700px] rounded-3xl bg-white p-6 lg:p-11 ">
+
+            <button type="button"
+                class="modal-close-btn absolute top-5 right-5 flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 dark:bg-white/5">
+                ✕
+            </button>
+
+            <form id="submitFormStatusProyek" class="flex flex-col gap-6" action="{{ route('status-proyek.store') }}" method="POST"
+                enctype="multipart/form-data">
+                @csrf
+                <div>
+                    <h5 id="eventModalLabel" class="font-semibold text-gray-800 text-xl dark:text-white">
+                        Tambah Data Status Proyek
+                    </h5>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">
+                        Silahkan isi form berikut untuk menambahkan master data status proyek baru.
+                    </p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-1">Nama Status</label>
+                    <input id="event-title" type="text"
+                        class="form-input input-field h-11 w-full rounded-lg border border-gray-300 px-4 text-sm focus:ring-2 focus:outline-none fokus:border-none"
+                        placeholder="Contoh: Perencanaan, Pengembangan..." name="sp_nama_status">
+                    <span class="text-red-500 text-xs error" data-error="sp_nama_status"></span>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Keterangan Singkat</label>
+                    <input id="event-code" type="text"
+                        class="form-input input-field h-11 w-full rounded-lg border border-gray-300  px-4 text-sm focus:ring-2 focus:outline-none "
+                        placeholder="Contoh: Proyek sedang dalam pengerjaan..." name="sp_keterangan">
+                    <span class="text-red-500 text-xs error" data-error="sp_keterangan"></span>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Warna (Badge)</label>
+                    <select name="sp_warna" class="form-input input-field h-11 w-full rounded-lg border border-gray-300 px-4 text-sm focus:ring-2 focus:outline-none">
+                        <option value="bg-gray-100 text-gray-700 border-gray-200">Abu-abu (Default)</option>
+                        <option value="bg-blue-100 text-blue-700 border-blue-200">Biru (Proses)</option>
+                        <option value="bg-yellow-100 text-yellow-700 border-yellow-200">Kuning (Pending)</option>
+                        <option value="bg-green-100 text-green-700 border-green-200">Hijau (Selesai)</option>
+                        <option value="bg-red-100 text-red-700 border-red-200">Merah (Batal/Error)</option>
+                        <option value="bg-purple-100 text-purple-700 border-purple-200">Ungu (Testing)</option>
+                    </select>
+                    <span class="text-red-500 text-xs error" data-error="sp_warna"></span>
+                </div>
+
+                {{-- Kolom dummy yang dimatikan tetap dipertahankan --}}
+                {{-- <div>
+                    <label class="block text-sm font-medium mb-1">Email Dummy</label>
+                    <input id="event-email" type="email"
+                        class="form-input input-field h-11 w-full rounded-lg border border-gray-300  px-4 text-sm focus:ring-2 focus:outline-none "
+                        placeholder="Inputkan email..." name="tk_email_dummy">
+                    <span class="text-red-500 text-xs error" data-error="tk_email_dummy"></span>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Alamat Dummy</label>
+                    <textarea id="event-address"
+                        class="form-input input-field h-24 w-full rounded-lg border border-gray-300  px-4 py-2 text-sm focus:ring-2 focus:outline-none "
+                        placeholder="Inputkan alamat..." name="tk_alamat_dummy"></textarea>
+                    <span class="text-red-500 text-xs error" data-error="tk_alamat_dummy"></span>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Telepon Dummy</label>
+                    <input id="event-phone" type="number"
+                        class="form-input input-field h-11 w-full rounded-lg border border-gray-300  px-4 text-sm focus:ring-2 focus:outline-none "
+                        placeholder="Inputkan no. telepon..." name="tk_telepon_dummy">
+                    <span class="text-red-500 text-xs error" data-error="tk_telepon_dummy"></span>
+                </div> --}}
+
+                <div class="flex justify-end gap-3 pt-4">
+                    <button type="button"
+                        class="modal-close-btn w-24 rounded-lg border px-4 py-2 text-sm bg-red-500 text-white hover:bg-red-600">
+                        Tutup
+                    </button>
+
+                    <button type="button" id="btnSimpanStatusProyek"
+                        class="w-24 bg-brand-500 hover:bg-brand-600 rounded-lg px-4 py-2 text-sm text-white disabled:bg-grey-400">
+                        Simpan
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+{{-- INI LOADING --}}
+<div id="loadingOverlay" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-999999">
+    <div class="bg-white px-6 py-4 rounded-lg shadow-lg flex items-center gap-3">
+        <svg class="animate-spin h-10 w-10 text-gray-700" xmlns="http://www.w3.org/2000/svg" fill="none"
+            viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+        </svg>
+        <span class="text-xl font-medium text-gray-700">
+            Mohon tunggu...
+        </span>
+    </div>
+</div>
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        if (!window.$) {
+            console.error('jQuery NOT loaded');
+            return;
+        }
+
+        // MODAL HANDLER
+        const $modal = $('#eventModal');
+        // OPEN MODAL
+        window.openModal = function () {
+            $modal.removeClass('hidden');
+            $('body').addClass('overflow-hidden');
+            resetStatusProyekForm();
+        };
+
+        // CLOSE MODAL
+        function closeModal() {
+            $modal.addClass('hidden');
+            $('body').removeClass('overflow-hidden');
+            resetStatusProyekForm();
+        }
+
+        // CLOSE BUTTON & OVERLAY
+        $(document).on('click', '.modal-close-btn', function () {
+            closeModal();
+        });
+
+        // ESC KEY CLOSE
+        $(document).on('keydown', function (e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // INI YANG BIKIN TOMBOL TUTUP MACET SEBELUMNYA. AKU MATIKAN YA!
+        // $('#eventModal .modal-dialog').on('click', function (e) {
+        //     e.stopPropagation();
+        // });
+
+        $('#btnOpen').on('click', openModal);
+
+        // SAAT MERAH KLIK HILANKAN MERAHNYA
+        $('.input-field').on('input', function () {
+            $(this).removeClass('border-red-500 focus:border-red-500');
+            $(this).addClass('border-gray-300 focus:border-gray-400');
+        });
+
+
+        function resetStatusProyekForm() {
+            const form = $('#submitFormStatusProyek');
+            form[0].reset();
+            form.find('input[type=hidden]').val('');
+            $('.error').text('');
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | ➕ ADD DATA STATUS PROYEK
+        |--------------------------------------------------------------------------
+        | Flow:
+        | 1. Klik tombol simpan
+        | 2. Validasi form
+        | 3. SweetAlert loading
+        | 4. AJAX POST
+        | 5. Reload DataTables
+        |--------------------------------------------------------------------------
+        */
+        $('#btnSimpanStatusProyek').on('click', function (e) {
+            e.preventDefault();
+            const form = $('#submitFormStatusProyek');
+            const url = form.attr('action');
+            const data = form.serialize();
+            const btn = $(this);
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            // reset error dulu
+            $('.error').text('');
+            $('.input-field').removeClass('border-red-500 focus:border-red-500');
+            btn.prop('disabled', true).text('Menyimpan...');
+            // SWEETALERT LOADING
+            Swal.fire({
+                title: 'Menyimpan data...',
+                text: 'Mohon tunggu sebentar',
+                icon: 'info',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+            $.ajax({
+                url: url,
+                method: 'POST',
+                data: data,
+                success: function (response) {
+                    if (response.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil!',
+                            text: response.message || 'Data berhasil disimpan',
+                            timer: 1500,
+                            showConfirmButton: false
+                        });
+                        closeModal();
+                        resetStatusProyekForm();
+                        window.table.ajax.reload(null, false);
+                    }
+                },
+                error: function (xhr) {
+                    Swal.close(); // tutup loading dulu
+                    if (xhr.status === 422) {
+                        const errors = xhr.responseJSON.errors;
+                        Object.keys(errors).forEach(function (key) {
+                            $(`[data-error="${key}"]`).text(errors[key][0]);
+                            $(`[name="${key}"]`)
+                                .addClass('border-red-500 focus:border-red-500');
+                        });
+                        return;
+                    }
+                    let message = 'Terjadi kesalahan server';
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        message = xhr.responseJSON.message;
+                    }
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: message
+                    });
+                },
+                complete: function () {
+                    btn.prop('disabled', false).text('Simpan');
+                }
+            });
+        });
+
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | 🗑️ DELETE DATA STATUS PROYEK
+        |--------------------------------------------------------------------------
+        | Flow:
+        | 1. Klik tombol delete
+        | 2. Konfirmasi SweetAlert
+        | 3. Loading SweetAlert
+        | 4. AJAX DELETE
+        | 5. Reload DataTables
+        |--------------------------------------------------------------------------
+        */
+        $(document).on('click', '.btn-delete', function () {
+            const id = $(this).data('id');
+            const token = $('meta[name="csrf-token"]').attr('content');
+            Swal.fire({
+                title: 'Yakin hapus data?',
+                text: "Data tidak bisa dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal',
+                buttonsStyling: false,
+                customClass: {
+                    confirmButton: 'bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg',
+                    cancelButton: 'bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-lg ml-2'
+                }
+            }).then((result) => {
+                if (!result.isConfirmed) return;
+                Swal.fire({
+                    title: 'Menghapus data...',
+                    text: 'Mohon tunggu sebentar',
+                    icon: 'info',
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                $.ajax({
+                    url: `/status-proyek/${id}`,
+                    type: 'DELETE',
+                    data: {
+                        _token: token
+                    },
+
+                    success: function (res) {
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil!',
+                            text: res.message,
+                            timer: 1500,
+                            showConfirmButton: false
+                        });
+                        window.table.ajax.reload(null, false);
+                    },
+                    error: function (xhr) {
+                        let message = 'Gagal menghapus data';
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            message = xhr.responseJSON.message;
+                        }
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: message
+                        });
+                    }
+                });
+            });
+        });
+    });
+
+</script>
+@endpush

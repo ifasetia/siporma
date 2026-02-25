@@ -12,6 +12,8 @@ use App\Http\Controllers\DataadminController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\Master\SupervisorController;
 use App\Http\Controllers\Master\TeknologiController;
+use App\Http\Controllers\Master\StatusProyekController;
+
 
 // 1. Halaman Depan (Public)
 Route::get('/', function () {
@@ -84,6 +86,16 @@ Route::middleware(['auth'])
         Route::post('/{id}/toggle-status',[DatainternController::class,'toggleStatus']);
         Route::delete('/{id}', [DatainternController::class,'destroy'])->name('destroy');
 
+    });
+
+    // Master Data Status Proyek
+    Route::prefix('status-proyek')->name('status-proyek.')->group(function () {
+        Route::get('/', [StatusProyekController::class, 'index'])->name('index');
+        Route::get('/datatables', [StatusProyekController::class, 'datatable'])->name('datatables');
+        Route::post('/store', [StatusProyekController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [StatusProyekController::class, 'edit'])->name('edit');
+        Route::put('/{id}/update', [StatusProyekController::class, 'update'])->name('update');
+        Route::delete('/{id}', [StatusProyekController::class, 'destroy'])->name('destroy');
     });
 
 

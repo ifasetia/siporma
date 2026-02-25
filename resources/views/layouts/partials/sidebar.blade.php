@@ -294,6 +294,13 @@
                 </li>
 
                 <li>
+                    <a href="{{ route('status-proyek.index') }}"
+                    class="menu-dropdown-item group {{ request()->routeIs('status-proyek.index') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}">
+                    Status Proyek
+                    </a>
+                </li>
+
+                <li>
                 <a
                     href="index.html"
                     class="menu-dropdown-item group"
