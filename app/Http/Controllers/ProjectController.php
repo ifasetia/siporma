@@ -191,11 +191,14 @@ class ProjectController extends Controller
     // ======================
     public function edit($id)
     {
-        $data = Project::findOrFail($id);
+        $project = Project::with([
+            'links',
+            'files',
+            'photos'
+        ])->findOrFail($id);
 
         return response()->json([
-            'success'=>true,
-            'data'=>$data
+            'data' => $project
         ]);
     }
 
