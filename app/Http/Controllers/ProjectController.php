@@ -12,14 +12,17 @@ use App\Models\ProjectPhoto;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Models\User;
 
 class ProjectController extends Controller
 {
 
-    public function index()
-    {
-        return view('pages.projects.index');
-    }
+   public function index()
+{
+    $interns = User::where('role', 'intern')->get();
+
+    return view('pages.projects.index', compact('interns'));
+}
 
     // ======================
     // DATATABLE
@@ -33,35 +36,46 @@ class ProjectController extends Controller
             ->addIndexColumn()
 
             ->addColumn('status', function ($row) {
-                if ($row->status === 'menunggu_validasi') {
-                    return '<span class="px-3 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700">Menunggu</span>';
-                }
+                if ($row->status === 'menunggu') {
+                return '<span class="px-3 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700">Menunggu</span>';
+            }
 
-                return '<span class="px-3 py-1 text-xs rounded-full bg-green-100 text-green-700">Disetujui</span>';
+            if ($row->status === 'revisi') {
+                return '<span class="px-3 py-1 text-xs rounded-full bg-red-100 text-red-700">Revisi</span>';
+            }
+
+            return '<span class="px-3 py-1 text-xs rounded-full bg-green-100 text-green-700">Disetujui</span>';
+                        
+                
             })
 
             ->addColumn('aksi', function ($row) {
-                return '
-                <div class="flex items-center justify-center gap-1.5">
+            return '
+            <div class="flex items-center justify-center gap-1.5">
 
-                    <button
-                        type="button"
-                        data-id="'.$row->id.'"
-                        class="btn-edit inline-flex items-center gap-1.5 rounded-md bg-blue-50 px-2.5 py-1 text-xs font-medium text-blue-600 hover:bg-blue-100">
+                <button
+                    type="button"
+                    data-id="'.$row->id.'"
+                    class="btn-detail inline-flex items-center gap-1.5 rounded-md bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-700 hover:bg-gray-200">
+                    Detail
+                </button>
 
-                        Edit
-                    </button>
+                <button
+                    type="button"
+                    data-id="'.$row->id.'"
+                    class="btn-edit inline-flex items-center gap-1.5 rounded-md bg-blue-50 px-2.5 py-1 text-xs font-medium text-blue-600 hover:bg-blue-100">
+                    Edit
+                </button>
 
-                    <button
-                        type="button"
-                        data-id="'.$row->id.'"
-                        class="btn-delete inline-flex items-center gap-1.5 rounded-md bg-red-50 px-2.5 py-1 text-xs font-medium text-red-600 hover:bg-red-100">
+                <button
+                    type="button"
+                    data-id="'.$row->id.'"
+                    class="btn-delete inline-flex items-center gap-1.5 rounded-md bg-red-50 px-2.5 py-1 text-xs font-medium text-red-600 hover:bg-red-100">
+                    Hapus
+                </button>
 
-                        Hapus
-                    </button>
-
-                </div>';
-            })
+            </div>';
+        })
 
             ->rawColumns(['aksi','status'])
             ->make(true);
@@ -70,68 +84,108 @@ class ProjectController extends Controller
     // ======================
     // STORE
     // ======================
-    public function store(Request $request)
-    {
-        if (!$request->expectsJson()) abort(400);
+   public function store(Request $request)
+{
+    $request->validate([
+    'title' => 'required|string|max:255',
+    'description' => 'required',
+    'technologies' => 'required',
 
-        $data = $request->validate([
-            'title' => 'required',
-            'description' => 'required',
-            'technologies' => 'required',
+    'links.*.url' => 'nullable|url',
+    'photos.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+    'files.*' => 'nullable|file|max:5120', // ⬅️ TAMBAH INI
+]);
+
+
+    DB::beginTransaction();
+
+    try {
+
+        // 1️⃣ CREATE PROJECT
+        $project = Project::create([
+            'id' => Str::uuid(),
+            'title' => $request->title,
+            'description' => $request->description,
+            'technologies' => $request->technologies,
+            'status' => 'menunggu',
+            'created_by' => auth()->id(),
         ]);
 
-        DB::beginTransaction();
+        if ($request->hasFile('files')) {
+            foreach ($request->file('files') as $file) {
+                $path = $file->store('project-files','public');
+                ProjectFile::create([
+                    'id' => Str::uuid(),
+                    'project_id' => $project->id,
+                    'file_path' => $path,
+                    'file_type' => $file->getClientOriginalExtension(),
+                ]);
+            }
+        }
 
-        try {
+        // 2️⃣ SAVE LINKS (bio style)
+        if ($request->links) {
+            foreach ($request->links as $link) {
 
-            $project = Project::create([
-                'id' => Str::uuid(),
-                'title' => $data['title'],
-                'description' => $data['description'],
-                'technologies' => $data['technologies'],
-                'status' => 'pending',
-                'created_by' => auth()->id(),
-            ]);
+                if (!empty($link['url'])) {
 
-            // creator otomatis jadi member
-            ProjectMember::create([
-                'id' => Str::uuid(),
-                'project_id' => $project->id,
-                'user_id' => auth()->id()
-            ]);
-
-            // upload file
-            if ($request->hasFile('files')) {
-                foreach ($request->file('files') as $file) {
-
-                    $path = $file->store('projects', 'public');
-
-                    ProjectFile::create([
+                    ProjectLink::create([
                         'id' => Str::uuid(),
                         'project_id' => $project->id,
-                        'file_path' => $path
+                        'label' => $link['label'] ?? 'Link',
+                        'url' => $link['url'],
                     ]);
                 }
             }
-
-            DB::commit();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Project berhasil ditambahkan'
-            ]);
-
-        } catch (\Throwable $e) {
-
-            DB::rollBack();
-
-            return response()->json([
-                'success'=>false,
-                'message'=>$e->getMessage()
-            ],500);
         }
-    }
 
+        // 3️⃣ SAVE PHOTOS
+        if ($request->hasFile('photos')) {
+
+            foreach ($request->file('photos') as $photo) {
+
+                $path = $photo->store('project-photos', 'public');
+
+                ProjectPhoto::create([
+                    'id' => Str::uuid(),
+                    'project_id' => $project->id,
+                    'photo' => $path,
+                ]);
+            }
+        }
+
+        // 4️⃣ SAVE MEMBERS
+        $members = $request->members ?? [];
+
+        // creator auto jadi member
+        $members[] = auth()->id();
+
+        foreach (array_unique($members) as $userId) {
+
+            ProjectMember::create([
+                'id' => Str::uuid(),
+                'project_id' => $project->id,
+                'user_id' => $userId,
+            ]);
+        }
+
+        DB::commit();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Project berhasil disimpan'
+        ]);
+
+    } catch (\Throwable $e) {
+
+        DB::rollBack();
+
+        return response()->json([
+            'success' => false,
+            'message' => $e->getMessage()
+        ], 500);
+    }
+}
     // ======================
     // EDIT
     // ======================
@@ -180,4 +234,18 @@ class ProjectController extends Controller
             'message'=>'Project berhasil dihapus'
         ]);
     }
-}
+
+    
+    // ======================
+    // DETAIL
+    // ======================
+    public function detail($id)
+    {
+        $project = Project::with(['links','photos','files','members.user'])->findOrFail($id);
+
+        return response()->json([
+            'success'=>true,
+            'data'=>$project
+        ]);
+    }
+    }

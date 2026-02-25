@@ -1,89 +1,129 @@
-<!-- Modal -->
-<div id="eventEditModal" class="fixed inset-0 z-999999 hidden p-5 overflow-y-auto" role="dialog" aria-modal="true">
+<!-- EDIT MODAL PROJECT -->
+<div id="eventEditModal" class="fixed inset-0 z-999999 hidden p-5 overflow-y-auto">
 
-    <!-- Overlay -->
-    <div class="fixed inset-0 bg-gray-400/50 backdrop-blur-sm"></div>
-    <div class="min-h-full flex items-center justify-center">
-        <!-- Dialog -->
-        <div class="modal-dialog relative w-full max-w-[700px] rounded-3xl bg-white p-6 lg:p-11 ">
+<div class="fixed inset-0 bg-gray-400/50 backdrop-blur-sm"></div>
 
-            <!-- Close Button -->
-            <button type="button"
-                class="modal-close-btn absolute top-5 right-5 flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 dark:bg-white/5">
-                ✕
-            </button>
+<div class="min-h-full flex items-center justify-center">
+<div class="modal-dialog relative w-full max-w-[700px] rounded-3xl bg-white p-6 lg:p-11">
 
-            <form id="submitFormEditKampus" class="flex flex-col gap-6" action="" method="POST"
-                enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
-                <!-- Header -->
-                <div>
-                    <h5 id="eventEditModalLabel" class="font-semibold text-gray-800 text-xl dark:text-white">
-                        Edit Data Kampus Mahasiswa
-                    </h5>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">
-                        Silahkan isi form berikut untuk mengedit data kampus mahasiswa.
-                    </p>
-                </div>
+<button type="button"
+class="modal-close-btn absolute top-5 right-5 flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-gray-500">
+✕
+</button>
 
-                <!-- Nama Kampus -->
-                <div>
-                    <label class="block text-sm font-medium mb-1">Nama Kampus</label>
-                    <input id="event-title" type="text"
-                        class="form-input input-field h-11 w-full rounded-lg border border-gray-300 px-4 text-sm focus:ring-2 focus:outline-none fokus:border-none"
-                        placeholder="Inputkan nama kampus..." name="km_nama_kampus">
-                    <span class="text-red-500 text-xs error" data-error="km_nama_kampus"></span>
-                </div>
-                <!-- Nama Kampus -->
-                <div>
-                    <label class="block text-sm font-medium mb-1">Kode Kampus</label>
-                    <input id="event-code" type="text"
-                        class="form-input input-field h-11 w-full rounded-lg border border-gray-300  px-4 text-sm focus:ring-2 focus:outline-none "
-                        placeholder="Inputkan kode kampus..." name="km_kode_kampus">
-                    <span class="text-red-500 text-xs error" data-error="km_kode_kampus"></span>
-                </div>
-                <!-- Email Kampus -->
-                <div>
-                    <label class="block text-sm font-medium mb-1">Email Kampus</label>
-                    <input id="event-email" type="email"
-                        class="form-input input-field h-11 w-full rounded-lg border border-gray-300  px-4 text-sm focus:ring-2 focus:outline-none "
-                        placeholder="Inputkan email kampus..." name="km_email_kampus">
-                    <span class="text-red-500 text-xs error" data-error="km_email_kampus"></span>
-                </div>
-                <!-- Alamat Kampus -->
-                <div>
-                    <label class="block text-sm font-medium mb-1">Alamat Kampus</label>
-                    <textarea id="event-address"
-                        class="form-input input-field h-24 w-full rounded-lg border border-gray-300  px-4 py-2 text-sm focus:ring-2 focus:outline-none "
-                        placeholder="Inputkan alamat kampus..." name="km_alamat_kampus"></textarea>
-                    <span class="text-red-500 text-xs error" data-error="km_alamat_kampus"></span>
-                </div>
-                <!-- NoT Kampus -->
-                <div>
-                    <label class="block text-sm font-medium mb-1">Telepon Kampus</label>
-                    <input id="event-phone" type="number"
-                        class="form-input input-field h-11 w-full rounded-lg border border-gray-300  px-4 text-sm focus:ring-2 focus:outline-none "
-                        placeholder="Inputkan no. telepon kampus..." name="km_telepon">
-                    <span class="text-red-500 text-xs error" data-error="km_telepon"></span>
-                </div>
+<form id="submitFormEditProject"
+class="flex flex-col gap-5"
+method="POST"
+enctype="multipart/form-data">
 
-                <!-- Footer -->
-                <div class="flex justify-end gap-3 pt-4">
-                    <button type="button"
-                        class="modal-close-btn w-24 rounded-lg border px-4 py-2 text-sm bg-red-500 text-white hover:bg-red-600">
-                        Tutup
-                    </button>
+@csrf
+@method('PUT')
 
-                    <button type="button" id="btnEditKampus"
-                        class="w-24 bg-brand-500 hover:bg-brand-600 rounded-lg px-4 py-2 text-sm text-white disabled:bg-grey-400">
-                        Simpan
-                    </button>
-                </div>
+<input type="hidden" id="edit_project_id">
 
-            </form>
-        </div>
-    </div>
+<!-- HEADER -->
+<div>
+<h5 class="font-semibold text-gray-800 text-xl">
+Edit Project
+</h5>
+<p class="text-sm text-gray-500">
+Silahkan ubah data project.
+</p>
+</div>
+
+<!-- JUDUL -->
+<div>
+<label class="block text-sm font-medium mb-1">Judul Project</label>
+<input name="title"
+class="input-field h-11 w-full rounded-lg border border-gray-300 px-4 text-sm">
+<span class="error text-xs text-red-500" data-error="title"></span>
+</div>
+
+<!-- DESKRIPSI -->
+<div>
+<label class="block text-sm font-medium mb-1">Deskripsi</label>
+<textarea name="description"
+class="input-field h-24 w-full rounded-lg border border-gray-300 px-4 py-2 text-sm"></textarea>
+<span class="error text-xs text-red-500" data-error="description"></span>
+</div>
+
+<!-- TEKNOLOGI -->
+<div>
+<label class="block text-sm font-medium mb-1">Teknologi</label>
+<input name="technologies"
+class="input-field h-11 w-full rounded-lg border border-gray-300 px-4 text-sm">
+<span class="error text-xs text-red-500" data-error="technologies"></span>
+</div>
+
+<!-- LINK PROJECT -->
+<div>
+<label class="block text-sm font-medium mb-1">Link Project</label>
+
+<div id="edit-link-wrapper" class="space-y-2"></div>
+
+<button type="button" id="btnAddEditLink"
+class="mt-2 text-sm text-blue-600 hover:underline">
++ Tambah Link
+</button>
+</div>
+
+<!-- FILE LAMA -->
+<div>
+<label class="block text-sm font-medium mb-1">File Lama</label>
+<ul id="oldFileList" class="text-sm text-gray-600"></ul>
+</div>
+
+<!-- FILE BARU -->
+<div>
+<label class="block text-sm font-medium mb-1">Tambah File</label>
+<input id="edit_files" type="file" name="files[]" multiple class="hidden">
+<label for="edit_files"
+class="cursor-pointer border-2 border-dashed border-gray-300 rounded-xl p-6 block text-center">
+Klik upload file
+</label>
+
+<ul id="editFileList" class="mt-2 text-sm"></ul>
+</div>
+
+<!-- FOTO LAMA -->
+<div>
+<label class="block text-sm font-medium mb-1">Foto Lama</label>
+<div id="oldPhotoPreview" class="grid grid-cols-4 gap-2"></div>
+</div>
+
+<!-- FOTO BARU -->
+<div>
+<label class="block text-sm font-medium mb-1">Tambah Foto</label>
+
+<input id="edit_photos" type="file" name="photos[]" multiple accept="image/*" class="hidden">
+
+<label for="edit_photos"
+class="cursor-pointer border-2 border-dashed border-gray-300 rounded-xl p-6 block text-center">
+Klik upload foto
+</label>
+
+<div id="editPhotoPreview" class="grid grid-cols-4 gap-2 mt-3"></div>
+</div>
+
+<!-- FOOTER -->
+<div class="flex justify-end gap-3 pt-4">
+
+<button type="button"
+class="modal-close-btn w-24 rounded-lg bg-red-500 text-white px-4 py-2 text-sm">
+Tutup
+</button>
+
+<button type="button" id="btnEditProject"
+class="w-24 bg-blue-600 hover:bg-blue-700 rounded-lg px-4 py-2 text-sm text-white">
+Simpan
+</button>
+
+</div>
+
+</form>
+
+</div>
+</div>
 </div>
 
 {{-- INI LOADING --}}
@@ -104,174 +144,265 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
 
-        if (!window.$) {
-            console.error('jQuery NOT loaded');
-            return;
-        }
-        // MODAL HANDLER
-        const $modalEdit = $('#eventEditModal');
-        // OPEN MODAL
-        window.openModal = function () {
-            $modalEdit.removeClass('hidden');
-            $('body').addClass('overflow-hidden');
-        };
-        // CLOSE MODAL
-        function closeModal() {
-            $modalEdit.addClass('hidden');
-            $('body').removeClass('overflow-hidden');
-            resetKampusEditForm();
-        }
-        // CLOSE BUTTON & OVERLAY
-        $(document).on('click', '.modal-close-btn', function () {
-            closeModal();
-        });
-        // ESC KEY CLOSE
-        $(document).on('keydown', function (e) {
-            if (e.key === 'Escape') {
-                closeModal();
-            }
-        });
-        $('#eventEditModal .modal-dialog').on('click', function (e) {
-            e.stopPropagation();
-        });
+    // =====================
+// MODAL HANDLER
+// =====================
+const $modalEdit = $('#eventEditModal');
 
-        // SAAT MERAH KLIK HILANKAN MERAHNYA
-        $('.input-field').on('input', function () {
-            $(this).removeClass('border-red-500 focus:border-red-500');
-            $(this).addClass('border-gray-300 focus:border-gray-400');
-        });
+function closeEditModal(){
+$modalEdit.addClass('hidden');
+$('body').removeClass('overflow-hidden');
+resetEditProjectForm();
+}
 
+$(document).on('click','.modal-close-btn',function(){
+closeEditModal();
+});
 
-        function resetKampusEditForm() {
-            const form = $('#submitFormEditKampus');
-            form[0].reset();
-            form.find('input[type=hidden]').val('');
-            $('.error').text('');
-        }
+$(document).on('keydown',function(e){
+if(e.key === 'Escape'){
+closeEditModal();
+}
+});
 
+function resetEditProjectForm(){
+const form = $('#submitFormEditProject');
+form[0].reset();
+$('.error').text('');
+$('#edit-link-wrapper').html('');
+$('#oldFileList').html('');
+$('#oldPhotoPreview').html('');
+$('#editFileList').html('');
+$('#editPhotoPreview').html('');
+}
 
+let editLinkIndex = 0;
 
+$('#btnAddEditLink').on('click',function(){
 
-        /*
-        |--------------------------------------------------------------------------
-        | ✏️ EDIT DATA KAMPUS - LOAD DATA + FULL SWEETALERT LOADING
-        |--------------------------------------------------------------------------
-        */
+$('#edit-link-wrapper').append(`
+<div class="flex gap-2 link-row">
 
-        $(document).on('click', '.btn-edit', function () {
-            const id = $(this).data('id');
-            /*
-            |--------------------------------------------------------------------------
-            | SWEETALERT LOADING FETCH DATA
-            |--------------------------------------------------------------------------
-            */
-            Swal.fire({
-                title: 'Mengambil data...',
-                html: 'Mohon tunggu sebentar',
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                showConfirmButton: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            });
-            /*
-            |--------------------------------------------------------------------------
-            | AJAX GET DATA
-            |--------------------------------------------------------------------------
-            */
-            $.ajax({
-                url: `/kampus/${id}/edit`,
-                type: 'GET',
-                success: function (res) {
-                    Swal.close(); // tutup loading
-                    openEditModal(res.data);
-                },
-                error: function (xhr) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Gagal mengambil data',
-                        text: xhr.responseJSON ?.message ||
-                            'Terjadi kesalahan server'
-                    });
-                }
-            });
-        });
+<input name="links[${editLinkIndex}][label]"
+class="border rounded px-3 py-2 w-1/3">
+
+<input name="links[${editLinkIndex}][url]"
+class="border rounded px-3 py-2 flex-1">
+
+<button type="button" class="btn-remove-link text-red-500">✕</button>
+
+</div>
+`);
+
+editLinkIndex++;
+
+});
 
 
-        function openEditModal(data) {
-            $modalEdit.removeClass('hidden');
-            $('body').addClass('overflow-hidden');
-            // Set form action to update route
-            const form = $('#submitFormEditKampus');
-            form.attr('action', `/kampus/${data.km_id}/update`);
-            // Fill form fields with existing data
-            form.find('input[name="km_nama_kampus"]').val(data.km_nama_kampus);
-            form.find('input[name="km_kode_kampus"]').val(data.km_kode_kampus);
-            form.find('input[name="km_email_kampus"]').val(data.km_email);
-            form.find('textarea[name="km_alamat_kampus"]').val(data.km_alamat);
-            form.find('input[name="km_telepon"]').val(data.km_telepon);
-        }
+// =====================
+// LOAD DATA EDIT
+// =====================
+$(document).on('click','.btn-edit',function(){
+
+const id = $(this).data('id');
+
+Swal.fire({
+title:'Mengambil data...',
+allowOutsideClick:false,
+showConfirmButton:false,
+didOpen:()=>Swal.showLoading()
+});
+
+$.ajax({
+url:`/projects/${id}/edit`,
+type:'GET',
+success:function(res){
+Swal.close();
+openEditProject(res.data ?? res);
+},
+error:function(){
+Swal.fire({
+icon:'error',
+title:'Gagal mengambil data'
+});
+}
+});
+
+});
+
+$(document).on('click','.btn-remove-link',function(){
+$(this).closest('.link-row').remove();
+});
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | ✏️ UPDATE DATA KAMPUS
-        |--------------------------------------------------------------------------
-        */
-        $('#btnEditKampus').on('click', function (e) {
-            e.preventDefault();
-            const form = $('#submitFormEditKampus');
-            const url = form.attr('action');
-            const btn = $(this);
-            $('.error').text('');
-            $('.input-field').removeClass('border-red-500');
-            btn.prop('disabled', true).text('Mengupdate...');
-            Swal.fire({
-                title: 'Mengupdate data...',
-                text: 'Mohon tunggu sebentar',
-                icon: 'info',
-                allowOutsideClick: false,
-                showConfirmButton: false,
-                didOpen: () => Swal.showLoading()
-            });
-            $.ajax({
-                url: url,
-                method: 'POST',
-                data: form.serialize(),
-                success: function (response) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Berhasil!',
-                        text: response.message,
-                        timer: 1500,
-                        showConfirmButton: false
-                    });
-                    closeModal();
-                    window.table.ajax.reload(null, false);
-                },
-                error: function (xhr) {
-                    Swal.close();
-                    if (xhr.status === 422) {
-                        const errors = xhr.responseJSON.errors;
-                        Object.keys(errors).forEach(function (key) {
-                            $(`[data-error="${key}"]`).text(errors[key][0]);
-                            $(`[name="${key}"]`)
-                                .addClass('border-red-500');
-                        });
-                        return;
-                    }
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Gagal update data'
-                    });
-                },
-                complete: function () {
-                    btn.prop('disabled', false).text('Simpan');
-                }
-            });
-        });
+function openEditProject(p){
+
+console.log(p); // DEBUG
+
+$modalEdit.removeClass('hidden');
+$('body').addClass('overflow-hidden');
+
+$('#edit_project_id').val(p.id ?? '');
+
+$('input[name="title"]').val(p.title ?? '');
+$('textarea[name="description"]').val(p.description ?? '');
+$('input[name="technologies"]').val(p.technologies ?? '');
+/* =========================
+   LOAD LINKS
+========================= */
+$('#edit-link-wrapper').html('');
+
+if(p.links && p.links.length){
+p.links.forEach((l,index)=>{
+$('#edit-link-wrapper').append(`
+<div class="flex gap-2 link-row">
+<input name="links[${index}][label]" value="${l.label ?? ''}"
+class="border rounded px-3 py-2 w-1/3">
+
+<input name="links[${index}][url]" value="${l.url ?? ''}"
+class="border rounded px-3 py-2 flex-1">
+
+<button type="button"
+onclick="deleteOldLink('${l.id}')"
+class="text-red-500">✕</button>
+</div>
+`);
+});
+}
+
+/* =========================
+   LOAD FILE LAMA
+========================= */
+$('#oldFileList').html('');
+
+if(p.files && p.files.length){
+p.files.forEach(f=>{
+$('#oldFileList').append(`
+<li class="flex justify-between items-center">
+<span>${f.file_path.split('/').pop()}</span>
+<button type="button"
+onclick="deleteOldFile('${f.id}')"
+class="text-red-500">✕</button>
+</li>
+`);
+});
+}else{
+$('#oldFileList').html('<span class="text-gray-400">Tidak ada file</span>');
+}
+
+/* =========================
+   LOAD FOTO LAMA
+========================= */
+$('#oldPhotoPreview').html('');
+
+if(p.photos && p.photos.length){
+p.photos.forEach(ph=>{
+$('#oldPhotoPreview').append(`
+<div class="relative">
+<img src="/storage/${ph.photo}" class="h-20 rounded-lg object-cover">
+<button type="button"
+onclick="deleteOldPhoto('${ph.id}')"
+class="absolute top-0 right-0 bg-red-500 text-white w-5 h-5 text-xs rounded-full">✕</button>
+</div>
+`);
+});
+}else{
+$('#oldPhotoPreview').html('<span class="text-gray-400">Tidak ada foto</span>');
+}
+
+}
+
+function deleteOldFile(id){
+$.ajax({
+url:`/project-files/${id}`,
+type:'DELETE',
+data:{ _token:$('meta[name="csrf-token"]').attr('content') },
+success:()=> $(`button[onclick*="${id}"]`).parent().remove()
+});
+}
+
+function deleteOldPhoto(id){
+$.ajax({
+url:`/project-photos/${id}`,
+type:'DELETE',
+data:{ _token:$('meta[name="csrf-token"]').attr('content') },
+success:()=> $(`button[onclick*="${id}"]`).parent().remove()
+});
+}
+
+function deleteOldLink(id){
+$.ajax({
+url:`/project-links/${id}`,
+type:'DELETE',
+data:{ _token:$('meta[name="csrf-token"]').attr('content') },
+success:()=> $(`button[onclick*="${id}"]`).parent().remove()
+});
+}
+
+$('#btnEditProject').on('click',function(e){
+
+e.preventDefault();
+
+const id = $('#edit_project_id').val();
+const form = $('#submitFormEditProject');
+const data = new FormData(form[0]);
+const btn = $(this);
+
+$('.error').text('');
+btn.prop('disabled',true).text('Mengupdate...');
+
+Swal.fire({
+title:'Mengupdate data...',
+allowOutsideClick:false,
+showConfirmButton:false,
+didOpen:()=>Swal.showLoading()
+});
+
+$.ajax({
+url:`/projects/${id}`,
+method:'POST',
+data:data,
+processData:false,
+contentType:false,
+success:function(res){
+
+Swal.fire({
+icon:'success',
+title:'Berhasil!',
+text:res.message,
+timer:1500,
+showConfirmButton:false
+});
+
+closeEditModal();
+window.table.ajax.reload(null,false);
+
+},
+error:function(xhr){
+
+Swal.close();
+
+if(xhr.status===422){
+const errors = xhr.responseJSON.errors;
+Object.keys(errors).forEach(function(key){
+$(`[data-error="${key}"]`).text(errors[key][0]);
+});
+return;
+}
+
+Swal.fire({
+icon:'error',
+title:'Oops...',
+text:'Gagal update'
+});
+},
+complete:function(){
+btn.prop('disabled',false).text('Simpan');
+}
+});
+
+});
+        
     });
 
 </script>
