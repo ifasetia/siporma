@@ -66,6 +66,7 @@
 {{-- MODAL --}}
 @include('pages.projects.add')
 @include('pages.projects.edit')
+@include('pages.projects.detail')
 
 @push('scripts')
 <script>

@@ -125,6 +125,7 @@ Route::middleware(['auth'])
         Route::post('/store', [ProjectController::class,'store'])->name('store');
         Route::get('/{id}/edit', [ProjectController::class,'edit'])->name('edit');
         Route::post('/{id}/update', [ProjectController::class,'update'])->name('update');
+        Route::get('/{id}/detail', [ProjectController::class,'detail'])->name('detail');
 
         Route::delete('/{id}', [ProjectController::class,'destroy'])->name('destroy');
 

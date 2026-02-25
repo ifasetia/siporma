@@ -45,4 +45,18 @@ public function members()
 {
     return $this->hasMany(ProjectMember::class);
 }
+
+public function user()
+{
+    return $this->belongsTo(User::class);
+}
+
+public function files()
+{
+    return $this->hasMany(ProjectFile::class);
+}
+const STATUS_MENUNGGU = 'menunggu';
+const STATUS_DISETUJUI = 'disetujui';
+const STATUS_REVISI = 'revisi';
+
 }
