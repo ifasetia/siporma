@@ -13,64 +13,153 @@
                 ✕
             </button>
 
-           <form id="submitFormProject"
-            action="{{ route('projects.store') }}"
-            method="POST"
-            enctype="multipart/form-data">
-                        @csrf
-                <!-- Header -->
-                <div>
-                    <h5 id="eventModalLabel" class="font-semibold text-gray-800 text-xl dark:text-white">
-                        Tambah Project
-                    </h5>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">
-                        Silahkan isi form berikut untuk menambahkan project baru.
-                    </p>
 
-                </div>
-                    <div>
-                    <label>Judul Project</label>
-                    <input name="title" placeholder="Judul project..."
-                    class="form-input input-field h-11 w-full rounded-lg border px-4 text-sm">
-                    <span class="error text-xs text-red-500" data-error="title"></span>
-                </div>
+          <form id="submitFormProject"
+    class="flex flex-col gap-5"
+    action="{{ route('projects.store') }}"
+    method="POST"
+    enctype="multipart/form-data">
+@csrf
 
-                <div>
+<!-- Header -->
+<div>
+    <h5 class="font-semibold text-gray-800 text-xl">
+        Tambah Project
+    </h5>
+    <p class="text-sm text-gray-500">
+        Silahkan isi form berikut untuk menambahkan project baru.
+    </p>
+</div>
 
-                <label>Deskripsi</label>
-                <textarea name="description"
-                class="form-input input-field h-24 w-full rounded-lg border px-4 py-2 text-sm"
-                placeholder="Deskripsi project..."></textarea>
-                <span class="error text-xs text-red-500" data-error="description"></span>
-                </div>
+<!-- Judul -->
+<div>
+<label class="block text-sm font-medium mb-1">Judul Project</label>
+<input name="title"
+class="input-field h-11 w-full rounded-lg border border-gray-300 px-4 text-sm"
+placeholder="Judul project...">
+<span class="error text-xs text-red-500" data-error="title"></span>
+</div>
 
-                <div>
-                <label>Teknologi</label>
-                <input name="technologies" placeholder="Laravel, Flutter, PostgreSQL"
-                class="form-input input-field h-11 w-full rounded-lg border px-4 text-sm">
-                <span class="error text-xs text-red-500" data-error="technologies"></span>
-                </div>
+<!-- Deskripsi -->
+<div>
+<label class="block text-sm font-medium mb-1">Deskripsi</label>
+<textarea name="description"
+class="input-field h-24 w-full rounded-lg border border-gray-300 px-4 py-2 text-sm"
+placeholder="Deskripsi project..."></textarea>
+<span class="error text-xs text-red-500" data-error="description"></span>
+</div>
 
-                <div>
-                <label>Upload Dokumen</label>
-                <input type="file" name="files[]" multiple
-                class="form-input input-field w-full rounded-lg border px-4 py-2 text-sm">
-                </div>
+<!-- Teknologi -->
+<div>
+<label class="block text-sm font-medium mb-1">Teknologi</label>
+<input name="technologies"
+class="input-field h-11 w-full rounded-lg border border-gray-300 px-4 text-sm"
+placeholder="Laravel, Flutter, PostgreSQL">
+<span class="error text-xs text-red-500" data-error="technologies"></span>
+</div>
 
-                <!-- Footer -->
-                <div class="flex justify-end gap-3 pt-4">
-                    <button type="button"
-                        class="modal-close-btn w-24 rounded-lg border px-4 py-2 text-sm bg-red-500 text-white hover:bg-red-600">
-                        Tutup
-                    </button>
+<!-- Dokumen -->
+<div>
+<label class="block text-sm font-medium mb-1">Upload Dokumen</label>
 
-                    <button type="button" id="btnSimpanProject"
-                        class="w-24 bg-brand-500 hover:bg-brand-600 rounded-lg px-4 py-2 text-sm text-white disabled:bg-grey-400">
-                        Simpan
-                    </button>
-                </div>
+<label for="files" class="cursor-pointer">
+<div
+class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-blue-500 transition">
 
-            </form>
+<svg class="mx-auto h-10 w-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M12 12v9m0-9l-3 3m3-3l3 3"/>
+</svg>
+
+<p class="mt-2 text-sm text-gray-600">
+Klik atau drag file ke sini
+</p>
+
+<p class="text-xs text-gray-400">
+PDF / DOC / ZIP / dll
+</p>
+
+</div>
+</label>
+
+<input id="files" type="file" name="files[]" multiple class="hidden">
+
+<ul id="fileList" class="mt-2 text-sm text-gray-600"></ul>
+</div>
+
+<!-- LINK PROJECT -->
+<div>
+<label class="block text-sm font-medium mb-1">Link Project</label>
+
+<div id="link-wrapper" class="space-y-2">
+
+<div class="flex gap-2 link-row">
+<input name="links[0][label]"
+class="h-10 w-1/3 rounded border border-gray-300 px-3 text-sm"
+placeholder="GitHub">
+
+<input name="links[0][url]"
+class="h-10 flex-1 rounded border border-gray-300 px-3 text-sm"
+placeholder="https://...">
+
+<button type="button" class="btn-remove-link text-red-500">✕</button>
+</div>
+
+</div>
+
+<button type="button" id="btnAddLink"
+class="mt-2 text-sm text-blue-600 hover:underline">
++ Tambah Link
+</button>
+</div>
+
+<!-- FOTO -->
+<div>
+<label class="block text-sm font-medium mb-1">Upload Foto Dokumentasi</label>
+
+<input id="photos" type="file" name="photos[]" multiple accept="image/*" class="hidden">
+
+<label for="photos"
+class="cursor-pointer border-2 border-dashed border-gray-300 rounded-xl p-6 block text-center hover:border-blue-500">
+
+📷 Klik untuk upload foto
+
+</label>
+
+<div id="photoPreview" class="grid grid-cols-4 gap-2 mt-3"></div>
+</div>
+
+<!-- KOLABORATOR -->
+<div>
+<label class="block text-sm font-medium mb-1">Kolaborator</label>
+
+<select id="members" name="members[]" multiple
+class="input-field w-full rounded-lg border border-gray-300 px-4 py-2 text-sm">
+@foreach($interns as $intern)
+<option value="{{ $intern->id }}">{{ $intern->name }}</option>
+@endforeach
+</select>
+
+<small class="text-gray-500">
+Bisa pilih lebih dari satu intern
+</small>
+</div>
+
+<!-- FOOTER -->
+<div class="flex justify-end gap-3 pt-4">
+<button type="button"
+class="modal-close-btn w-24 rounded-lg bg-red-500 text-white px-4 py-2 text-sm hover:bg-red-600">
+Tutup
+</button>
+
+<button type="button" id="btnSimpanProject"
+class="w-24 bg-blue-600 hover:bg-blue-700 rounded-lg px-4 py-2 text-sm text-white">
+Simpan
+</button>
+</div>
+
+</form>
+            
         </div>
     </div>
 </div>
@@ -92,6 +181,125 @@
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+
+let fileBuffer = [];
+
+$('#files').on('change',function(){
+
+Array.from(this.files).forEach(f=>fileBuffer.push(f));
+
+refreshFiles();
+
+});
+
+function refreshFiles(){
+
+const dt = new DataTransfer();
+fileBuffer.forEach(f=>dt.items.add(f));
+document.getElementById('files').files = dt.files;
+
+$('#fileList').html('');
+
+fileBuffer.forEach((file,index)=>{
+
+$('#fileList').append(`
+<li class="flex justify-between items-center gap-2">
+<span>📄 ${file.name}</span>
+<button type="button"
+onclick="removeFile(${index})"
+class="text-red-500 text-sm">✕</button>
+</li>
+`);
+
+});
+}
+
+function removeFile(index){
+fileBuffer.splice(index,1);
+refreshFiles();
+}
+window.removeFile = removeFile;   // ⬅️ TAMBAH
+
+
+let photoBuffer = [];
+
+$('#photos').on('change',function(){
+
+Array.from(this.files).forEach(f=>photoBuffer.push(f));
+
+refreshPhotos();
+
+});
+
+function refreshPhotos(){
+
+const dt = new DataTransfer();
+photoBuffer.forEach(f=>dt.items.add(f));
+document.getElementById('photos').files = dt.files;
+
+$('#photoPreview').html('');
+
+photoBuffer.forEach((file,index)=>{
+
+const reader = new FileReader();
+
+reader.onload = e=>{
+
+$('#photoPreview').append(`
+<div class="relative">
+<img src="${e.target.result}" class="h-20 rounded-lg object-cover">
+<button type="button"
+onclick="removePhoto(${index})"
+class="absolute top-0 right-0 bg-red-500 text-white rounded-full w-5 h-5 text-xs">✕</button>
+</div>
+`);
+
+}
+
+reader.readAsDataURL(file);
+
+});
+}
+
+function removePhoto(index){
+photoBuffer.splice(index,1);
+refreshPhotos();
+}
+
+window.removePhoto = removePhoto; // ⬅️ TAMBAH
+
+function openPhoto(src){
+    $('#previewImg').attr('src', src);
+    $('#photoPreviewModal').removeClass('hidden');
+}
+
+window.openPhoto = openPhoto;
+
+        let linkIndex = 1;
+
+$('#btnAddLink').on('click', function () {
+
+$('#link-wrapper').append(`
+<div class="flex gap-2 mt-2 link-row">
+
+<input name="links[${linkIndex}][label]" placeholder="Label"
+class="border rounded px-3 py-2 w-1/3">
+
+<input name="links[${linkIndex}][url]" placeholder="https://..."
+class="border rounded px-3 py-2 flex-1">
+
+<button type="button" class="btn-remove-link text-red-500">✕</button>
+
+</div>
+`);
+
+linkIndex++;
+
+});
+
+$(document).on('click','.btn-remove-link',function(){
+$(this).closest('.link-row').remove();
+});
 
         if (!window.$) {
             console.error('jQuery NOT loaded');
@@ -140,11 +348,13 @@
 
 
         function resetProjectForm() {
-            const form = $('#submitFormProject');
-            form[0].reset();
-            form.find('input[type=hidden]').val('');
-            $('.error').text('');
-        }
+const form = $('#submitFormProject');
+form[0].reset();
+$('.error').text('');
+$('#link-wrapper').html('');
+linkIndex = 0;
+$('#btnAddLink').click();
+}
 
 
         /*
@@ -159,12 +369,13 @@
         | 5. Reload DataTables
         |--------------------------------------------------------------------------
         */
-        $('#btnSimpanProject').on('click', function (e) {
+        $(document).on('click', '#btnSimpanProject', function (e) {
             e.preventDefault();
             const form = $('#submitFormProject');
             const url = form.attr('action');
             const data = new FormData(form[0]);
             const btn = $(this);
+            console.log('BTN SIMPAN CLICKED');
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -306,6 +517,12 @@
                 });
             });
         });
+
+        new TomSelect('#members',{
+    plugins:['remove_button'],
+    create:false,
+    placeholder:'Pilih intern...'
+});
     });
 
 </script>
