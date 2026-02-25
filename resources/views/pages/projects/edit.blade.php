@@ -142,268 +142,309 @@ Simpan
 
 @push('scripts')
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
 
-    // =====================
-// MODAL HANDLER
-// =====================
-const $modalEdit = $('#eventEditModal');
+    /* ============================================================
+       MODAL HANDLER
+    ============================================================ */
 
-function closeEditModal(){
-$modalEdit.addClass('hidden');
-$('body').removeClass('overflow-hidden');
-resetEditProjectForm();
-}
+    const $modalEdit = $('#eventEditModal');
 
-$(document).on('click','.modal-close-btn',function(){
-closeEditModal();
-});
+    function closeEditModal() {
+        $modalEdit.addClass('hidden');
+        $('body').removeClass('overflow-hidden');
+        resetEditProjectForm();
+    }
 
-$(document).on('keydown',function(e){
-if(e.key === 'Escape'){
-closeEditModal();
-}
-});
+    function resetEditProjectForm() {
+        const form = $('#submitFormEditProject');
+        form[0].reset();
 
-function resetEditProjectForm(){
-const form = $('#submitFormEditProject');
-form[0].reset();
-$('.error').text('');
-$('#edit-link-wrapper').html('');
-$('#oldFileList').html('');
-$('#oldPhotoPreview').html('');
-$('#editFileList').html('');
-$('#editPhotoPreview').html('');
-}
+        $('.error').text('');
+        $('#edit-link-wrapper').html('');
+        $('#oldFileList').html('');
+        $('#oldPhotoPreview').html('');
+        $('#editFileList').html('');
+        $('#editPhotoPreview').html('');
 
-let editLinkIndex = 0;
+        editLinkIndex = 0;
+    }
 
-$('#btnAddEditLink').on('click',function(){
-
-$('#edit-link-wrapper').append(`
-<div class="flex gap-2 link-row">
-
-<input name="links[${editLinkIndex}][label]"
-class="border rounded px-3 py-2 w-1/3">
-
-<input name="links[${editLinkIndex}][url]"
-class="border rounded px-3 py-2 flex-1">
-
-<button type="button" class="btn-remove-link text-red-500">✕</button>
-
-</div>
-`);
-
-editLinkIndex++;
-
-});
-
-
-// =====================
-// LOAD DATA EDIT
-// =====================
-$(document).on('click','.btn-edit',function(){
-
-const id = $(this).data('id');
-
-Swal.fire({
-title:'Mengambil data...',
-allowOutsideClick:false,
-showConfirmButton:false,
-didOpen:()=>Swal.showLoading()
-});
-
-$.ajax({
-url:`/projects/${id}/edit`,
-type:'GET',
-success:function(res){
-Swal.close();
-openEditProject(res.data ?? res);
-},
-error:function(){
-Swal.fire({
-icon:'error',
-title:'Gagal mengambil data'
-});
-}
-});
-
-});
-
-$(document).on('click','.btn-remove-link',function(){
-$(this).closest('.link-row').remove();
-});
-
-
-function openEditProject(p){
-
-console.log(p); // DEBUG
-
-$modalEdit.removeClass('hidden');
-$('body').addClass('overflow-hidden');
-
-$('#edit_project_id').val(p.id ?? '');
-
-$('input[name="title"]').val(p.title ?? '');
-$('textarea[name="description"]').val(p.description ?? '');
-$('input[name="technologies"]').val(p.technologies ?? '');
-/* =========================
-   LOAD LINKS
-========================= */
-$('#edit-link-wrapper').html('');
-
-if(p.links && p.links.length){
-p.links.forEach((l,index)=>{
-$('#edit-link-wrapper').append(`
-<div class="flex gap-2 link-row">
-<input name="links[${index}][label]" value="${l.label ?? ''}"
-class="border rounded px-3 py-2 w-1/3">
-
-<input name="links[${index}][url]" value="${l.url ?? ''}"
-class="border rounded px-3 py-2 flex-1">
-
-<button type="button"
-onclick="deleteOldLink('${l.id}')"
-class="text-red-500">✕</button>
-</div>
-`);
-});
-}
-
-/* =========================
-   LOAD FILE LAMA
-========================= */
-$('#oldFileList').html('');
-
-if(p.files && p.files.length){
-p.files.forEach(f=>{
-$('#oldFileList').append(`
-<li class="flex justify-between items-center">
-<span>${f.file_path.split('/').pop()}</span>
-<button type="button"
-onclick="deleteOldFile('${f.id}')"
-class="text-red-500">✕</button>
-</li>
-`);
-});
-}else{
-$('#oldFileList').html('<span class="text-gray-400">Tidak ada file</span>');
-}
-
-/* =========================
-   LOAD FOTO LAMA
-========================= */
-$('#oldPhotoPreview').html('');
-
-if(p.photos && p.photos.length){
-p.photos.forEach(ph=>{
-$('#oldPhotoPreview').append(`
-<div class="relative">
-<img src="/storage/${ph.photo}" class="h-20 rounded-lg object-cover">
-<button type="button"
-onclick="deleteOldPhoto('${ph.id}')"
-class="absolute top-0 right-0 bg-red-500 text-white w-5 h-5 text-xs rounded-full">✕</button>
-</div>
-`);
-});
-}else{
-$('#oldPhotoPreview').html('<span class="text-gray-400">Tidak ada foto</span>');
-}
-
-}
-
-function deleteOldFile(id){
-$.ajax({
-url:`/project-files/${id}`,
-type:'DELETE',
-data:{ _token:$('meta[name="csrf-token"]').attr('content') },
-success:()=> $(`button[onclick*="${id}"]`).parent().remove()
-});
-}
-
-function deleteOldPhoto(id){
-$.ajax({
-url:`/project-photos/${id}`,
-type:'DELETE',
-data:{ _token:$('meta[name="csrf-token"]').attr('content') },
-success:()=> $(`button[onclick*="${id}"]`).parent().remove()
-});
-}
-
-function deleteOldLink(id){
-$.ajax({
-url:`/project-links/${id}`,
-type:'DELETE',
-data:{ _token:$('meta[name="csrf-token"]').attr('content') },
-success:()=> $(`button[onclick*="${id}"]`).parent().remove()
-});
-}
-
-$('#btnEditProject').on('click',function(e){
-
-e.preventDefault();
-
-const id = $('#edit_project_id').val();
-const form = $('#submitFormEditProject');
-const data = new FormData(form[0]);
-const btn = $(this);
-
-$('.error').text('');
-btn.prop('disabled',true).text('Mengupdate...');
-
-Swal.fire({
-title:'Mengupdate data...',
-allowOutsideClick:false,
-showConfirmButton:false,
-didOpen:()=>Swal.showLoading()
-});
-
-$.ajax({
-url:`/projects/${id}`,
-method:'POST',
-data:data,
-processData:false,
-contentType:false,
-success:function(res){
-
-Swal.fire({
-icon:'success',
-title:'Berhasil!',
-text:res.message,
-timer:1500,
-showConfirmButton:false
-});
-
-closeEditModal();
-window.table.ajax.reload(null,false);
-
-},
-error:function(xhr){
-
-Swal.close();
-
-if(xhr.status===422){
-const errors = xhr.responseJSON.errors;
-Object.keys(errors).forEach(function(key){
-$(`[data-error="${key}"]`).text(errors[key][0]);
-});
-return;
-}
-
-Swal.fire({
-icon:'error',
-title:'Oops...',
-text:'Gagal update'
-});
-},
-complete:function(){
-btn.prop('disabled',false).text('Simpan');
-}
-});
-
-});
-        
+    $(document).on('click', '.modal-close-btn', function () {
+        closeEditModal();
     });
 
+    $(document).on('keydown', function (e) {
+        if (e.key === 'Escape') {
+            closeEditModal();
+        }
+    });
+
+
+    /* ============================================================
+       TAMBAH LINK EDIT
+    ============================================================ */
+
+    let editLinkIndex = 0;
+
+    $('#btnAddEditLink').on('click', function () {
+
+        $('#edit-link-wrapper').append(`
+            <div class="flex gap-2 link-row">
+                <input name="links[${editLinkIndex}][label]"
+                       class="border rounded px-3 py-2 w-1/3">
+
+                <input name="links[${editLinkIndex}][url]"
+                       class="border rounded px-3 py-2 flex-1">
+
+                <button type="button"
+                        class="btn-remove-link text-red-500">✕</button>
+            </div>
+        `);
+
+        editLinkIndex++;
+    });
+
+    $(document).on('click', '.btn-remove-link', function () {
+        $(this).closest('.link-row').remove();
+    });
+
+
+    /* ============================================================
+       LOAD DATA EDIT
+    ============================================================ */
+
+    $(document).on('click', '.btn-edit', function () {
+
+        const id = $(this).data('id');
+
+        Swal.fire({
+            title: 'Mengambil data...',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            didOpen: () => Swal.showLoading()
+        });
+
+        $.ajax({
+            url: `/projects/${id}/edit`,
+            type: 'GET',
+            success: function (res) {
+
+                Swal.close();
+
+                const data = res.data ?? res;
+
+                console.log('DATA EDIT:', data);
+
+                openEditProject(data);
+            },
+            error: function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal mengambil data'
+                });
+            }
+        });
+
+    });
+
+
+    /* ============================================================
+       OPEN EDIT MODAL + ISI DATA
+    ============================================================ */
+
+    function openEditProject(p) {
+
+        $modalEdit.removeClass('hidden');
+        $('body').addClass('overflow-hidden');
+
+        $('#edit_project_id').val(p.id ?? '');
+
+        $('input[name="title"]').val(p.title ?? '');
+        $('textarea[name="description"]').val(p.description ?? '');
+        $('input[name="technologies"]').val(p.technologies ?? '');
+
+        /* ---------- LINKS ---------- */
+        $('#edit-link-wrapper').html('');
+        editLinkIndex = 0;
+
+        if (p.links && p.links.length) {
+            p.links.forEach((l, index) => {
+
+                $('#edit-link-wrapper').append(`
+                    <div class="flex gap-2 link-row">
+                        <input name="links[${index}][label]"
+                               value="${l.label ?? ''}"
+                               class="border rounded px-3 py-2 w-1/3">
+
+                        <input name="links[${index}][url]"
+                               value="${l.url ?? ''}"
+                               class="border rounded px-3 py-2 flex-1">
+
+                        <button type="button"
+                                onclick="deleteOldLink('${l.id}')"
+                                class="text-red-500">✕</button>
+                    </div>
+                `);
+
+                editLinkIndex++;
+            });
+        }
+
+        /* ---------- FILE LAMA ---------- */
+        $('#oldFileList').html('');
+
+        if (p.files && p.files.length) {
+            p.files.forEach(f => {
+
+                const filename = f.file_path.split('/').pop();
+
+                $('#oldFileList').append(`
+                    <li class="flex justify-between items-center">
+                        <span>${filename}</span>
+                        <button type="button"
+                                onclick="deleteOldFile('${f.id}')"
+                                class="text-red-500">✕</button>
+                    </li>
+                `);
+            });
+        } else {
+            $('#oldFileList').html('<span class="text-gray-400">Tidak ada file</span>');
+        }
+
+        /* ---------- FOTO LAMA ---------- */
+        $('#oldPhotoPreview').html('');
+
+        if (p.photos && p.photos.length) {
+            p.photos.forEach(ph => {
+
+                $('#oldPhotoPreview').append(`
+                    <div class="relative">
+                        <img src="/storage/${ph.photo}"
+                             class="h-20 rounded-lg object-cover">
+
+                        <button type="button"
+                                onclick="deleteOldPhoto('${ph.id}')"
+                                class="absolute top-0 right-0 bg-red-500 text-white w-5 h-5 text-xs rounded-full">
+                            ✕
+                        </button>
+                    </div>
+                `);
+            });
+        } else {
+            $('#oldPhotoPreview').html('<span class="text-gray-400">Tidak ada foto</span>');
+        }
+    }
+
+
+    /* ============================================================
+       DELETE FILE / FOTO / LINK LAMA
+    ============================================================ */
+
+    window.deleteOldFile = function (id) {
+        $.ajax({
+            url: `/project-files/${id}`,
+            type: 'DELETE',
+            data: { _token: $('meta[name="csrf-token"]').attr('content') },
+            success: function () {
+                $(`button[onclick*="${id}"]`).parent().remove();
+            }
+        });
+    };
+
+    window.deleteOldPhoto = function (id) {
+        $.ajax({
+            url: `/project-photos/${id}`,
+            type: 'DELETE',
+            data: { _token: $('meta[name="csrf-token"]').attr('content') },
+            success: function () {
+                $(`button[onclick*="${id}"]`).parent().remove();
+            }
+        });
+    };
+
+    window.deleteOldLink = function (id) {
+        $.ajax({
+            url: `/project-links/${id}`,
+            type: 'DELETE',
+            data: { _token: $('meta[name="csrf-token"]').attr('content') },
+            success: function () {
+                $(`button[onclick*="${id}"]`).parent().remove();
+            }
+        });
+    };
+
+
+    /* ============================================================
+       UPDATE PROJECT
+    ============================================================ */
+
+    $('#btnEditProject').on('click', function (e) {
+
+        e.preventDefault();
+
+        const id = $('#edit_project_id').val();
+        const form = $('#submitFormEditProject');
+        const data = new FormData(form[0]);
+        const btn = $(this);
+
+        $('.error').text('');
+
+        btn.prop('disabled', true).text('Mengupdate...');
+
+        Swal.fire({
+            title: 'Mengupdate data...',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            didOpen: () => Swal.showLoading()
+        });
+
+        $.ajax({
+            url: `/projects/${id}`,
+            method: 'POST',
+            data: data,
+            processData: false,
+            contentType: false,
+            success: function (res) {
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: res.message,
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+
+                closeEditModal();
+                window.table.ajax.reload(null, false);
+            },
+            error: function (xhr) {
+
+                Swal.close();
+
+                if (xhr.status === 422) {
+                    const errors = xhr.responseJSON.errors;
+
+                    Object.keys(errors).forEach(function (key) {
+                        $(`[data-error="${key}"]`).text(errors[key][0]);
+                    });
+
+                    return;
+                }
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Gagal update'
+                });
+            },
+            complete: function () {
+                btn.prop('disabled', false).text('Simpan');
+            }
+        });
+
+    });
+
+});
 </script>
 @endpush
