@@ -18,7 +18,7 @@ class Project extends Model
     'title',
     'description',
     'technologies',
-    'status',
+    'status_id',
     'created_by',
 ];
 
@@ -29,6 +29,11 @@ protected static function boot()
     static::creating(function ($model) {
         $model->id = (string) \Illuminate\Support\Str::uuid();
     });
+}
+
+public function masterStatus()
+{
+    return $this->belongsTo(\App\Models\Master\StatusProyek::class, 'status_id', 'sp_id');
 }
 
 public function links()
