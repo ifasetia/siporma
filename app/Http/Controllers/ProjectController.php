@@ -29,57 +29,34 @@ class ProjectController extends Controller
     // ======================
     public function datatable(Request $request)
     {
-        $query = Project::where('created_by', auth()->id())
-            ->latest();
+        // PENTING: Tambahkan with('masterStatus') agar data master ikut terpanggil
+        $query = Project::with('masterStatus')->where('created_by', auth()->id())->latest();
 
         return DataTables::of($query)
             ->addIndexColumn()
-
             ->addColumn('status', function ($row) {
-                if ($row->status === 'menunggu') {
-                return '<span class="px-3 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700">Menunggu</span>';
-            }
+                // Sekarang kita tarik nama dan warna langsung dari tabel master_status_proyek!
+                if ($row->masterStatus) {
+                    return '<span class="px-3 py-1 text-xs rounded-full ' . $row->masterStatus->sp_warna . '">' . $row->masterStatus->sp_nama_status . '</span>';
+                }
 
-            if ($row->status === 'revisi') {
-                return '<span class="px-3 py-1 text-xs rounded-full bg-red-100 text-red-700">Revisi</span>';
-            }
-
-            return '<span class="px-3 py-1 text-xs rounded-full bg-green-100 text-green-700">Disetujui</span>';
-                        
-                
+                return '<span class="px-3 py-1 text-xs rounded-full bg-gray-100 text-gray-700">Tidak ada status</span>';
             })
-
             ->addColumn('aksi', function ($row) {
-            return '
-            <div class="flex items-center justify-center gap-1.5">
-
-                <button
-                    type="button"
-                    data-id="'.$row->id.'"
-                    class="btn-detail inline-flex items-center gap-1.5 rounded-md bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-700 hover:bg-gray-200">
-                    Detail
-                </button>
-
-                <button
-                    type="button"
-                    data-id="'.$row->id.'"
-                    class="btn-edit inline-flex items-center gap-1.5 rounded-md bg-blue-50 px-2.5 py-1 text-xs font-medium text-blue-600 hover:bg-blue-100">
-                    Edit
-                </button>
-
-                <button
-                    type="button"
-                    data-id="'.$row->id.'"
-                    class="btn-delete inline-flex items-center gap-1.5 rounded-md bg-red-50 px-2.5 py-1 text-xs font-medium text-red-600 hover:bg-red-100">
-                    Hapus
-                </button>
-
-            </div>';
-        })
-
+                return '
+                <div class="flex items-center justify-center gap-1.5">
+                    <button type="button" data-id="'.$row->id.'" class="btn-edit inline-flex items-center gap-1.5 rounded-md bg-blue-50 px-2.5 py-1 text-xs font-medium text-blue-600 hover:bg-blue-100">
+                        Edit
+                    </button>
+                    <button type="button" data-id="'.$row->id.'" class="btn-delete inline-flex items-center gap-1.5 rounded-md bg-red-50 px-2.5 py-1 text-xs font-medium text-red-600 hover:bg-red-100">
+                        Hapus
+                    </button>
+                </div>';
+            })
             ->rawColumns(['aksi','status'])
             ->make(true);
     }
+
 
     // ======================
     // STORE
@@ -100,16 +77,17 @@ class ProjectController extends Controller
     DB::beginTransaction();
 
     try {
+            // Cari ID status "Menunggu Validasi" dari master data otomatis
+            $statusMenunggu = DB::table('master_status_proyek')->where('sp_nama_status', 'Menunggu Validasi')->first();
 
-        // 1️⃣ CREATE PROJECT
-        $project = Project::create([
-            'id' => Str::uuid(),
-            'title' => $request->title,
-            'description' => $request->description,
-            'technologies' => $request->technologies,
-            'status' => 'menunggu',
-            'created_by' => auth()->id(),
-        ]);
+            $project = Project::create([
+                'id' => Str::uuid(),
+                'title' => $data['title'],
+                'description' => $data['description'],
+                'technologies' => $data['technologies'],
+                'status_id' => $statusMenunggu ? $statusMenunggu->sp_id : null, // Masukkan UUID-nya
+                'created_by' => auth()->id(),
+            ]);
 
         if ($request->hasFile('files')) {
             foreach ($request->file('files') as $file) {
@@ -238,7 +216,7 @@ class ProjectController extends Controller
         ]);
     }
 
-    
+
     // ======================
     // DETAIL
     // ======================

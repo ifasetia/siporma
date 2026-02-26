@@ -13,6 +13,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\Master\SupervisorController;
 use App\Http\Controllers\Master\TeknologiController;
 use App\Http\Controllers\Master\StatusProyekController;
+use App\Http\Controllers\ValidasiProyekController;
 
 
 // 1. Halaman Depan (Public)
@@ -130,6 +131,12 @@ Route::middleware(['auth'])
         Route::delete('/{id}', [ProjectController::class,'destroy'])->name('destroy');
 
     });
+
+    // ROUTE UNTUK VALIDASI PROYEK (ADMIN)
+    Route::get('/validasi-proyek', [ValidasiProyekController::class, 'index'])->name('validasi-proyek.index');
+    Route::get('/validasi-proyek/datatables', [ValidasiProyekController::class, 'datatable'])->name('validasi-proyek.datatables');
+    Route::put('/validasi-proyek/{id}/status', [ValidasiProyekController::class, 'updateStatus'])->name('validasi-proyek.update-status');
+
     // Kegiatan (Jika nanti diaktifkan oleh Admin)
     // Route::resource('kegiatan', KegiatanController::class);
     // Master Data Jurusan
