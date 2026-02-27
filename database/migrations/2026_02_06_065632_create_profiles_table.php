@@ -15,13 +15,38 @@ return new class extends Migration
 
             // PRIMARY KEY
             $table->uuid('pr_id')->primary();
+            $table->uuid('pr_km_id')->nullable();
+            $table->uuid('pr_js_id')->nullable();
+            $table->uuid('pr_id_pekerjaan')->nullable();
+            $table->uuid('user_id');
+            $table->uuid('pr_sp_id');
+
 
             // RELASI KE USERS
-            $table->uuid('user_id');
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
                 ->cascadeOnDelete();
+
+            $table->foreign('pr_km_id')
+                ->references('km_id')
+                ->on('ms_kampus')
+                ->nullOnDelete();
+
+            $table->foreign('pr_js_id')
+                ->references('js_id')
+                ->on('ms_jurusan')
+                ->nullOnDelete();
+
+            $table->foreign('pr_id_pekerjaan')
+                ->references('pk_id_pekerjaan')
+                ->on('ms_pekerjaan')
+                ->nullOnDelete();
+            
+            $table->foreign('pr_sp_id')
+                ->references('sp_id')
+                ->on('supervisors')
+                ->nullOnDelete();
 
             // =====================
             // UMUM (SEMUA ROLE)
@@ -38,13 +63,15 @@ return new class extends Migration
             // KHUSUS INTERN
             // =====================
             $table->string('pr_nim')->nullable();
-            $table->string('pr_kampus')->nullable();
-            $table->string('pr_jurusan')->nullable();
+            $table->string('pr_nip')->nullable();
             $table->date('pr_internship_start')->nullable();
             $table->date('pr_internship_end')->nullable();
-            $table->string('pr_supervisor_name')->nullable();
-            $table->string('pr_supervisor_contact')->nullable();
-            $table->uuid('pr_pekerjaan_id')->nullable();
+            $table->string('pr_instagram')->nullable();
+            $table->string('pr_linkedin')->nullable();
+            $table->string('pr_github')->nullable();
+            $table->string('pr_whatsapp')->nullable();
+            $table->string('pr_facebook')->nullable();
+
 
             // =====================
             // KHUSUS ADMIN + SUPER ADMIN

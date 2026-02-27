@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Master\Kampus;
+use App\Models\Master\Jurusan;
 
 class Profile extends Model
 {
@@ -19,6 +20,14 @@ class Profile extends Model
     protected $fillable = [
         'pr_id',
         'user_id',
+        'pr_km_id',
+        'pr_js_id',
+        'pr_id_pekerjaan',
+        'pr_sp_id',
+
+
+        'pr_nip',
+        'pr_nim',
         'pr_nama',
         'pr_no_hp',
         'pr_alamat',
@@ -26,17 +35,9 @@ class Profile extends Model
         'pr_jenis_kelamin',
         'pr_tanggal_lahir',
         'pr_status',
-        'pr_nip',
-        'pr_pekerjaan_id',
 
-        'pr_nim',
-        'pr_kampus_id',
-        'pr_kampus',
-        'pr_jurusan',
         'pr_internship_start',
         'pr_internship_end',
-        'pr_supervisor_name',
-        'pr_supervisor_contact',
         'pr_posisi',
 
         'pr_instagram',
@@ -55,26 +56,32 @@ class Profile extends Model
     // RELASI KE MASTER KAMPUS
     public function kampus()
     {
-        return $this->belongsTo(Master\Kampus::class,'pr_kampus_id','km_id');
+        return $this->belongsTo(Kampus::class,'pr_km_id','km_id');
     }
 
     public function pekerjaan()
     {
-        return $this->belongsTo(\App\Models\Master\Pekerjaan::class,
-            'pr_pekerjaan_id',
+        return $this->belongsTo(Pekerjaan::class,
+            'pr_id_pekerjaan',
             'pk_id_pekerjaan'
         );
     }
 
     public function jurusan()
     {
-        return $this->belongsTo(\App\Models\Master\Jurusan::class,
-            'pr_jurusan',
+        return $this->belongsTo(Jurusan::class,
+            'pr_js_id',
             'js_id'
         );
     }
 
-
-
+    public function pekerjaan()
+    {
+        return $this->belongsTo(Supervisors::class,
+            'sp_id',
+            'sp_id'
+        );
+    }
+    
 
 }
