@@ -74,5 +74,20 @@ public function projects()
     );
 }
 
+public function isSuperAdmin()
+{
+    return $this->role === 'super_admin';
+}
+
+public function isAdmin()
+{
+    return $this->role === 'admin';
+}
+
+public function isIntern()
+{
+    return $this->role === 'intern';
+}
+
 
 }

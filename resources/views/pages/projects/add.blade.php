@@ -52,10 +52,15 @@ placeholder="Deskripsi project..."></textarea>
 <!-- Teknologi -->
 <div>
 <label class="block text-sm font-medium mb-1">Teknologi</label>
-<input name="technologies"
-class="input-field h-11 w-full rounded-lg border border-gray-300 px-4 text-sm"
-placeholder="Laravel, Flutter, PostgreSQL">
-<span class="error text-xs text-red-500" data-error="technologies"></span>
+<select id="teknologis" name="teknologis[]" multiple
+class="input-field w-full rounded-lg border border-gray-300 px-4 py-2 text-sm">
+@foreach(\App\Models\Master\Teknologi::all() as $tk)
+<option value="{{ $tk->tk_id }}">
+    {{ $tk->tk_nama }}
+</option>
+@endforeach
+</select>
+<span class="error text-xs text-red-500" data-error="teknologis"></span>
 </div>
 
 <!-- Dokumen -->
@@ -348,13 +353,13 @@ $(this).closest('.link-row').remove();
 
 
         function resetProjectForm() {
-const form = $('#submitFormProject');
-form[0].reset();
-$('.error').text('');
-$('#link-wrapper').html('');
-linkIndex = 0;
-$('#btnAddLink').click();
-}
+        const form = $('#submitFormProject');
+        form[0].reset();
+        $('.error').text('');
+        $('#link-wrapper').html('');
+        linkIndex = 0;
+        $('#btnAddLink').click();
+        }
 
 
         /*
@@ -523,7 +528,21 @@ $('#btnAddLink').click();
     create:false,
     placeholder:'Pilih intern...'
 });
-    });
+
+    new TomSelect('#teknologis',{
+    plugins:['remove_button'],
+    create:false,
+    placeholder:'Pilih teknologi...'
+});
+
+    $.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+    
+
+});
 
 </script>
 @endpush

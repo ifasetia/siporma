@@ -13,8 +13,6 @@ return new class extends Migration
     {
         Schema::create('project_members', function (Blueprint $table) {
 
-    $table->uuid('id')->primary();
-
     $table->uuid('project_id');
     $table->uuid('user_id');
 

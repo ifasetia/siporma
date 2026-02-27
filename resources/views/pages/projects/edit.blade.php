@@ -17,7 +17,6 @@ method="POST"
 enctype="multipart/form-data">
 
 @csrf
-@method('PUT')
 
 <input type="hidden" id="edit_project_id">
 
@@ -50,8 +49,16 @@ class="input-field h-24 w-full rounded-lg border border-gray-300 px-4 py-2 text-
 <!-- TEKNOLOGI -->
 <div>
 <label class="block text-sm font-medium mb-1">Teknologi</label>
-<input name="technologies"
-class="input-field h-11 w-full rounded-lg border border-gray-300 px-4 text-sm">
+<select id="edit_teknologis" name="teknologis[]" multiple
+class="input-field w-full rounded-lg border border-gray-300 px-4 py-2 text-sm">
+@foreach(\App\Models\Master\Teknologi::all() as $tk)
+<option value="{{ $tk->tk_id }}">
+    {{ $tk->tk_nama }}
+</option>
+@endforeach
+</select>
+
+<span class="error text-xs text-red-500" data-error="teknologis"></span>
 <span class="error text-xs text-red-500" data-error="technologies"></span>
 </div>
 
@@ -103,6 +110,24 @@ Klik upload foto
 </label>
 
 <div id="editPhotoPreview" class="grid grid-cols-4 gap-2 mt-3"></div>
+</div>
+
+<!-- KOLLABORATOR -->
+<div>
+<label class="block text-sm font-medium mb-1">Kolaborator</label>
+
+<select id="edit_members" name="members[]" multiple
+class="input-field w-full rounded-lg border border-gray-300 px-4 py-2 text-sm">
+
+@foreach(\App\Models\User::where('role','intern')->get() as $intern)
+<option value="{{ $intern->id }}">
+    {{ $intern->name }}
+</option>
+@endforeach
+
+</select>
+
+<span class="error text-xs text-red-500" data-error="members"></span>
 </div>
 
 <!-- FOOTER -->
@@ -168,6 +193,9 @@ document.addEventListener('DOMContentLoaded', function () {
         $('#editPhotoPreview').html('');
 
         editLinkIndex = 0;
+        // 🔥 TAMBAHKAN INI
+        editFileBuffer = [];
+        editPhotoBuffer = [];
     }
 
     $(document).on('click', '.modal-close-btn', function () {
@@ -262,7 +290,29 @@ document.addEventListener('DOMContentLoaded', function () {
 
         $('input[name="title"]').val(p.title ?? '');
         $('textarea[name="description"]').val(p.description ?? '');
-        $('input[name="technologies"]').val(p.technologies ?? '');
+        if (editTomSelect) {
+        editTomSelect.clear();
+    }
+
+    if (p.teknologis && p.teknologis.length) {
+
+        p.teknologis.forEach(function(t){
+            editTomSelect.addItem(t.tk_id);
+        });
+
+    }
+
+    if (editMemberSelect) {
+        editMemberSelect.clear();
+    }
+
+    if (p.members && p.members.length) {
+
+    p.members.forEach(function(user){
+        editMemberSelect.addItem(user.id);
+    });
+
+}
 
         /* ---------- LINKS ---------- */
         $('#edit-link-wrapper').html('');
@@ -386,6 +436,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const id = $('#edit_project_id').val();
         const form = $('#submitFormEditProject');
         const data = new FormData(form[0]);
+        
+        
         const btn = $(this);
 
         $('.error').text('');
@@ -400,7 +452,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         $.ajax({
-            url: `/projects/${id}`,
+            url: `/projects/${id}/update`, // 🔥 ubah di sini
             method: 'POST',
             data: data,
             processData: false,
@@ -445,6 +497,113 @@ document.addEventListener('DOMContentLoaded', function () {
 
     });
 
+
+    /* ============================================================
+    TOMSELECT EDIT TEKNOLOGI
+    ============================================================ */
+
+    let editTomSelect = new TomSelect('#edit_teknologis', {
+        plugins: ['remove_button'],
+        create: false,
+        placeholder: 'Pilih teknologi...'
+    });
+
+    let editMemberSelect = new TomSelect('#edit_members', {
+        plugins:['remove_button'],
+        create:false,
+        placeholder:'Pilih intern...'
+    });
+
+    /* ============================================================
+    PREVIEW FILE BARU (EDIT)
+    ============================================================ */
+
+    let editFileBuffer = [];
+
+    $('#edit_files').on('change', function () {
+
+        Array.from(this.files).forEach(f => editFileBuffer.push(f));
+
+        refreshEditFiles();
+    });
+
+    function refreshEditFiles() {
+
+        const dt = new DataTransfer();
+        editFileBuffer.forEach(f => dt.items.add(f));
+        document.getElementById('edit_files').files = dt.files;
+
+        $('#editFileList').html('');
+
+        editFileBuffer.forEach((file,index) => {
+
+            $('#editFileList').append(`
+                <li class="flex justify-between items-center bg-gray-50 px-3 py-2 rounded">
+                    <span>📄 ${file.name}</span>
+                    <button type="button"
+                            onclick="removeEditFile(${index})"
+                            class="text-red-500 text-sm">✕</button>
+                </li>
+            `);
+
+        });
+    }
+
+    window.removeEditFile = function(index){
+        editFileBuffer.splice(index,1);
+        refreshEditFiles();
+    }
+
+    /* ============================================================
+    PREVIEW FOTO BARU (EDIT)
+    ============================================================ */
+
+    let editPhotoBuffer = [];
+
+    $('#edit_photos').on('change', function () {
+
+        Array.from(this.files).forEach(f => editPhotoBuffer.push(f));
+
+        refreshEditPhotos();
+    });
+
+    function refreshEditPhotos() {
+
+        const dt = new DataTransfer();
+        editPhotoBuffer.forEach(f => dt.items.add(f));
+        document.getElementById('edit_photos').files = dt.files;
+
+        $('#editPhotoPreview').html('');
+
+        editPhotoBuffer.forEach((file,index) => {
+
+            const reader = new FileReader();
+
+            reader.onload = function(e){
+
+                $('#editPhotoPreview').append(`
+                    <div class="relative">
+                        <img src="${e.target.result}"
+                            class="h-24 w-24 rounded-lg object-cover border">
+                        <button type="button"
+                                onclick="removeEditPhoto(${index})"
+                                class="absolute top-0 right-0 bg-red-500 text-white w-5 h-5 text-xs rounded-full">
+                            ✕
+                        </button>
+                    </div>
+                `);
+
+            }
+
+            reader.readAsDataURL(file);
+
+        });
+    }
+
+    window.removeEditPhoto = function(index){
+        editPhotoBuffer.splice(index,1);
+        refreshEditPhotos();
+    }
 });
 </script>
 @endpush

@@ -32,7 +32,7 @@ class ProfileSeeder extends Seeder
                 'pr_nama' => 'User Profile ' . ($index + 1),
                 'pr_no_hp' => '0812345678' . $index,
                 'pr_alamat' => 'Alamat contoh ke-' . ($index + 1),
-                'pr_photo' => 'uploads/profile/default' . ($index + 1) . '.jpg',
+                'pr_photo' => 'profiles/default' . ($index + 1) . '.jpg',
                 'pr_jenis_kelamin' => $index % 2 == 0 ? 'Perempuan' : 'Laki-laki',
                 'pr_tanggal_lahir' => '2002-01-0' . ($index + 1),
                 'pr_status' => 'Aktif',
