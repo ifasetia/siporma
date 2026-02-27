@@ -17,11 +17,24 @@
                             <span class="text-2xl font-bold text-blue-600">{{ substr($user->name, 0, 1) }}</span>
                         @endif
                     </div>
-                    <div>
-                        <h4 class="mb-1 text-lg font-semibold text-gray-800 dark:text-white">
+                    <div class="flex items-center gap-3">
+                        <h4 class="text-lg font-semibold text-gray-800">
                             {{ $profile->pr_nama ?? $user->name }}
                         </h4>
-                        <p class="text-sm text-gray-500">{{ $profile->pr_kampus ?? 'Dinas Kominfo & Statistik' }}</p>
+
+                        @if($profile->pr_status === 'Aktif')
+                            <span class="px-3 py-1 text-xs font-semibold text-green-700 bg-green-100 rounded-full">
+                                Aktif
+                            </span>
+                        @elseif($profile->pr_status === 'Nonaktif')
+                            <span class="px-3 py-1 text-xs font-semibold text-red-700 bg-red-100 rounded-full">
+                                Nonaktif
+                            </span>
+                        @else
+                            <span class="px-3 py-1 text-xs font-semibold text-gray-700 bg-gray-100 rounded-full">
+                                Belum Ditentukan
+                            </span>
+                        @endif
                     </div>
                 </div>
 
@@ -49,15 +62,45 @@
                     <p><span class="text-gray-400 block text-xs font-bold uppercase mb-1">Email</span> {{ $user->email }}</p>
                     <p><span class="text-gray-400 block text-xs font-bold uppercase mb-1">Nomor HP</span> {{ $profile->pr_no_hp ?? '-' }}</p>
                     <p><span class="text-gray-400 block text-xs font-bold uppercase mb-1">Jenis Kelamin</span> {{ $profile->pr_jenis_kelamin ?? '-' }}</p>
+                    <p><span class="text-gray-400 block text-xs font-bold uppercase mb-1">Tanggal Lahir</span> {{ $profile->pr_tanggal_lahir ? \Carbon\Carbon::parse($profile->pr_tanggal_lahir)->format('d M Y') : '-' }}</p>
+                    @if(auth()->user()->role === 'admin')
+                    <p><span class="text-gray-400 block text-xs font-bold uppercase mb-1">Alamat</span> {{ $profile->pr_alamat ?? '-' }}</p>
+                    @endif
                 </div>
             </div>
+            @if(auth()->user()->role === 'intern')
             <div class="p-6 border border-gray-200 rounded-2xl">
                 <h4 class="text-lg font-bold mb-6">Pendidikan & Alamat</h4>
                 <div class="space-y-4 text-sm">
-                    <p><span class="text-gray-400 block text-xs font-bold uppercase mb-1">Asal Kampus</span> {{ $profile->pr_kampus ?? '-' }}</p>
+                    <p><span class="text-gray-400 block text-xs font-bold uppercase mb-1">Asal Kampus</span> {{ $profile->kampus->km_nama_kampus ?? '-' }}</p>
                     <p><span class="text-gray-400 block text-xs font-bold uppercase mb-1">Alamat</span> {{ $profile->pr_alamat ?? '-' }}</p>
+                    <p><span class="text-gray-400 block text-xs font-bold uppercase mb-1">Jurusan</span> {{ $profile->jurusan->js_nama ?? '-' }}</p>
+                    <p><span class="text-gray-400 block text-xs font-bold uppercase mb-1">Tipe Pekerjaan</span> {{ $profile->pekerjaan->pk_nama_pekerjaan ?? '-' }}</p>
                 </div>
             </div>
+            @endif
+
+            @if(auth()->user()->role === 'admin')
+                <div class="p-6 border border-gray-200 rounded-2xl">
+                    <h4 class="text-lg font-bold mb-6">Data Kepegawaian</h4>
+
+                    <div class="space-y-4 text-sm">
+                        <p>
+                            <span class="text-gray-400 block text-xs font-bold uppercase mb-1">
+                                NIP
+                            </span>
+                            {{ $profile->pr_nip ?? '-' }}
+                        </p>
+
+                        <p>
+                            <span class="text-gray-400 block text-xs font-bold uppercase mb-1">
+                                Posisi
+                            </span>
+                            {{ $profile->pr_posisi ?? '-' }}
+                        </p>
+                    </div>
+                </div>
+                @endif
         </div>
     </div>
 
@@ -76,10 +119,10 @@
                     @csrf
                     @method('PATCH')
 
-                    <div>
-                        <h5 class="font-semibold text-xl">Edit Informasi & Keamanan</h5>
+                    <div class="border-b pb-6">
+                        <h4 class="text-lg font-semibold mb-4">Data Pribadi</h4>
                         <p class="text-sm text-gray-500">Silahkan perbarui data diri dan keamanan akun kamu di sini.</p>
-                    </div>
+        
 
                     <div class="p-5 bg-gray-50 rounded-2xl border border-dashed border-gray-300">
                         <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Update Foto</label>
@@ -88,44 +131,157 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="flex flex-col gap-1">
-                            <label class="text-sm font-medium">Nama Lengkap</label>
-                            <input type="text" name="pr_nama" value="{{ $profile->pr_nama ?? $user->name }}"
-                            class="form-input h-11 rounded-lg border border-gray-300 px-4 text-sm focus:ring-2 focus:outline-none">
+                            <label>Nama Lengkap</label>
+                            <input type="text" name="pr_nama"
+                                value="{{ old('pr_nama', $profile->pr_nama ?? $user->name) }}"
+                                class="form-input h-11 rounded-lg border border-gray-300 px-4 text-sm">
                         </div>
-                        <div class="flex flex-col gap-1">
-                            <label class="text-sm font-medium">Nomor HP</label>
-                            <input type="text" name="pr_no_hp" value="{{ $profile->pr_no_hp }}"
-                            class="form-input h-11 rounded-lg border border-gray-300 px-4 text-sm focus:ring-2 focus:outline-none">
-                        </div>
-                    </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="flex flex-col gap-1">
-                            <label class="text-sm font-medium">Jenis Kelamin</label>
-                            <select name="pr_jenis_kelamin" class="form-input h-11 rounded-lg border border-gray-300 px-4 text-sm focus:ring-2 focus:outline-none bg-white">
-                                <option value="Laki-laki" {{ ($profile->pr_jenis_kelamin ?? '') == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
-                                <option value="Perempuan" {{ ($profile->pr_jenis_kelamin ?? '') == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
+                            <label>Nomor HP</label>
+                            <input type="text" name="pr_no_hp"
+                                value="{{ old('pr_no_hp', $profile->pr_no_hp) }}"
+                                class="form-input h-11 rounded-lg border border-gray-300 px-4 text-sm">
+                        </div>
+
+                        <div class="flex flex-col gap-1">
+                            <label>Jenis Kelamin</label>
+                            <select name="pr_jenis_kelamin"
+                                class="form-input h-11 rounded-lg border border-gray-300 px-4 text-sm">
+                                <option value="Laki-laki"
+                                    {{ $profile->pr_jenis_kelamin == 'Laki-laki' ? 'selected' : '' }}>
+                                    Laki-laki
+                                </option>
+                                <option value="Perempuan"
+                                    {{ $profile->pr_jenis_kelamin == 'Perempuan' ? 'selected' : '' }}>
+                                    Perempuan
+                                </option>
                             </select>
                         </div>
+
                         <div class="flex flex-col gap-1">
-                            <label class="text-sm font-medium">Alamat</label>
-                            <input type="text" name="pr_alamat" value="{{ $profile->pr_alamat }}"
-                            class="form-input h-11 rounded-lg border border-gray-300 px-4 text-sm focus:ring-2 focus:outline-none" placeholder="Alamat lengkap...">
+                            <label>Tanggal Lahir</label>
+                            <input type="date" name="pr_tanggal_lahir"
+                                value="{{ old('pr_tanggal_lahir', $profile->pr_tanggal_lahir) }}"
+                                class="form-input h-11 rounded-lg border border-gray-300 px-4 text-sm">
+                        </div>
+
+                        <div class="md:col-span-2 flex flex-col gap-1">
+                            <label>Alamat</label>
+                            <textarea name="pr_alamat"
+                                class="form-input rounded-lg border border-gray-300 px-4 py-2 text-sm">{{ old('pr_alamat', $profile->pr_alamat) }}</textarea>
                         </div>
                     </div>
+                </div>
 
-                    <div class="border-t pt-4">
-                        <label class="text-sm font-bold mb-4 block">Link Sosial Media</label>
+                    @if(auth()->user()->role === 'intern')
+                    <div class="border-b py-6">
+                        <h4 class="text-lg font-semibold mb-4">Data Akademik</h4>
+
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <input type="text" name="pr_instagram" value="{{ $profile->pr_instagram }}" placeholder="Link Instagram..." class="form-input h-11 rounded-lg border border-gray-300 px-4 text-sm">
-                            <input type="text" name="pr_facebook" value="{{ $profile->pr_facebook }}" placeholder="Link Facebook..." class="form-input h-11 rounded-lg border border-gray-300 px-4 text-sm">
-                            <input type="text" name="pr_linkedin" value="{{ $profile->pr_linkedin }}" placeholder="Link LinkedIn..." class="form-input h-11 rounded-lg border border-gray-300 px-4 text-sm">
-                            <input type="text" name="pr_github" value="{{ $profile->pr_github }}" placeholder="Link GitHub..." class="form-input h-11 rounded-lg border border-gray-300 px-4 text-sm">
-                            <input type="text" name="pr_whatsapp" value="{{ $profile->pr_whatsapp }}" placeholder="Nomor WhatsApp (Contoh: 628...)" class="form-input h-11 rounded-lg border border-gray-300 px-4 text-sm focus:ring-2 focus:outline-none">
+
+                            <div class="flex flex-col gap-1">
+                                <label>NIM</label>
+                                <input type="text" name="pr_nim"
+                                    value="{{ old('pr_nim', $profile->pr_nim) }}"
+                                    class="form-input h-11 rounded-lg border border-gray-300 px-4 text-sm">
+                            </div>
+
+                            <div class="flex flex-col gap-1">
+                                <label>Kampus</label>
+                                <select name="pr_kampus_id"
+                                    class="form-input h-11 rounded-lg border border-gray-300 px-4 text-sm">
+                                    @foreach($kampusList as $kampus)
+                                        <option value="{{ $kampus->km_id }}"
+                                            {{ $profile->pr_kampus_id == $kampus->km_id ? 'selected' : '' }}>
+                                            {{ $kampus->km_nama_kampus }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="flex flex-col gap-1">
+                                <label>Jurusan</label>
+                                <select name="pr_jurusan"
+                                    class="form-input h-11 rounded-lg border border-gray-300 px-4 text-sm">
+                                    @foreach($jurusanList as $jurusan)
+                                        <option value="{{ $jurusan->js_id }}"
+                                            {{ $profile->pr_jurusan == $jurusan->js_id ? 'selected' : '' }}>
+                                            {{ $jurusan->js_nama }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="flex flex-col gap-1">
+                                <label>Tipe Pekerjaan</label>
+                                <select name="pr_pekerjaan_id"
+                                    class="form-input h-11 rounded-lg border border-gray-300 px-4 text-sm">
+                                    @foreach($pekerjaanList as $pekerjaan)
+                                        <option value="{{ $pekerjaan->pk_id_pekerjaan }}"
+                                            {{ $profile->pr_pekerjaan_id == $pekerjaan->pk_id_pekerjaan ? 'selected' : '' }}>
+                                            {{ $pekerjaan->pk_nama_pekerjaan }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                    @endif
+
+                    @if(auth()->user()->role === 'admin')
+                    <div class="border-t mt-6 pt-6">
+                        <h4 class="text-lg font-semibold mb-4">Data Kepegawaian</h4>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                            <div class="flex flex-col gap-1">
+                                <label>NIP</label>
+                                <input type="text" name="pr_nip"
+                                    value="{{ old('pr_nip', $profile->pr_nip) }}"
+                                    class="form-input h-11 rounded-lg border border-gray-300 px-4 text-sm">
+                            </div>
+
+                            <div class="flex flex-col gap-1">
+                                <label>Posisi</label>
+                                <input type="text" name="pr_posisi"
+                                    value="{{ old('pr_posisi', $profile->pr_posisi) }}"
+                                    class="form-input h-11 rounded-lg border border-gray-300 px-4 text-sm">
+                            </div>
+
+                        </div>
+                    </div>
+                    @endif
+
+
+                    <div class="border-b py-6">
+                        <h4 class="text-lg font-semibold mb-4">Sosial Media</h4>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <input type="text" name="pr_instagram"
+                                value="{{ $profile->pr_instagram }}"
+                                placeholder="Instagram"
+                                class="form-input h-11 rounded-lg border border-gray-300 px-4 text-sm">
+
+                            <input type="text" name="pr_linkedin"
+                                value="{{ $profile->pr_linkedin }}"
+                                placeholder="LinkedIn"
+                                class="form-input h-11 rounded-lg border border-gray-300 px-4 text-sm">
+
+                            <input type="text" name="pr_github"
+                                value="{{ $profile->pr_github }}"
+                                placeholder="GitHub"
+                                class="form-input h-11 rounded-lg border border-gray-300 px-4 text-sm">
+
+                            <input type="text" name="pr_whatsapp"
+                                value="{{ $profile->pr_whatsapp }}"
+                                placeholder="WhatsApp"
+                                class="form-input h-11 rounded-lg border border-gray-300 px-4 text-sm">
                         </div>
                     </div>
 
-                    <div class="border-t pt-4 bg-red-50/50 p-4 rounded-2xl">
+                    <div class="border-t mt-6 pt-6  p-4 rounded-2xl">
                         <label class="text-sm font-bold text-red-500 mb-4 block">Ganti Password (Opsional)</label>
                         <div class="flex flex-col gap-3">
                             <input type="password" name="current_password" placeholder="Password Saat Ini" class="form-input h-11 rounded-lg border border-gray-300 px-4 text-sm">
@@ -151,6 +307,7 @@
         </div>
     </div>
 </div>
+
 
 {{-- NOTIFIKASI LOADING (Sama Persis Data User) --}}
 <div id="loadingOverlay" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-[999999]">
@@ -195,6 +352,7 @@
             showConfirmButton: false
         });
     @endif
+
 </script>
 @endpush
 @endsection

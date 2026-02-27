@@ -34,4 +34,12 @@ class Pekerjaan extends Model
             }
         });
     }
+
+    public function profiles()
+    {
+        return $this->hasMany(\App\Models\Profile::class,
+            'pr_pekerjaan_id',
+            'pk_id_pekerjaan'
+        );
+    }
 }

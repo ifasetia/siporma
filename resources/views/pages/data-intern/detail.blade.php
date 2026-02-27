@@ -42,9 +42,23 @@
                     <p id="d_kampus" class="mt-1 text-gray-800"></p>
                 </div>
 
+                <div class="flex flex-col gap-1 mt-3">
+                    <label>Jurusan</label>
+                    <select name="pr_jurusan"
+                        class="form-input h-11 rounded-lg border border-gray-300 px-4 text-sm">
+                        <option value="">-- Pilih Jurusan --</option>
+                        @foreach($jurusanList as $jurusan)
+                            <option value="{{ $jurusan->js_id }}"
+                                {{ $profile->pr_jurusan == $jurusan->js_id ? 'selected' : '' }}>
+                                {{ $jurusan->js_nama}}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
                 <div>
-                    <label class="block font-medium text-gray-500">Jurusan</label>
-                    <p id="d_jurusan" class="mt-1 text-gray-800"></p>
+                    <label class="block font-medium text-gray-500">Posisi Magang</label>
+                    <p id="d_pekerjaan" class="mt-1 text-gray-800"></p>
                 </div>
 
                 <div>
@@ -144,13 +158,14 @@ document.addEventListener('DOMContentLoaded', function () {
             $('#d_nim').text(profile?.pr_nim ?? '-');
             $('#d_kampus').text(profile?.kampus?.km_nama_kampus ?? '-');
             $('#d_jurusan').text(profile?.pr_jurusan ?? '-');
+            $('#d_pekerjaan').text(profile?.pekerjaan?.pk_nama_pekerjaan ?? '-');
             $('#d_hp').text(profile?.pr_no_hp ?? '-');
             $('#d_gender').text(profile?.pr_jenis_kelamin ?? '-');
             $('#d_birth').text(dbToDisplay(profile?.pr_tanggal_lahir));
             $('#d_alamat').text(profile?.pr_alamat ?? '-');
-            const status = profile?.pr_status ?? 'nonaktif';
+            const status = profile?.pr_status ?? 'Nonaktif';
 
-            if(status === 'aktif'){
+            if(status === 'Aktif'){
                 $('#d_status').html(`
                     <span class="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
                         Aktif
