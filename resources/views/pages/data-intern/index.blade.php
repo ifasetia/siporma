@@ -28,13 +28,6 @@
                 </div>
             </div>
 
-            {{-- TOMBOL TAMBAH --}}
-            {{--<button id="btnOpen"
-                class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow hover:bg-blue-700 transition">
-                <x-heroicon-c-plus-circle class="h-5 w-5" />
-                <span>Tambah</span>
-            </button>--}}
-
         </div>
     </div>
 
@@ -49,7 +42,6 @@
                         <th class="px-6 py-3 text-center w-16">No</th>
                         <th class="px-6 py-3 text-left">Nama</th>
                         <th class="px-6 py-3 text-left">Email</th>
-                        <th class="px-6 py-3 text-left">No HP</th>
                         <th class="px-6 py-3 text-left">Kampus</th>
                         <th class="px-6 py-3 text-left">Jurusan</th>
                         <th class="px-6 py-3 text-center w-28">Status</th>
@@ -68,100 +60,178 @@
 @endsection
 
 {{-- MODAL --}}
+@include('pages.data-intern.edit')
+@include('pages.data-intern.detail')
 
 
 @push('scripts')
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () {
 
-    if (!window.$) {
-        console.error('jQuery NOT loaded');
-        return;
-    }
-
-    window.table = $('#internTable').DataTable({
-        processing: true,
-        serverSide: true,
-        responsive: false,
-        scrollX: true,
-        ajax: "{{ route('data-intern.datatables') }}",
-
-        columns: [
-            {
-                data: 'DT_RowIndex',
-                orderable: false,
-                searchable: false,
-                className: 'text-center',
-                width: '50px'
-            },
-            { data: 'pr_nama', name: 'pr_nama' },
-            { data: 'email', name: 'email' },
-            { data: 'pr_no_hp', name: 'pr_no_hp' },
-            { data: 'pr_kampus', name: 'pr_kampus' },
-            { data: 'pr_jurusan', name: 'pr_jurusan' },
-
-
-            { data:'status', orderable:false, searchable:false },
-
-
-            {
-                data: 'detail',
-                orderable: false,
-                searchable: false,
-                className: 'text-center'
-            },
-            {
-                data: 'aksi',
-                orderable: false,
-                searchable: false,
-                className: 'text-center'
-            }
-        ],
-    });
-
-    $(document).on('click','.toggle-status',function(){
-
-    const id     = $(this).data('id');
-    const name   = $(this).data('name');
-    const status = $(this).data('status');
-
-    const nextStatus = status === 'Aktif' ? 'Nonaktif' : 'Aktif';
-
-    Swal.fire({
-        icon: 'question',
-        title: 'Konfirmasi',
-        html: `Anda yakin ingin <b>${nextStatus === 'Aktif' ? 'mengaktifkan' : 'menonaktifkan'}</b> akun <b>${name}</b>?`,
-        showCancelButton: true,
-        confirmButtonText: 'Ya, lanjutkan',
-        cancelButtonText: 'Batal',
-        confirmButtonColor: nextStatus === 'Aktif' ? '#16a34a' : '#dc2626'
-    }).then((result) => {
-
-        if(result.isConfirmed){
-
-            $.post(`/data-intern/${id}/toggle-status`,{
-                _token:$('meta[name="csrf-token"]').attr('content')
-            },function(){
-
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Berhasil',
-                    text: `Status akun ${name} berhasil diubah`,
-                    timer: 1200,
-                    showConfirmButton:false
-                });
-
-                window.table.ajax.reload(null,false);
-            });
-
+        if (!window.$) {
+            console.error('jQuery NOT loaded');
+            return;
         }
 
-    });
+            window.table = $('#internTable').DataTable({
+                processing: true,
+                serverSide: true,
+                responsive: false,
+                scrollX: true,
+                ajax: "{{ route('data-intern.datatables') }}",
 
-});
+                columns: [{
+                        data: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false,
+                        className: 'text-center',
+                        width: '50px'
+                    },
+                    {
+                        data: 'pr_nama',
+                        name: 'pr_nama'
+                    },
+                    {
+                        data: 'email',
+                        name: 'email'
+                    },
+                    {
+                        data: 'pr_kampus',
+                        name: 'pr_kampus'
+                    },
+                    {
+                        data: 'pr_jurusan',
+                        name: 'pr_jurusan'
+                    },
 
 
-});
-</script>
+                    {
+                        data: 'status',
+                        orderable: false,
+                        searchable: false
+                    },
+
+
+                    {
+                        data: 'detail',
+                        orderable: false,
+                        searchable: false,
+                        className: 'text-center'
+                    },
+                    {
+                        data: 'aksi',
+                        orderable: false,
+                        searchable: false,
+                        className: 'text-center'
+                    }
+                ],
+            });
+
+            // $(document).on('click', '.btn-detail', function () {
+
+            //     const id = $(this).data('id');
+
+            //     window.location.href = `/data-intern/${id}/detail`;
+
+            // });
+
+            // $(document).on('click', '.btn-edit', function () {
+
+            //     const id = $(this).data('id');
+            //     alert(id);
+
+            //     // window.location.href = `/data-intern/${id}/edit`;
+
+            // });
+
+            // $(document).on('click', '.btn-delete', function () {
+
+            //     const id = $(this).data('id');
+
+            //     Swal.fire({
+            //         icon: 'warning',
+            //         title: 'Yakin hapus?',
+            //         text: 'Data tidak bisa dikembalikan',
+            //         showCancelButton: true,
+            //         confirmButtonText: 'Ya, hapus',
+            //         cancelButtonText: 'Batal',
+            //         confirmButtonColor: '#dc2626'
+            //     }).then((result) => {
+
+            //         if (result.isConfirmed) {
+
+            //             $.ajax({
+            //                 url: `/data-intern/${id}`,
+            //                 type: 'DELETE',
+            //                 data: {
+            //                     _token: $('meta[name="csrf-token"]').attr('content')
+            //                 },
+            //                 success: function (res) {
+
+            //                     Swal.fire({
+            //                         icon: 'success',
+            //                         title: 'Berhasil',
+            //                         text: res.message,
+            //                         timer: 1200,
+            //                         showConfirmButton: false
+            //                     });
+
+            //                     window.table.ajax.reload(null, false);
+            //                 },
+            //                 error: function () {
+            //                     Swal.fire('Gagal', 'Terjadi kesalahan', 'error');
+            //                 }
+            //             });
+
+            //         }
+
+            //     });
+
+            // });
+
+            // $(document).on('click', '.toggle-status', function () {
+
+            //     const id = $(this).data('id');
+            //     const name = $(this).data('name');
+            //     const status = $(this).data('status');
+
+            //     const nextStatus = status === 'Aktif' ? 'Nonaktif' : 'Aktif';
+
+            //     Swal.fire({
+            //         icon: 'question',
+            //         title: 'Konfirmasi',
+            //         html: `Anda yakin ingin <b>${nextStatus === 'Aktif' ? 'mengaktifkan' : 'menonaktifkan'}</b> akun <b>${name}</b>?`,
+            //         showCancelButton: true,
+            //         confirmButtonText: 'Ya, lanjutkan',
+            //         cancelButtonText: 'Batal',
+            //         confirmButtonColor: nextStatus === 'Aktif' ? '#16a34a' : '#dc2626'
+            //     }).then((result) => {
+
+            //         if (result.isConfirmed) {
+
+            //             $.post(`/data-intern/${id}/toggle-status`, {
+            //                 _token: $('meta[name="csrf-token"]').attr('content')
+            //             }, function () {
+
+            //                 Swal.fire({
+            //                     icon: 'success',
+            //                     title: 'Berhasil',
+            //                     text: `Status akun ${name} berhasil diubah`,
+            //                     timer: 1200,
+            //                     showConfirmButton: false
+            //                 });
+
+            //                 window.table.ajax.reload(null, false);
+            //             });
+
+            //         }
+
+            //     });
+
+            // });
+
+
+        });
+
+    </script>
 @endpush
-

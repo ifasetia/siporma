@@ -18,40 +18,44 @@ use App\Models\Master\Pekerjaan;
 
 class DatainternController extends Controller
 {
-    public function index()
-    {
-        $interns = User::where('role', 'intern')
-            ->with('profile')
-            ->get();
 
-        return view('pages.data-intern.index', compact('interns'));
-    }
+    public function index()
+{
+    $interns = User::where('role', 'intern')
+        ->with('profile')
+        ->get();
+
+    $kampus = Kampus::all();
+    $jurusanList = Jurusan::all(); // ← TAMBAHKAN
+
+    return view('pages.data-intern.index', compact(
+        'interns',
+        'kampus',
+        'jurusanList'
+    ));
+}
 
     public function detail($id)
-    {
-        $data = User::with([
-            'profile',
-            'profile.kampus',
-            'profile.pekerjaan',
-            'profile.jurusan'
-        ])->findOrFail($id);
+{
+    $data = User::with([
+        'profile',
+        'profile.kampus',
+        'profile.pekerjaan',
+        'profile.jurusan'
+    ])->findOrFail($id);
 
-        $jurusanList = Jurusan::all();
-
-        return view('pages.data-intern.detail', [
-            'profile' => $data->profile,
-            'jurusanList' => $jurusanList,
-            'user' => $data
-        ]);
-    }
+    return response()->json([
+        'data' => $data
+    ]);
+}
 
 
     public function datatable(Request $request)
 {
-    $query = User::with(['profile.kampus'])
+    $query = User::with(['profile.kampus','profile.jurusan'])
         ->where('role','intern')
         ->latest();
-
+        // dd($query->get());
 
     return DataTables::of($query)
         ->addIndexColumn()
@@ -61,10 +65,10 @@ class DatainternController extends Controller
         ->addColumn('pr_no_hp', fn($row)=> $row->profile->pr_no_hp ?? '-')
         ->addColumn('pr_nim', fn($row)=> $row->profile->pr_nim ?? '-')
         ->addColumn('pr_kampus', function ($row) {
-            return $row->profile?->kampus?->km_nama_kampus ?? '-';
+            return $row->profile?->pr_kampus ?? '-';
             })
         ->addColumn('pr_jurusan', function($row){
-            return $row->profile?->jurusan?->js_nama ?? '-';
+            return $row->profile?->pr_jurusan ?? '-';
         })
         // ===== STATUS TOGGLE
         ->addColumn('status', function($row){
@@ -168,8 +172,8 @@ class DatainternController extends Controller
                 'pr_status' => 'required',
 
                 'pr_nim' => 'required',
-                'pr_kampus' => 'required',
-                'pr_jurusan' => 'required',
+                'pr_kampus_id' => 'required',
+                'pr_jurusan_id' => 'required',
                 'pr_internship_start' => 'required',
                 'pr_internship_end' => 'required',
                 'pr_supervisor_name' => 'required',
@@ -213,7 +217,7 @@ class DatainternController extends Controller
                 'pr_status' => $request->pr_status,
                 'pr_nim' => $request->pr_nim,
                 'pr_kampus_id' => 'required',
-                'pr_jurusan' => $request->pr_jurusan,
+                'pr_jurusan_id' => $request->pr_jurusan,
                 'pr_internship_start' => $request->pr_internship_start,
                 'pr_internship_end' => $request->pr_internship_end,
                 'pr_supervisor_name' => $request->pr_supervisor_name,
@@ -259,12 +263,25 @@ class DatainternController extends Controller
 
     public function edit($id)
 {
-    $user = User::with(['profile.kampus'])->findOrFail($id);
+    $user = User::with([
+        'profile',
+        'profile.kampus',
+        'profile.jurusan'
+    ])->findOrFail($id);
 
     return response()->json([
         'data' => $user
     ]);
 }
+    // public function edit($id)
+//{
+   // $user = User::with(['profile.kampus'])->findOrFail($id);
+   // dd($user);
+
+    // return response()->json([
+    //     'data' => $user         
+    // ]);
+//}
 
 
 public function update(Request $request, $id)
@@ -283,7 +300,7 @@ public function update(Request $request, $id)
 
             'pr_no_hp' => 'required',
             'pr_nim' => 'required',
-            'pr_jurusan' => 'required',
+            'pr_jurusan_id' => 'required',
             'pr_kampus_id' => 'required',
             'pr_jenis_kelamin' => 'required',
             'pr_tanggal_lahir' => 'required',
@@ -302,7 +319,7 @@ public function update(Request $request, $id)
 
             'pr_no_hp.required' => 'No HP wajib diisi',
             'pr_nim.required' => 'NIM wajib diisi',
-            'pr_jurusan.required' => 'Jurusan wajib diisi',
+            'pr_jurusan_id.required' => 'Jurusan wajib diisi',
             'pr_kampus_id.required' => 'Kampus wajib dipilih',
             'pr_jenis_kelamin.required' => 'Jenis kelamin wajib dipilih',
             'pr_tanggal_lahir.required' => 'Tanggal lahir wajib diisi',
@@ -334,7 +351,7 @@ public function update(Request $request, $id)
         $user->profile->update([
             'pr_no_hp' => $data['pr_no_hp'],
             'pr_nim' => $data['pr_nim'],
-            'pr_jurusan' => $data['pr_jurusan'],
+            'pr_jurusan_id' => $data['pr_jurusan_id'],
             'pr_kampus_id' => $data['pr_kampus_id'],
             'pr_jenis_kelamin' => $data['pr_jenis_kelamin'],
             'pr_tanggal_lahir' => $tanggal_lahir,

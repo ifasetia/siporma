@@ -42,18 +42,9 @@
                     <p id="d_kampus" class="mt-1 text-gray-800"></p>
                 </div>
 
-                <div class="flex flex-col gap-1 mt-3">
-                    <label>Jurusan</label>
-                    <select name="pr_jurusan"
-                        class="form-input h-11 rounded-lg border border-gray-300 px-4 text-sm">
-                        <option value="">-- Pilih Jurusan --</option>
-                        @foreach($jurusanList as $jurusan)
-                            <option value="{{ $jurusan->js_id }}"
-                                {{ $profile->pr_jurusan == $jurusan->js_id ? 'selected' : '' }}>
-                                {{ $jurusan->js_nama}}
-                            </option>
-                        @endforeach
-                    </select>
+                <div>
+                    <label class="block font-medium text-gray-500">Jurusan</label>
+                    <p id="d_jurusan" class="mt-1 text-gray-800"></p>
                 </div>
 
                 <div>
