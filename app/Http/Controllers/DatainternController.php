@@ -9,8 +9,10 @@ use App\Models\Profile;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\DB;
-use App\Models\Master\Kampus;
 use Carbon\Carbon;
+use App\Models\Master\Kampus;
+use App\Models\Master\Jurusan;
+use App\Models\Master\Pekerjaan;
 
 
 
@@ -18,22 +20,30 @@ class DatainternController extends Controller
 {
     public function index()
     {
-         $kampus = Kampus::orderBy('km_nama_kampus')->get();
+        $interns = User::where('role', 'intern')
+            ->with('profile')
+            ->get();
 
-        return view('pages.data-intern.index', compact('kampus'));
-        
-
+        return view('pages.data-intern.index', compact('interns'));
     }
 
     public function detail($id)
-        {
-            $data = User::with(['profile','profile.kampus'])->findOrFail($id);
+    {
+        $data = User::with([
+            'profile',
+            'profile.kampus',
+            'profile.pekerjaan',
+            'profile.jurusan'
+        ])->findOrFail($id);
 
-            return response()->json([
-                'success'=>true,
-                'data'=>$data
-            ]);
-        }
+        $jurusanList = Jurusan::all();
+
+        return view('pages.data-intern.detail', [
+            'profile' => $data->profile,
+            'jurusanList' => $jurusanList,
+            'user' => $data
+        ]);
+    }
 
 
     public function datatable(Request $request)
@@ -50,11 +60,12 @@ class DatainternController extends Controller
         ->addColumn('email', fn($row)=> $row->email)
         ->addColumn('pr_no_hp', fn($row)=> $row->profile->pr_no_hp ?? '-')
         ->addColumn('pr_nim', fn($row)=> $row->profile->pr_nim ?? '-')
-        ->addColumn('pr_kampus', function ($row) { 
+        ->addColumn('pr_kampus', function ($row) {
             return $row->profile?->kampus?->km_nama_kampus ?? '-';
             })
-        ->addColumn('pr_jurusan', fn($row)=> $row->profile->pr_jurusan ?? '-')
-
+        ->addColumn('pr_jurusan', function($row){
+            return $row->profile?->jurusan?->js_nama ?? '-';
+        })
         // ===== STATUS TOGGLE
         ->addColumn('status', function($row){
 
@@ -198,10 +209,10 @@ class DatainternController extends Controller
                 'pr_alamat' => $request->pr_alamat,
                 'pr_photo' => null,
                 'pr_jenis_kelamin' => $request->pr_jenis_kelamin,
-                'pr_tanggal_lahir' => $request->pr_tanggal_lahir,
+                'pr_tanggal_lahir' => $data['pr_tanggal_lahir'],
                 'pr_status' => $request->pr_status,
                 'pr_nim' => $request->pr_nim,
-                'pr_kampus_id' => $request->pr_kampus_id,
+                'pr_kampus_id' => 'required',
                 'pr_jurusan' => $request->pr_jurusan,
                 'pr_internship_start' => $request->pr_internship_start,
                 'pr_internship_end' => $request->pr_internship_end,
@@ -231,6 +242,20 @@ class DatainternController extends Controller
                 ->with('error', 'Terjadi kesalahan sistem. Silakan coba lagi.');
         }
     }
+
+    public function create()
+    {
+        $kampus = Kampus::all();
+        $jurusanList = Jurusan::all();
+        $pekerjaanList = Pekerjaan::all();
+
+        return view('pages.data-intern.add', compact(
+            'kampus',
+            'jurusanList',
+            'pekerjaanList'
+        ));
+    }
+
 
     public function edit($id)
 {

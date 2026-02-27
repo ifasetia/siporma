@@ -26,4 +26,42 @@
             </div>
         </div>
     </div>
+
+    @if(auth()->user()->role === 'intern')
+
+    <div>
+        <label>NIM</label>
+        <input type="text" name="pr_nim" value="{{ old('pr_nim', $profile->pr_nim) }}">
+    </div>
+
+    <select name="pr_kampus_id">
+        @foreach($kampusList as $kampus)
+            <option value="{{ $kampus->km_id }}"
+                {{ $profile->pr_kampus_id == $kampus->km_id ? 'selected' : '' }}>
+                {{ $kampus->km_nama_kampus }}
+            </option>
+        @endforeach
+    </select>
+
+    <div>
+        <label>Jurusan</label>
+        <input type="text" name="pr_jurusan">
+    </div>
+
+    @endif
+
+    @if(auth()->user()->role === 'admin')
+
+    <div>
+        <label>NIP</label>
+        <input type="text" name="pr_nip">
+    </div>
+
+    <div>
+        <label>Posisi</label>
+        <input type="text" name="pr_posisi"
+            value="{{ old('pr_posisi', $profile->pr_posisi) }}">
+    </div>
+
+    @endif
 </x-app-layout>

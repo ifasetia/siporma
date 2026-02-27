@@ -26,9 +26,11 @@ class Profile extends Model
         'pr_jenis_kelamin',
         'pr_tanggal_lahir',
         'pr_status',
+        'pr_nip',
+        'pr_pekerjaan_id',
 
         'pr_nim',
-        'pr_kampus_id', // <<< TAMBAH INI
+        'pr_kampus_id',
         'pr_kampus',
         'pr_jurusan',
         'pr_internship_start',
@@ -55,6 +57,24 @@ class Profile extends Model
     {
         return $this->belongsTo(Master\Kampus::class,'pr_kampus_id','km_id');
     }
+
+    public function pekerjaan()
+    {
+        return $this->belongsTo(\App\Models\Master\Pekerjaan::class,
+            'pr_pekerjaan_id',
+            'pk_id_pekerjaan'
+        );
+    }
+
+    public function jurusan()
+    {
+        return $this->belongsTo(\App\Models\Master\Jurusan::class,
+            'pr_jurusan',
+            'js_id'
+        );
+    }
+
+
 
 
 }

@@ -44,6 +44,7 @@ return new class extends Migration
             $table->date('pr_internship_end')->nullable();
             $table->string('pr_supervisor_name')->nullable();
             $table->string('pr_supervisor_contact')->nullable();
+            $table->uuid('pr_pekerjaan_id')->nullable();
 
             // =====================
             // KHUSUS ADMIN + SUPER ADMIN
