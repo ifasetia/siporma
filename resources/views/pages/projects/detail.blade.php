@@ -21,42 +21,59 @@ class="close-detail absolute top-5 right-5 flex h-10 w-10 items-center justify-c
 </div>
 
 <!-- CONTENT -->
-<div class="grid grid-cols-2 gap-5 mt-6 text-sm">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 mt-6 text-sm">
 
-<div>
-<label class="block font-medium text-gray-500">Judul Project</label>
-<p id="d_title" class="mt-1 text-gray-800"></p>
-</div>
+    <!-- ================= LEFT ================= -->
+    <div class="space-y-6">
 
-<div>
-<label class="block font-medium text-gray-500">Status</label>
-<p id="d_status" class="mt-1"></p>
-</div>
+        <div>
+            <label class="block font-medium text-gray-500">Judul Project</label>
+            <p id="d_title" class="mt-1 text-gray-800"></p>
+        </div>
 
-<div>
-<label class="block font-medium text-gray-500">Deskripsi</label>
-<p id="d_description" class="mt-1 text-gray-800"></p>
-</div>
+        <div>
+            <label class="block font-medium text-gray-500">Deskripsi</label>
+            <p id="d_description" class="mt-1 text-gray-800 leading-relaxed"></p>
+        </div>
 
-<div>
-<label class="block font-medium text-gray-500">Teknologi</label>
-<p id="d_tech" class="mt-1 text-gray-800"></p>
-</div>
+        <div>
+            <label class="block font-medium text-gray-500">Link Project</label>
+            <div id="d_links" class="mt-1 text-blue-600 break-all space-y-1"></div>
+        </div>
 
-<div class="col-span-2">
-<label class="block font-medium text-gray-500">Link Project</label>
-<div id="d_links" class="mt-1 text-blue-600 break-all"></div>
-</div>
 
-<div>
-<label class="block font-medium text-gray-500">Foto Dokumentasi</label>
-<div id="d_photos" class="grid grid-cols-3 gap-2 mt-2"></div>
-</div>
+        <div>
+            <label class="block font-medium text-gray-500">Foto Dokumentasi</label>
+            <div id="d_photos" class="grid grid-cols-3 gap-2 mt-2"></div>
+        </div>
 
-<div>
-<label class="block font-medium text-gray-500">File</label>
-<div id="d_files" class="mt-2 text-blue-600"></div>
-</div>
+    </div>
+
+    <!-- ================= RIGHT ================= -->
+    <div class="space-y-6">
+
+        <div>
+            <label class="block font-medium text-gray-500">Status</label>
+            <div id="d_status" class="mt-1"></div>
+        </div>
+
+        <div>
+            <label class="block font-medium text-gray-500">Teknologi</label>
+            <div id="d_tech" class="flex flex-wrap gap-2 mt-1"></div>
+        </div>
+
+
+        <div>
+            <label class="block font-medium text-gray-500">File</label>
+            <div id="d_files" class="mt-2 text-blue-600 space-y-2"></div>
+        </div>
+
+        <div>
+            <label class="block font-medium text-gray-500">Kolaborator</label>
+            <ul id="d_members" class="mt-1 list-disc list-inside text-sm text-gray-700"></ul>
+        </div>
+
+    </div>
 
 </div>
 
@@ -96,16 +113,64 @@ Swal.close();
 
 const p = res.data;
 
+// MEMBERS
+$('#d_members').html('');
+
+if (p.members && p.members.length) {
+
+    p.members.forEach(function(user){
+
+        $('#d_members').append(`
+            <li>${user.name}</li>
+        `);
+
+    });
+
+} else {
+
+    $('#d_members').html('<span class="text-gray-400">Tidak ada kolaborator</span>');
+
+}
+
 // BASIC
 $('#d_title').text(p.title ?? '-');
 $('#d_description').text(p.description ?? '-');
-$('#d_tech').text(p.technologies ?? '-');
+
+// TEKNOLOGI (MASTER)
+$('#d_tech').html('');
+
+if (p.teknologis && p.teknologis.length) {
+
+    p.teknologis.forEach(function(tk){
+        $('#d_tech').append(`
+            <span class="inline-block px-3 py-1 text-xs rounded-full bg-blue-100 text-blue-700 mr-2 mb-2">
+                ${tk.tk_nama}
+            </span>
+        `);
+    });
+
+} else {
+
+    $('#d_tech').html('<span class="text-gray-400">Tidak ada teknologi</span>');
+}
 
 // STATUS
-if(p.status === 'menunggu'){
-$('#d_status').html(`<span class="inline-flex rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-700">Menunggu</span>`);
-}else{
-$('#d_status').html(`<span class="inline-flex rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">Disetujui</span>`);
+if (p.master_status) {
+
+    $('#d_status').html(`
+        <span class="inline-flex rounded-full px-3 py-1 text-xs font-semibold ${p.master_status.sp_warna}">
+            ${p.master_status.sp_nama_status}
+        </span>
+    `);
+
+} else {
+
+    $('#d_status').html(`
+        <span class="inline-flex rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-700">
+            Tidak ada status
+        </span>
+    `);
+
 }
 
 // LINKS

@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use App\Models\ProjectLink;
 use App\Models\ProjectPhoto;
 use App\Models\ProjectMember;
+use App\Models\Master\StatusProyek;
 
 class Project extends Model
 {
@@ -17,7 +18,6 @@ class Project extends Model
     'id',
     'title',
     'description',
-    'technologies',
     'status_id',
     'created_by',
 ];
@@ -48,7 +48,8 @@ public function photos()
 
 public function members()
 {
-    return $this->hasMany(ProjectMember::class);
+    return $this->belongsToMany(User::class, 'project_members')
+                ->withTimestamps();
 }
 
 public function user()
@@ -59,6 +60,26 @@ public function user()
 public function files()
 {
     return $this->hasMany(ProjectFile::class);
+}
+
+public function teknologis()
+{
+    return $this->belongsToMany(
+        \App\Models\Master\Teknologi::class,
+        'project_teknologi',
+        'project_id',
+        'teknologi_id'
+    );
+}
+
+public function collaborators()
+{
+    return $this->belongsToMany(
+        \App\Models\User::class,
+        'project_members',
+        'project_id',
+        'user_id'
+    );
 }
 const STATUS_MENUNGGU = 'menunggu';
 const STATUS_DISETUJUI = 'disetujui';
