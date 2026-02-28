@@ -154,6 +154,7 @@ Route::middleware(['auth'])
     Route::get('supervisor/datatables', [SupervisorController::class, 'datatable'])->name('supervisor.datatables');
     Route::resource('supervisor', SupervisorController::class);
     Route::post('supervisor/{id}/update', [SupervisorController::class, 'update'])->name('supervisor.update');
+    Route::post('/supervisor/{id}/toggle-status', [SupervisorController::class,'toggleStatus'])->name('supervisor.toggle');
 
     // Data Intern
     Route::middleware(['auth'])

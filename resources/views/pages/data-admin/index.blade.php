@@ -73,7 +73,71 @@
 
 @push('scripts')
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
+
+    if (!window.$) {
+        console.error('jQuery NOT loaded');
+        return;
+    }
+
+    window.table = $('#adminTable').DataTable({
+        processing: true,
+        serverSide: true,
+        responsive: false,
+        scrollX: true,
+        ajax: "{{ route('data-admin.datatables') }}",
+
+        columns: [
+            {
+                data: 'DT_RowIndex',
+                orderable: false,
+                searchable: false,
+                className: 'text-center',
+                width: '50px'
+            },
+            { data: 'pr_nama', name: 'pr_nama' },
+            { data: 'email', name: 'email' },
+            { data: 'pr_no_hp', name: 'pr_no_hp' },
+            { data: 'pr_posisi', name: 'pr_posisi' },
+
+
+            { data:'status', orderable:false, searchable:false },
+
+
+            {
+                data: 'detail',
+                orderable: false,
+                searchable: false,
+                className: 'text-center'
+            },
+            {
+                data: 'aksi',
+                orderable: false,
+                searchable: false,
+                className: 'text-center'
+            }
+        ],
+    });
+
+    $(document).on('click','.toggle-status',function(){
+
+    const id     = $(this).data('id');
+    const name   = $(this).data('name');
+    const status = $(this).data('status');
+
+    const nextStatus = status === 'Aktif' ? 'Nonaktif' : 'Aktif';
+
+    Swal.fire({
+        icon: 'question',
+        title: 'Konfirmasi',
+        html: `Anda yakin ingin <b>${nextStatus === 'Aktif' ? 'mengaktifkan' : 'menonaktifkan'}</b> akun <b>${name}</b>?`,
+        showCancelButton: true,
+        confirmButtonText: 'Ya, lanjutkan',
+        cancelButtonText: 'Batal',
+        confirmButtonColor: nextStatus === 'Aktif' ? '#16a34a' : '#dc2626'
+    }).then((result) => {
+
+        if(result.isConfirmed){
 
         if (!window.$) {
             console.error('jQuery NOT loaded');

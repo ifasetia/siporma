@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('sp_divisi', 50); // Divisi di Kominfo
             $table->string('sp_email')->unique();
             $table->string('sp_telepon', 15);
+            $table->string('sp_status')->default('Nonaktif');
             $table->timestamps();
         });
     }
