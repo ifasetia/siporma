@@ -125,16 +125,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const name   = $(this).data('name');
     const status = $(this).data('status');
 
-    const nextStatus = status === 'aktif' ? 'nonaktif' : 'aktif';
+    const nextStatus = status === 'Aktif' ? 'Nonaktif' : 'Aktif';
 
     Swal.fire({
         icon: 'question',
         title: 'Konfirmasi',
-        html: `Anda yakin ingin <b>${nextStatus === 'aktif' ? 'mengaktifkan' : 'menonaktifkan'}</b> akun <b>${name}</b>?`,
+        html: `Anda yakin ingin <b>${nextStatus === 'Aktif' ? 'mengaktifkan' : 'menonaktifkan'}</b> akun <b>${name}</b>?`,
         showCancelButton: true,
         confirmButtonText: 'Ya, lanjutkan',
         cancelButtonText: 'Batal',
-        confirmButtonColor: nextStatus === 'aktif' ? '#16a34a' : '#dc2626'
+        confirmButtonColor: nextStatus === 'Aktif' ? '#16a34a' : '#dc2626'
     }).then((result) => {
 
         if(result.isConfirmed){

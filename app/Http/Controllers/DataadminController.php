@@ -59,14 +59,14 @@ class DataadminController extends Controller
         // ===== STATUS TOGGLE
         ->addColumn('status', function($row){
 
-            $status = $row->profile->pr_status ?? 'nonaktif';
+            $status = $row->profile->pr_status ?? 'Nonaktif';
 
-            if($status == 'aktif'){
+            if($status == 'Aktif'){
                 return '
                 <span
                     data-id="'.$row->id.'"
                     data-name="'.$row->name.'"
-                    data-status="aktif"
+                    data-status="Aktif"
                     class="toggle-status cursor-pointer inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
                     Aktif
                 </span>';
@@ -76,7 +76,7 @@ class DataadminController extends Controller
             <span
                 data-id="'.$row->id.'"
                 data-name="'.$row->name.'"
-                data-status="nonaktif"
+                data-status="Nonaktif"
                 class="toggle-status cursor-pointer inline-flex items-center rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-700">
                 Nonaktif
             </span>';
@@ -310,7 +310,9 @@ public function update(Request $request, $id)
             $user = User::with('profile')->findOrFail($id);
 
             $user->profile->update([
-                'pr_status' => $user->profile->pr_status == 'aktif' ? 'nonaktif' : 'aktif'
+                'pr_status' => $user->profile->pr_status == 'Aktif'
+                    ? 'Nonaktif'
+                    : 'Aktif'
             ]);
 
             return response()->json(['success'=>true]);

@@ -11,7 +11,6 @@
         @vite(['resources/css/app.css','resources/js/app.js'])
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>
         @yield('title')
         </title>
     </head>

@@ -39,7 +39,9 @@
                         <th class="px-6 py-3 text-left">Nama Supervisor</th>
                         <th class="px-6 py-3 text-left">Jabatan</th>
                         <th class="px-6 py-3 text-left">Divisi</th>
+                        <th class="px-6 py-3 text-center w-28">Status</th>
                         <th class="px-6 py-3 text-center w-44">Aksi</th>
+                        
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-100"></tbody>
@@ -55,95 +57,155 @@
 
 @push('scripts')
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        if (!window.$) return;
+document.addEventListener('DOMContentLoaded', function () {
 
-        // 1. Inisialisasi DataTable (Pastikan data: 'sp_...' sesuai controller)
-        window.table = $('#supervisorTable').DataTable({
-            processing: true,
-            serverSide: true,
-            responsive: true,
-            ajax: "{{ route('supervisor.datatables') }}",
-            columns: [
-                { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false, className: 'text-center' },
-                { data: 'sp_nip', name: 'sp_nip' },
-                { data: 'sp_nama', name: 'sp_nama' },
-                { data: 'sp_jabatan', name: 'sp_jabatan' },
-                { data: 'sp_divisi', name: 'sp_divisi' },
-                { data: 'aksi', name: 'aksi', orderable: false, searchable: false, className: 'text-center' },
-            ],
+    if (typeof $ === 'undefined') {
+        console.error('jQuery belum terload!');
+        return;
+    }
+
+    // =========================
+    // DATATABLE
+    // =========================
+    window.table = $('#supervisorTable').DataTable({
+        processing: true,
+        serverSide: true,
+        responsive: true,
+        ajax: "{{ route('supervisor.datatables') }}",
+        columns: [
+            { data: 'DT_RowIndex', orderable: false, searchable: false, className: 'text-center' },
+            { data: 'sp_nip' },
+            { data: 'sp_nama' },
+            { data: 'sp_jabatan' },
+            { data: 'sp_divisi' },
+            { data:'status', orderable:false, searchable:false, className:'text-center' },
+            { data: 'aksi', orderable: false, searchable: false, className: 'text-center' },
+        ],
+    });
+
+    // =========================
+    // EDIT BUTTON
+    // =========================
+    $(document).on('click', '.btn-edit', function () {
+
+        const id = $(this).data('id');
+
+        Swal.fire({
+            title: 'Loading...',
+            allowOutsideClick: false,
+            didOpen: () => Swal.showLoading()
         });
 
-        // 2. FUNGSI TOMBOL EDIT (Load Data)
-        $(document).off('click', '.btn-edit').on('click', '.btn-edit', function () {
-            const id = $(this).data('id');
-            Swal.fire({ title: 'Loading...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+        $.ajax({
+            url: `/supervisor/${id}/edit`,
+            type: 'GET',
+            success: function (res) {
 
-            $.ajax({
-                url: `/supervisor/${id}/edit`,
-                type: 'GET',
-                success: function (res) {
-                    Swal.close();
-                    const data = res.data;
-                    const form = $('#submitFormEditSupervisor');
+                Swal.close();
 
-                    form.attr('action', `/supervisor/${id}/update`);
+                const data = res.data;
+                const form = $('#submitFormEditSupervisor');
 
-                    // ISI SEMUA FIELD SESUAI PREFIX SP_
-                    form.find('[name="sp_nip"]').val(data.sp_nip);
-                    form.find('[name="sp_nama"]').val(data.sp_nama);
-                    form.find('[name="sp_jabatan"]').val(data.sp_jabatan);
-                    form.find('[name="sp_divisi"]').val(data.sp_divisi);
-                    form.find('[name="sp_email"]').val(data.sp_email);
-                    form.find('[name="sp_telepon"]').val(data.sp_telepon);
+                form.attr('action', `/supervisor/${id}/update`);
 
-                    $('#eventEditModal').removeClass('hidden');
-                    $('body').addClass('overflow-hidden');
-                }
-            });
-        });
+                form.find('[name="sp_nip"]').val(data.sp_nip);
+                form.find('[name="sp_nama"]').val(data.sp_nama);
+                form.find('[name="sp_jabatan"]').val(data.sp_jabatan);
+                form.find('[name="sp_divisi"]').val(data.sp_divisi);
+                form.find('[name="sp_email"]').val(data.sp_email);
+                form.find('[name="sp_telepon"]').val(data.sp_telepon);
 
-        // 3. FUNGSI TOMBOL SIMPAN (UPDATE) - INI YANG TADI MACET
-        // Kita pakai $(document).on agar tombol tetap terdeteksi meski di dalam modal
-        $(document).off('click', '#btnEditSupervisor').on('click', '#btnEditSupervisor', function (e) {
-            e.preventDefault();
-            const $form = $('#submitFormEditSupervisor');
-            const url = $form.attr('action');
-            const btn = $(this);
-
-            btn.prop('disabled', true).text('Menyimpan...');
-
-            $.ajax({
-                url: url,
-                method: 'POST', // Laravel baca @method('PUT') dari form
-                data: $form.serialize(),
-                success: function (res) {
-                    Swal.fire({ icon: 'success', title: 'Berhasil!', text: res.message, timer: 1500, showConfirmButton: false });
-                    $('#eventEditModal').addClass('hidden');
-                    $('body').removeClass('overflow-hidden');
-                    window.table.ajax.reload(null, false);
-                },
-                error: function (xhr) {
-                    btn.prop('disabled', false).text('Simpan');
-                    if (xhr.status === 422) {
-                        const errors = xhr.responseJSON.errors;
-                        $('.error').text(''); // Bersihkan pesan merah lama
-                        Object.keys(errors).forEach(key => {
-                            $(`[data-error="${key}"]`).text(errors[key][0]);
-                        });
-                    } else {
-                        Swal.fire('Error', 'Gagal memperbarui data. Cek NIP/Email.', 'error');
-                    }
-                },
-                complete: () => btn.prop('disabled', false).text('Simpan')
-            });
-        });
-
-        // 4. FUNGSI TUTUP MODAL
-        $(document).on('click', '.modal-close-btn', function() {
-            $('#eventEditModal, #eventModal').addClass('hidden');
-            $('body').removeClass('overflow-hidden');
+                $('#eventEditModal').removeClass('hidden');
+                $('body').addClass('overflow-hidden');
+            }
         });
     });
+
+    // =========================
+    // UPDATE BUTTON
+    // =========================
+    $(document).on('click', '#btnEditSupervisor', function (e) {
+
+        e.preventDefault();
+
+        const $form = $('#submitFormEditSupervisor');
+        const url = $form.attr('action');
+        const btn = $(this);
+
+        btn.prop('disabled', true).text('Menyimpan...');
+
+        $.ajax({
+            url: url,
+            method: 'POST',
+            data: $form.serialize(),
+            success: function (res) {
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: res.message,
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+
+                $('#eventEditModal').addClass('hidden');
+                $('body').removeClass('overflow-hidden');
+                window.table.ajax.reload(null, false);
+            },
+            error: function (xhr) {
+
+                btn.prop('disabled', false).text('Simpan');
+
+                if (xhr.status === 422) {
+
+                    const errors = xhr.responseJSON.errors;
+                    $('.error').text('');
+
+                    Object.keys(errors).forEach(key => {
+                        $(`[data-error="${key}"]`).text(errors[key][0]);
+                    });
+
+                } else {
+                    Swal.fire('Error', 'Gagal memperbarui data.', 'error');
+                }
+            },
+            complete: function(){
+                btn.prop('disabled', false).text('Simpan');
+            }
+        });
+    });
+
+    // =========================
+    // TOGGLE STATUS
+    // =========================
+    $(document).on('click', '.toggle-status', function () {
+
+        const id = $(this).data('id');
+
+        $.ajax({
+            url: `/supervisor/${id}/toggle-status`,
+            type: 'POST',
+            data: {
+                _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            success: function () {
+                window.table.ajax.reload(null, false);
+            },
+            error: function (xhr) {
+                console.error(xhr.responseText);
+                Swal.fire('Error', 'Gagal mengubah status!', 'error');
+            }
+        });
+    });
+
+    // =========================
+    // CLOSE MODAL
+    // =========================
+    $(document).on('click', '.modal-close-btn', function() {
+        $('#eventEditModal, #eventModal').addClass('hidden');
+        $('body').removeClass('overflow-hidden');
+    });
+
+});
 </script>
 @endpush
