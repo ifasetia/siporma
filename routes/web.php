@@ -87,7 +87,6 @@ Route::middleware(['auth'])
         Route::post('/{id}/toggle-status',[DatainternController::class,'toggleStatus']);
         Route::delete('/{id}', [DatainternController::class,'destroy'])->name('destroy');
         Route::get('/data-intern/create', [DatainternController::class, 'create'])->name('data-intern.create');
-
     });
 
     // Master Data Status Proyek

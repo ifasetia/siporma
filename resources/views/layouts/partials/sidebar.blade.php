@@ -75,6 +75,7 @@
                     </li>
                     <!-- Menu Item Profile -->
 
+                    @if(auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin')
                     <!-- MANAGEMENT DATA -->
                     <li>
                     <a
@@ -148,6 +149,7 @@
                     <div :class="(selected === 'Management') ? 'block' : 'hidden'">
                         <ul class="menu-dropdown mt-2 flex flex-col gap-1 pl-9">
 
+                        @if(auth()->user()->role === 'super_admin')
                             <li>
                                 <a
                                     href="{{ route('user.index') }}"
@@ -160,21 +162,23 @@
 
                             <li>
                                 <a
-                                    href="{{ route('data-intern.index') }}"
-                                    class="menu-dropdown-item
-                                    {{ request()->routeIs('data-intern.index') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}"
-                                >
-                                    Data Intern
-                                </a>
-                            </li>
-
-                            <li>
-                                <a
                                     href="{{ route('data-admin.index') }}"
                                     class="menu-dropdown-item
                                     {{ request()->routeIs('data-admin.index') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}"
                                 >
                                     Data Admin
+                                </a>
+                            </li>
+
+                            @endif
+
+                            <li>
+                                <a
+                                    href="{{ route('data-intern.index') }}"
+                                    class="menu-dropdown-item
+                                    {{ request()->routeIs('data-intern.index') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}"
+                                >
+                                    Data Intern
                                 </a>
                             </li>
 
@@ -315,6 +319,35 @@
         </li>
                     <!-- Menu Master Data-->
 
+                                       <!-- Menu Validasi Project -->
+                    <li>
+                        <a href="{{ route('validasi-proyek.index') }}"
+                            class="menu-item group
+                            {{ request()->routeIs('validasi-proyek.*') ? 'menu-item-active' : 'menu-item-inactive' }}">
+
+                            <!-- ICON PROJECT -->
+                            <svg class="{{ request()->routeIs('validasi-proyek.*')
+                                    ? 'menu-item-icon-active'
+                                    : 'menu-item-icon-inactive' }}"
+                                width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+
+                                <!-- folder + file icon -->
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M3 6.75C3 5.7835 3.7835 5 4.75 5H9L11 7H19.25C20.2165 7 21 7.7835 21 8.75V17.25C21 18.2165 20.2165 19 19.25 19H4.75C3.7835 19 3 18.2165 3 17.25V6.75Z"
+                                    fill="currentColor"/>
+                            </svg>
+
+                            <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">
+                                Validasi Project
+                            </span>
+                        </a>
+                    </li>
+                    <!-- Menu ValidasiProject -->
+
+                    @endif
+
+                    @if(auth()->user()->role === 'intern')
                     <!-- Menu Project Saya -->
                     <li>
                         <a href="{{ route('projects.index') }}"
@@ -340,34 +373,9 @@
                         </a>
                     </li>
                     <!-- End Project -->
+                     @endif
 
 
-
-                    <!-- Menu Validasi Project -->
-                    <li>
-                        <a href="{{ route('validasi-proyek.index') }}"
-                            class="menu-item group
-                            {{ request()->routeIs('validasi-proyek.*') ? 'menu-item-active' : 'menu-item-inactive' }}">
-
-                            <!-- ICON PROJECT -->
-                            <svg class="{{ request()->routeIs('validasi-proyek.*')
-                                    ? 'menu-item-icon-active'
-                                    : 'menu-item-icon-inactive' }}"
-                                width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-
-                                <!-- folder + file icon -->
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M3 6.75C3 5.7835 3.7835 5 4.75 5H9L11 7H19.25C20.2165 7 21 7.7835 21 8.75V17.25C21 18.2165 20.2165 19 19.25 19H4.75C3.7835 19 3 18.2165 3 17.25V6.75Z"
-                                    fill="currentColor"/>
-                            </svg>
-
-                            <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">
-                                Validasi Project
-                            </span>
-                        </a>
-                    </li>
-                    <!-- End Project -->
 
         <!-- Menu Item Dashboard -->
                 </ul>
