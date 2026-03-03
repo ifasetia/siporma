@@ -19,7 +19,7 @@ return new class extends Migration
             $table->uuid('pr_js_id')->nullable();
             $table->uuid('pr_id_pekerjaan')->nullable();
             $table->uuid('user_id');
-            $table->uuid('pr_sp_id');
+            $table->uuid('pr_sp_id')->nullable();
 
 
             // RELASI KE USERS

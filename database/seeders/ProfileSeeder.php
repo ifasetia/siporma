@@ -5,6 +5,10 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Models\Master\Kampus;
+use App\Models\Master\Jurusan;
+use App\Models\Supervisor;
+
 
 class ProfileSeeder extends Seeder
 {
@@ -21,6 +25,9 @@ class ProfileSeeder extends Seeder
             // Variabel beda tiap user
             $pr_id = Str::uuid();
             $user_id = $user->id;
+            $kampus = Kampus::first();
+            $jurusan = Jurusan::first(); // sesuaikan nama model
+            $supervisor = Supervisor::first();
 
             DB::table('profiles')->insert([
                 'pr_id' => $pr_id,
@@ -41,12 +48,11 @@ class ProfileSeeder extends Seeder
                 // KHUSUS INTERN
                 // =====================
                 'pr_nim' => '23170201' . str_pad($index + 1, 2, '0', STR_PAD_LEFT),
-                'pr_kampus' => 'UIN Imam Bonjol Padang',
-                'pr_jurusan' => 'Sistem Informasi',
+                'pr_km_id' => $kampus?->km_id,
+                'pr_js_id' => $jurusan?->js_id,
                 'pr_internship_start' => '2025-01-01',
                 'pr_internship_end' => '2025-06-01',
-                'pr_supervisor_name' => 'Supervisor ' . ($index + 1),
-                'pr_supervisor_contact' => '0822334455' . $index,
+                'pr_sp_id' => $supervisor?->sp_id,
 
                 // =====================
                 // KHUSUS ADMIN + SUPER ADMIN

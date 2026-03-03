@@ -230,19 +230,19 @@
                     Swal.close();
 
                     const data = res.data;
-                    const profile = data.profile ? ? {};
+                    const profile = data.profile ?? {};
 
                     const form = $('#submitFormEditAdmin');
                     form.attr('action', `/data-admin/${data.id}/update`);
 
-                    form.find('input[name="name"]').val(data.name ? ? '');
-                    form.find('input[name="email"]').val(data.email ? ? '');
+                    form.find('input[name="name"]').val(data.name ?? '');
+                    form.find('input[name="email"]').val(data.email ?? '');
 
-                    form.find('input[name="pr_no_hp"]').val(profile.pr_no_hp ? ? '');
-                    form.find('textarea[name="pr_alamat"]').val(profile.pr_alamat ? ? '');
+                    form.find('input[name="pr_no_hp"]').val(profile.pr_no_hp ?? '');
+                    form.find('textarea[name="pr_alamat"]').val(profile.pr_alamat ?? '');
                     form.find('select[name="pr_jenis_kelamin"]').val(profile
-                        .pr_jenis_kelamin ? ? '');
-                    form.find('select[name="pr_posisi"]').val(profile.pr_posisi ? ? '');
+                        .pr_jenis_kelamin ?? '');
+                    form.find('select[name="pr_posisi"]').val(profile.pr_posisi ?? '');
 
                     form.find('input[name="pr_tanggal_lahir"]').val(dbToDisplay(profile
                         .pr_tanggal_lahir));
