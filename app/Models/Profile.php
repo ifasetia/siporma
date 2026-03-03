@@ -75,7 +75,7 @@ class Profile extends Model
         );
     }
 
-    public function pekerjaan()
+    public function supervisors()
     {
         return $this->belongsTo(Supervisors::class,
             'sp_id',

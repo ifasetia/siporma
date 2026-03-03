@@ -81,6 +81,8 @@
             window.table = $('#projectTable').DataTable({
         processing: true,
         serverSide: true,
+        responsive: false,
+        scrollX: true,
         ajax: "{{ route('projects.datatables') }}",
 
         columns: [
@@ -102,8 +104,6 @@
             {
                 data: 'status',
                 name: 'status',
-                orderable:false,
-                searchable:false
             },
             {
                 data: 'aksi',
