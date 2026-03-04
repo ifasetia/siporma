@@ -101,31 +101,31 @@
                         Status Akun
                     </label>
 
-                    <label class="flex items-center gap-4 cursor-pointer">
+                    <label class="flex items-center gap-4 cursor-pointer relative">
 
-                        <!-- Checkbox asli -->
-                        <input type="checkbox" id="statusToggle" class="sr-only peer">
+                        <!-- Checkbox -->
+                        <input type="checkbox" id="statusToggle" class="hidden">
 
                         <!-- Track -->
-                        <div class="w-14 h-7 bg-red-500 rounded-full
-                peer-checked:bg-green-500
-                transition duration-300 relative">
+                        <div id="statusTrack" class="w-14 h-7 bg-red-500 rounded-full
+                    transition-all duration-300 relative">
 
                             <!-- Dot -->
-                            <div class="absolute top-1 left-1 w-5 h-5 bg-white rounded-full shadow
-                    transition-all duration-300
-                    peer-checked:translate-x-7">
+                            <div id="statusDot" class="absolute top-1 left-1 w-5 h-5 bg-white rounded-full shadow
+                        flex items-center justify-center
+                        transition-all duration-300">
+
+                                <i id="statusIcon" class="fas fa-lock text-red-500 text-xs"></i>
                             </div>
                         </div>
 
                         <!-- Text -->
-                        <span id="statusText" class="font-semibold text-red-600
-                 peer-checked:text-green-600">
+                        <span id="statusText" class="font-semibold text-red-600 transition-colors duration-300">
                             Nonaktif
                         </span>
 
-                        <input type="hidden" name="pr_status" value="nonaktif">
-
+                        <!-- Hidden -->
+                        <input type="hidden" name="pr_status" id="statusValue">
                     </label>
                 </div>
 
@@ -155,6 +155,71 @@
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        // 1. Definisikan updateUI dulu
+        function updateUI(isActive) {
+            const toggle = document.getElementById('statusToggle');
+            const dot = document.getElementById('statusDot');
+            const track = document.getElementById('statusTrack');
+            const text = document.getElementById('statusText');
+            const icon = document.getElementById('statusIcon');
+            const hidden = document.getElementById('statusValue');
+
+            if (!toggle) return;
+
+            toggle.checked = isActive;
+
+            if (isActive) {
+                track.classList.remove('bg-red-500');
+                track.classList.add('bg-green-500');
+                dot.style.transform = "translateX(28px)";
+                text.textContent = 'Aktif';
+                text.classList.remove('text-red-600');
+                text.classList.add('text-green-600');
+                icon.className = 'fas fa-unlock text-green-500 text-xs';
+                hidden.value = 'aktif';
+            } else {
+                track.classList.remove('bg-green-500');
+                track.classList.add('bg-red-500');
+                dot.style.transform = "translateX(0px)";
+                text.textContent = 'Nonaktif';
+                text.classList.remove('text-green-600');
+                text.classList.add('text-red-600');
+                icon.className = 'fas fa-lock text-red-500 text-xs';
+                hidden.value = 'nonaktif';
+            }
+        }
+
+        // 2. Expose ke global
+        window.updateStatusToggle = updateUI;
+
+        // 3. Baru register event (pakai .off dulu!)
+        $(document).off('click', '#statusTrack').on('click', '#statusTrack', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const toggle = document.getElementById('statusToggle');
+            const name = $('input[name="name"]').val();
+
+            const nextState = !toggle.checked;
+            const nextStatus = nextState ? 'aktif' : 'nonaktif';
+
+            Swal.fire({
+                icon: 'question',
+                title: 'Konfirmasi',
+                html: `Anda yakin ingin <b>${nextStatus === 'aktif' ? 'mengaktifkan' : 'menonaktifkan'}</b> akun <b>${name}</b>?`,
+                showCancelButton: true,
+                confirmButtonText: 'Ya, lanjutkan',
+                cancelButtonText: 'Batal',
+                confirmButtonColor: nextStatus === 'aktif' ? '#16a34a' : '#dc2626'
+            }).then((result) => {
+
+                if (result.isConfirmed) {
+                    updateUI(nextState);
+                }
+
+            });
+        });
+
 
         document.addEventListener('input', function (e) {
 
@@ -247,16 +312,9 @@
                     form.find('input[name="pr_tanggal_lahir"]').val(dbToDisplay(profile
                         .pr_tanggal_lahir));
 
-                    if (profile.pr_status === 'aktif') {
-                        $('#statusToggle').prop('checked', true);
-                        $('#statusText').text('Aktif');
-                        $('input[name="pr_status"]').val('aktif');
-                    } else {
-                        $('#statusToggle').prop('checked', false);
-                        $('#statusText').text('Nonaktif');
-                        $('input[name="pr_status"]').val('nonaktif');
-                    }
-
+                    setTimeout(() => {
+                        updateUI(profile.pr_status === 'aktif');
+                    }, 50);
                     $('#adminEditModal').removeClass('hidden');
                     $('body').addClass('overflow-hidden');
                 },
@@ -264,7 +322,7 @@
                     Swal.fire({
                         icon: 'error',
                         title: 'Gagal mengambil data',
-                        text: xhr.responseJSON ? .message ||
+                        text: xhr.responseJSON ?.message ||
                             'Terjadi kesalahan server'
                     });
                 }
