@@ -271,7 +271,26 @@
         e.preventDefault();
         e.stopPropagation();
         const toggle = document.getElementById('statusToggle');
-        updateUI(!toggle.checked);
+        const name = $('input[name="name"]').val();
+
+            const nextState = !toggle.checked;
+            const nextStatus = nextState ? 'aktif' : 'nonaktif';
+
+            Swal.fire({
+                icon: 'question',
+                title: 'Konfirmasi',
+                html: `Anda yakin ingin <b>${nextStatus === 'aktif' ? 'mengaktifkan' : 'menonaktifkan'}</b> akun <b>${name}</b>?`,
+                showCancelButton: true,
+                confirmButtonText: 'Ya, lanjutkan',
+                cancelButtonText: 'Batal',
+                confirmButtonColor: nextStatus === 'aktif' ? '#16a34a' : '#dc2626'
+            }).then((result) => {
+
+                if (result.isConfirmed) {
+                    updateUI(nextState);
+                }
+
+            });
     });
 
 

@@ -123,6 +123,10 @@ document.addEventListener('DOMContentLoaded', function () {
     // OPEN DETAIL
     $(document).on('click','.btn-detail',function(){
 
+        e.preventDefault();
+        e.stopPropagation();
+
+        console.log("DETAIL CLICKED");
         const id = $(this).data('id');
 
         Swal.fire({
@@ -134,6 +138,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         $.get(`/data-intern/${id}/detail`, function(res){
+
+        console.log(res);
 
             Swal.close();
 
@@ -152,9 +158,9 @@ document.addEventListener('DOMContentLoaded', function () {
             $('#d_gender').text(profile?.pr_jenis_kelamin ?? '-');
             $('#d_birth').text(dbToDisplay(profile?.pr_tanggal_lahir));
             $('#d_alamat').text(profile?.pr_alamat ?? '-');
-            const status = profile?.pr_status ?? 'Nonaktif';
+            const status = profile?.pr_status ?? 'nonaktif';
 
-            if(status === 'Aktif'){
+            if(status === 'aktif'){
                 $('#d_status').html(`
                     <span class="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
                         Aktif

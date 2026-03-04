@@ -80,24 +80,23 @@ class DatainternController extends Controller
             ->addColumn('status', function ($row) {
 
                 $status = $row->profile->pr_status ?? 'nonaktif';
+                $nama   = $row->profile->pr_nama ?? $row->name;
 
                 if ($status == 'aktif') {
                     return '
-                <span
-                    data-id="' . $row->id . '"
-                    data-name="' . $row->name . '"
-                    data-status="aktif"
-                    class="toggle-status cursor-pointer inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
+                <span class="toggle-status cursor-pointer inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700"
+                    data-id="'.$row->id.'"
+                    data-name="'.$nama.'"
+                    data-status="'.$status.'">
                     Aktif
                 </span>';
                 }
 
                 return '
-            <span
-                data-id="' . $row->id . '"
-                data-name="' . $row->name . '"
-                data-status="nonaktif"
-                class="toggle-status cursor-pointer inline-flex items-center rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-700">
+            <span class="toggle-status cursor-pointer inline-flex items-center rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-700"
+                data-id="'.$row->id.'"
+                data-name="'.$nama.'"
+                data-status="'.$status.'">
                 Nonaktif
             </span>';
             })

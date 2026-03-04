@@ -73,165 +73,169 @@
             return;
         }
 
-            window.table = $('#internTable').DataTable({
-                processing: true,
-                serverSide: true,
-                responsive: false,
-                scrollX: true,
-                ajax: "{{ route('data-intern.datatables') }}",
+        window.table = $('#internTable').DataTable({
+            processing: true,
+            serverSide: true,
+            responsive: false,
+            scrollX: true,
+            ajax: "{{ route('data-intern.datatables') }}",
 
-                columns: [{
-                        data: 'DT_RowIndex',
-                        orderable: false,
-                        searchable: false,
-                        className: 'text-center',
-                        width: '50px'
-                    },
-                    {
-                        data: 'pr_nama',
-                        name: 'pr_nama'
-                    },
-                    {
-                        data: 'email',
-                        name: 'email'
-                    },
-                    {
-                        data: 'pr_kampus',
-                        name: 'pr_kampus'
-                    },
-                    {
-                        data: 'pr_jurusan',
-                        name: 'pr_jurusan'
-                    },
-
-
-                    {
-                        data: 'status',
-                        orderable: false,
-                        searchable: false
-                    },
+            columns: [{
+                    data: 'DT_RowIndex',
+                    orderable: false,
+                    searchable: false,
+                    className: 'text-center',
+                    width: '50px'
+                },
+                {
+                    data: 'pr_nama',
+                    name: 'pr_nama'
+                },
+                {
+                    data: 'email',
+                    name: 'email'
+                },
+                {
+                    data: 'pr_kampus',
+                    name: 'pr_kampus'
+                },
+                {
+                    data: 'pr_jurusan',
+                    name: 'pr_jurusan'
+                },
 
 
-                    {
-                        data: 'detail',
-                        orderable: false,
-                        searchable: false,
-                        className: 'text-center'
-                    },
-                    {
-                        data: 'aksi',
-                        orderable: false,
-                        searchable: false,
-                        className: 'text-center'
-                    }
-                ],
-            });
+                {
+                    data: 'status',
+                    orderable: false,
+                    searchable: false
+                },
 
-            // $(document).on('click', '.btn-detail', function () {
 
-            //     const id = $(this).data('id');
+                {
+                    data: 'detail',
+                    orderable: false,
+                    searchable: false,
+                    className: 'text-center'
+                },
+                {
+                    data: 'aksi',
+                    orderable: false,
+                    searchable: false,
+                    className: 'text-center'
+                }
+            ],
+        });
 
-            //     window.location.href = `/data-intern/${id}/detail`;
+        $(document).on('click', '.btn-detail', function () {
 
-            // });
+            const id = $(this).data('id');
 
-            // $(document).on('click', '.btn-edit', function () {
-
-            //     const id = $(this).data('id');
-            //     alert(id);
-
-            //     // window.location.href = `/data-intern/${id}/edit`;
-
-            // });
-
-            // $(document).on('click', '.btn-delete', function () {
-
-            //     const id = $(this).data('id');
-
-            //     Swal.fire({
-            //         icon: 'warning',
-            //         title: 'Yakin hapus?',
-            //         text: 'Data tidak bisa dikembalikan',
-            //         showCancelButton: true,
-            //         confirmButtonText: 'Ya, hapus',
-            //         cancelButtonText: 'Batal',
-            //         confirmButtonColor: '#dc2626'
-            //     }).then((result) => {
-
-            //         if (result.isConfirmed) {
-
-            //             $.ajax({
-            //                 url: `/data-intern/${id}`,
-            //                 type: 'DELETE',
-            //                 data: {
-            //                     _token: $('meta[name="csrf-token"]').attr('content')
-            //                 },
-            //                 success: function (res) {
-
-            //                     Swal.fire({
-            //                         icon: 'success',
-            //                         title: 'Berhasil',
-            //                         text: res.message,
-            //                         timer: 1200,
-            //                         showConfirmButton: false
-            //                     });
-
-            //                     window.table.ajax.reload(null, false);
-            //                 },
-            //                 error: function () {
-            //                     Swal.fire('Gagal', 'Terjadi kesalahan', 'error');
-            //                 }
-            //             });
-
-            //         }
-
-            //     });
-
-            // });
-
-            // $(document).on('click', '.toggle-status', function () {
-
-            //     const id = $(this).data('id');
-            //     const name = $(this).data('name');
-            //     const status = $(this).data('status');
-
-            //     const nextStatus = status === 'Aktif' ? 'Nonaktif' : 'Aktif';
-
-            //     Swal.fire({
-            //         icon: 'question',
-            //         title: 'Konfirmasi',
-            //         html: `Anda yakin ingin <b>${nextStatus === 'Aktif' ? 'mengaktifkan' : 'menonaktifkan'}</b> akun <b>${name}</b>?`,
-            //         showCancelButton: true,
-            //         confirmButtonText: 'Ya, lanjutkan',
-            //         cancelButtonText: 'Batal',
-            //         confirmButtonColor: nextStatus === 'Aktif' ? '#16a34a' : '#dc2626'
-            //     }).then((result) => {
-
-            //         if (result.isConfirmed) {
-
-            //             $.post(`/data-intern/${id}/toggle-status`, {
-            //                 _token: $('meta[name="csrf-token"]').attr('content')
-            //             }, function () {
-
-            //                 Swal.fire({
-            //                     icon: 'success',
-            //                     title: 'Berhasil',
-            //                     text: `Status akun ${name} berhasil diubah`,
-            //                     timer: 1200,
-            //                     showConfirmButton: false
-            //                 });
-
-            //                 window.table.ajax.reload(null, false);
-            //             });
-
-            //         }
-
-            //     });
-
-            // });
-
+            window.location.href = `/data-intern/${id}/detail`;
 
         });
 
-    </script>
+        $(document).on('click', '.btn-edit', function () {
+
+            const id = $(this).data('id');
+
+            // window.location.href = `/data-intern/${id}/edit`;
+
+        });
+
+        $(document).on('click', '.btn-delete', function () {
+
+            const id = $(this).data('id');
+
+            Swal.fire({
+                icon: 'warning',
+                title: 'Yakin hapus?',
+                text: 'Data tidak bisa dikembalikan',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, hapus',
+                cancelButtonText: 'Batal',
+                confirmButtonColor: '#dc2626'
+            }).then((result) => {
+
+                if (result.isConfirmed) {
+
+                    $.ajax({
+                        url: `/data-intern/${id}`,
+                        type: 'DELETE',
+                        data: {
+                            _token: $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function (res) {
+
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil',
+                                text: res.message,
+                                timer: 1200,
+                                showConfirmButton: false
+                            });
+
+                            window.table.ajax.reload(null, false);
+                        },
+                        error: function () {
+                            Swal.fire('Gagal', 'Terjadi kesalahan', 'error');
+                        }
+                    });
+
+                }
+
+            });
+
+        });
+
+    $(document).on('click', '.toggle-status', function () {
+
+    const id = $(this).data('id');
+    const name = $(this).data('name');
+    const status = $(this).data('status');
+
+    const nextStatus = status === 'aktif' ? 'nonaktif' : 'aktif';
+
+    Swal.fire({
+        icon: 'question',
+        title: 'Konfirmasi',
+        html: `Anda yakin ingin <b>${nextStatus === 'aktif' ? 'mengaktifkan' : 'menonaktifkan'}</b> akun <b>${name}</b>?`,
+        showCancelButton: true,
+        confirmButtonText: 'Ya, lanjutkan',
+        cancelButtonText: 'Batal',
+        confirmButtonColor: nextStatus === 'aktif' ? '#16a34a' : '#dc2626'
+    }).then((result) => {
+
+        if (result.isConfirmed) {
+
+            $.ajax({
+                url: `/data-intern/${id}/toggle-status`,
+                type: 'POST',
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function () {
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil',
+                        text: `Status akun ${name} berhasil diubah`,
+                        timer: 1200,
+                        showConfirmButton: false
+                    });
+
+                    window.table.ajax.reload(null, false);
+                }
+            });
+
+        }
+
+    });
+
+});
+
+
+    });
+
+</script>
 @endpush
