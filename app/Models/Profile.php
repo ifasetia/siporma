@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Master\Kampus;
 use App\Models\Master\Jurusan;
+use App\Models\Master\Pekerjaan;
+use App\Models\Supervisor;
 
 class Profile extends Model
 {
@@ -56,12 +58,13 @@ class Profile extends Model
     // RELASI KE MASTER KAMPUS
     public function kampus()
     {
-        return $this->belongsTo(Kampus::class,'pr_km_id','km_id');
+        return $this->belongsTo(Kampus::class, 'pr_km_id', 'km_id');
     }
 
     public function pekerjaan()
     {
-        return $this->belongsTo(Pekerjaan::class,
+        return $this->belongsTo(
+            Pekerjaan::class,
             'pr_id_pekerjaan',
             'pk_id_pekerjaan'
         );
@@ -69,7 +72,8 @@ class Profile extends Model
 
     public function jurusan()
     {
-        return $this->belongsTo(Jurusan::class,
+        return $this->belongsTo(
+            Jurusan::class,
             'pr_js_id',
             'js_id'
         );
@@ -77,11 +81,10 @@ class Profile extends Model
 
     public function supervisors()
     {
-        return $this->belongsTo(Supervisors::class,
-            'sp_id',
+        return $this->belongsTo(
+            Supervisor::class,
+            'pr_sp_id',
             'sp_id'
         );
     }
-    
-
 }

@@ -91,11 +91,6 @@
                     <label class="block font-medium text-gray-500">Nama Supervisor</label>
                     <p id="d_spv" class="mt-1 text-gray-800"></p>
                 </div>
-
-                <div>
-                    <label class="block font-medium text-gray-500">Kontak Supervisor</label>
-                    <p id="d_spv_contact" class="mt-1 text-gray-800"></p>
-                </div>
             </div>
 
             <!-- FOOTER -->
@@ -144,11 +139,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const profile = res.data.profile;
 
+            console.log(profile);
+
+
             $('#d_nama').text(profile?.pr_nama ?? '-');
             $('#d_email').text(res.data.email ?? '-');
             $('#d_nim').text(profile?.pr_nim ?? '-');
             $('#d_kampus').text(profile?.kampus?.km_nama_kampus ?? '-');
-            $('#d_jurusan').text(profile?.pr_jurusan ?? '-');
+            $('#d_jurusan').text(profile?.jurusan?.js_nama ?? '-');
             $('#d_pekerjaan').text(profile?.pekerjaan?.pk_nama_pekerjaan ?? '-');
             $('#d_hp').text(profile?.pr_no_hp ?? '-');
             $('#d_gender').text(profile?.pr_jenis_kelamin ?? '-');
@@ -172,8 +170,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             $('#d_start').text(dbToDisplay(profile?.pr_internship_start));
             $('#d_end').text(dbToDisplay(profile?.pr_internship_end));
-            $('#d_spv').text(profile?.pr_supervisor_name ?? '-');
-            $('#d_spv_contact').text(profile?.pr_supervisor_contact ?? '-');
+            $('#d_spv').text(profile?.supervisors?.sp_nama ?? '-');
 
 
             $('#detailModal').removeClass('hidden');
