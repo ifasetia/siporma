@@ -32,6 +32,7 @@ Route::middleware('auth')->group(function () {
     // Profile (Menggunakan View di pages/profile/index.blade.php)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::patch('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Management User (Lengkap dengan DataTable)
@@ -74,20 +75,20 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{id}', [TeknologiController::class, 'destroy'])->name('destroy');
     });
 
-Route::middleware(['auth'])
-    ->prefix('data-intern')
-    ->name('data-intern.')
-    ->group(function () {
-        Route::get('/', [DatainternController::class,'index'])->name('index');
-        Route::get('/datatables', [DatainternController::class,'datatable'])->name('datatables');
-        Route::get('/{id}/detail',[DatainternController::class,'detail'])->name('detail');
-        Route::post('/store', [DatainternController::class,'store'])->name('store');
-        Route::get('/{id}/edit', [DataInternController::class, 'edit']);
-        Route::post('/{id}/update', [DataInternController::class, 'update']);
-        Route::post('/{id}/toggle-status',[DatainternController::class,'toggleStatus']);
-        Route::delete('/{id}', [DatainternController::class,'destroy'])->name('destroy');
-        Route::get('/data-intern/create', [DatainternController::class, 'create'])->name('data-intern.create');
-    });
+    Route::middleware(['auth'])
+        ->prefix('data-intern')
+        ->name('data-intern.')
+        ->group(function () {
+            Route::get('/', [DatainternController::class, 'index'])->name('index');
+            Route::get('/datatables', [DatainternController::class, 'datatable'])->name('datatables');
+            Route::get('/{id}/detail', [DatainternController::class, 'detail'])->name('detail');
+            Route::post('/store', [DatainternController::class, 'store'])->name('store');
+            Route::get('/{id}/edit', [DataInternController::class, 'edit']);
+            Route::post('/{id}/update', [DataInternController::class, 'update']);
+            Route::post('/{id}/toggle-status', [DatainternController::class, 'toggleStatus']);
+            Route::delete('/{id}', [DatainternController::class, 'destroy'])->name('destroy');
+            Route::get('/data-intern/create', [DatainternController::class, 'create'])->name('data-intern.create');
+        });
 
     // Master Data Status Proyek
     Route::prefix('status-proyek')->name('status-proyek.')->group(function () {
@@ -101,42 +102,40 @@ Route::middleware(['auth'])
 
 
     Route::middleware(['auth'])
-    ->prefix('data-admin')
-    ->name('data-admin.')
-    ->group(function () {
-        Route::get('/', [DataadminController::class,'index'])->name('index');
-        Route::get('/datatables', [DataadminController::class,'datatable'])->name('datatables');
-        Route::get('/{id}/detail',[DataadminController::class,'detail'])->name('detail');
-        Route::post('/store', [DataadminController::class,'store'])->name('store');
-        Route::get('/{id}/edit', [DataadminController::class, 'edit']);
-        Route::post('/{id}/update', [DataadminController::class, 'update']);
-        Route::post('/{id}/toggle-status',[DataadminController::class,'toggleStatus']);
-        Route::delete('/{id}', [DataadminController::class,'destroy'])->name('destroy');
-
-    });
+        ->prefix('data-admin')
+        ->name('data-admin.')
+        ->group(function () {
+            Route::get('/', [DataadminController::class, 'index'])->name('index');
+            Route::get('/datatables', [DataadminController::class, 'datatable'])->name('datatables');
+            Route::get('/{id}/detail', [DataadminController::class, 'detail'])->name('detail');
+            Route::post('/store', [DataadminController::class, 'store'])->name('store');
+            Route::get('/{id}/edit', [DataadminController::class, 'edit']);
+            Route::post('/{id}/update', [DataadminController::class, 'update']);
+            Route::post('/{id}/toggle-status', [DataadminController::class, 'toggleStatus']);
+            Route::delete('/{id}', [DataadminController::class, 'destroy'])->name('destroy');
+        });
 
 
     Route::prefix('projects')
-    ->name('projects.')
-    ->group(function () {
+        ->name('projects.')
+        ->group(function () {
 
-        Route::get('/', [ProjectController::class,'index'])->name('index');
-        Route::get('/datatables', [ProjectController::class,'datatable'])->name('datatables');
+            Route::get('/', [ProjectController::class, 'index'])->name('index');
+            Route::get('/datatables', [ProjectController::class, 'datatable'])->name('datatables');
 
-        Route::post('/store', [ProjectController::class,'store'])->name('store');
-        Route::get('/{id}/edit', [ProjectController::class,'edit'])->name('edit');
-        Route::post('/{id}/update', [ProjectController::class,'update'])->name('update');
-        Route::get('/{id}/detail', [ProjectController::class,'detail'])->name('detail');
+            Route::post('/store', [ProjectController::class, 'store'])->name('store');
+            Route::get('/{id}/edit', [ProjectController::class, 'edit'])->name('edit');
+            Route::post('/{id}/update', [ProjectController::class, 'update'])->name('update');
+            Route::get('/{id}/detail', [ProjectController::class, 'detail'])->name('detail');
 
-        Route::delete('/{id}', [ProjectController::class,'destroy'])->name('destroy');
-
-    });
+            Route::delete('/{id}', [ProjectController::class, 'destroy'])->name('destroy');
+        });
 
     // ROUTE UNTUK VALIDASI PROYEK (ADMIN)
     Route::get('/validasi-proyek', [ValidasiProyekController::class, 'index'])->name('validasi-proyek.index');
     Route::get('/validasi-proyek/datatables', [ValidasiProyekController::class, 'datatable'])->name('validasi-proyek.datatables');
     Route::put('/validasi-proyek/{id}/status', [ValidasiProyekController::class, 'updateStatus'])->name('validasi-proyek.update-status');
-    
+
 
     // Kegiatan (Jika nanti diaktifkan oleh Admin)
     // Route::resource('kegiatan', KegiatanController::class);
@@ -154,22 +153,21 @@ Route::middleware(['auth'])
     Route::get('supervisor/datatables', [SupervisorController::class, 'datatable'])->name('supervisor.datatables');
     Route::resource('supervisor', SupervisorController::class);
     Route::post('supervisor/{id}/update', [SupervisorController::class, 'update'])->name('supervisor.update');
-    Route::post('/supervisor/{id}/toggle-status', [SupervisorController::class,'toggleStatus'])->name('supervisor.toggle');
+    Route::post('/supervisor/{id}/toggle-status', [SupervisorController::class, 'toggleStatus'])->name('supervisor.toggle');
 
     // Data Intern
     Route::middleware(['auth'])
         ->prefix('data-intern')
         ->name('data-intern.')
         ->group(function () {
-            Route::get('/', [DatainternController::class,'index'])->name('index');
-            Route::get('/datatables', [DatainternController::class,'datatable'])->name('datatables');
-            Route::get('/{id}/detail', [DatainternController::class,'detail'])->name('detail');
-            Route::post('/store', [DatainternController::class,'store'])->name('store');
+            Route::get('/', [DatainternController::class, 'index'])->name('index');
+            Route::get('/datatables', [DatainternController::class, 'datatable'])->name('datatables');
+            Route::get('/{id}/detail', [DatainternController::class, 'detail'])->name('detail');
+            Route::post('/store', [DatainternController::class, 'store'])->name('store');
             Route::get('/{id}/edit', [DatainternController::class, 'edit'])->name('edit');
             Route::post('/{id}/update', [DatainternController::class, 'update'])->name('update');
-            Route::post('/{id}/toggle-status', [DatainternController::class,'toggleStatus'])->name('toggle-status');
+            Route::post('/{id}/toggle-status', [DatainternController::class, 'toggleStatus'])->name('toggle-status');
         });
-
 });
 
 

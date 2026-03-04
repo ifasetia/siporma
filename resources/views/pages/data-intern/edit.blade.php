@@ -1,6 +1,5 @@
 <!-- MODAL EDIT INTERN -->
 <div id="internEditModal" class="fixed inset-0 z-999999 hidden p-5 overflow-y-auto" role="dialog" aria-modal="true">
-
     <!-- Overlay -->
     <div class="fixed inset-0 bg-gray-400/50 backdrop-blur-sm"></div>
 
@@ -77,6 +76,23 @@
 
                     <span class="error text-xs text-red-500" data-error="pr_jurusan_id"></span>
                 </div>
+                <div>
+                    <label>Pekerjaan</label>
+                    <select name="pr_pekerjaan_id"
+                        class="form-input input-field h-11 w-full rounded-lg border border-gray-300 px-4 text-sm">
+
+                        <option value="">-- Pilih Pekerjaan --</option>
+
+                        @foreach($pekerjaan as $p)
+                        <option value="{{ $p->pk_id_pekerjaan }}">
+                            {{ $p->pk_nama_pekerjaan }}
+                        </option>
+                        @endforeach
+
+                    </select>
+
+                    <span class="error text-xs text-red-500" data-error="pr_pekerjaan_id"></span>
+                </div>
 
                 <div>
                     <label>NIM</label>
@@ -128,53 +144,63 @@
                 </div>
 
                 <div>
-                    <label>Nama Supervisor</label>
-                    <input name="pr_supervisor_name" placeholder="Nama pembimbing"
+                    <label>Supervisor</label>
+                    <select name="pr_supervisor_id"
                         class="form-input input-field h-11 w-full rounded-lg border border-gray-300 px-4 text-sm">
-                    <span class="error text-xs text-red-500" data-error="pr_supervisor_name"></span>
+
+                        <option value="">-- Pilih Supervisor --</option>
+
+                        @foreach($supervisor as $j)
+                        <option value="{{ $j->sp_id }}">
+                            {{ $j->sp_nama }}
+                        </option>
+                        @endforeach
+
+                    </select>
+
+                    <span class="error text-xs text-red-500" data-error="pr_supervisor_id"></span>
                 </div>
 
-                <div>
-                    <label>Kontak Supervisor</label>
-                    <input name="pr_supervisor_contact" placeholder="08xxxxxxxx"
-                        class="form-input input-field phone-input h-11 w-full rounded-lg border border-gray-300 px-4 text-sm">
-                    <span class="error text-xs text-red-500" data-error="pr_supervisor_contact"></span>
-                </div>
 
+<div>
+    <label class="block mb-2 text-sm font-medium text-gray-700">
+        Status Akun
+    </label>
 
-                <div>
-                    <label class="block mb-2 text-sm font-medium text-gray-700">
-                        Status Akun
-                    </label>
+    <label class="flex items-center gap-4 cursor-pointer relative">
 
-                    <label class="flex items-center gap-4 cursor-pointer">
+        <!-- Checkbox -->
+        <input type="checkbox"
+               id="statusToggle"
+               class="hidden">
 
-                        <!-- Checkbox asli -->
-                        <input type="checkbox" id="statusToggle" class="sr-only peer">
+        <!-- Track -->
+        <div id="statusTrack"
+             class="w-14 h-7 bg-red-500 rounded-full
+                    transition-all duration-300 relative">
 
-                        <!-- Track -->
-                        <div class="w-14 h-7 bg-red-500 rounded-full
-                peer-checked:bg-green-500
-                transition duration-300 relative">
+            <!-- Dot -->
+            <div id="statusDot"
+                 class="absolute top-1 left-1 w-5 h-5 bg-white rounded-full shadow
+                        flex items-center justify-center
+                        transition-all duration-300">
 
-                            <!-- Dot -->
-                            <div class="absolute top-1 left-1 w-5 h-5 bg-white rounded-full shadow
-                    transition-all duration-300
-                    peer-checked:translate-x-7">
-                            </div>
-                        </div>
+                <i id="statusIcon" class="fas fa-lock text-red-500 text-xs"></i>
+            </div>
+        </div>
 
-                        <!-- Text -->
-                        <span id="statusText" class="font-semibold text-red-600
-                 peer-checked:text-green-600">
-                            Nonaktif
-                        </span>
+        <!-- Text -->
+        <span id="statusText"
+              class="font-semibold text-red-600 transition-colors duration-300">
+            Nonaktif
+        </span>
 
-                        <input type="hidden" name="pr_status" value="nonaktif">
-
-                    </label>
-                </div>
-
+        <!-- Hidden -->
+        <input type="hidden"
+               name="pr_status"
+               id="statusValue">
+    </label>
+</div>
 
 
 
@@ -200,7 +226,57 @@
 
 @push('scripts')
 <script>
+
+
     document.addEventListener('DOMContentLoaded', function () {
+    // 1. Definisikan updateUI dulu
+    function updateUI(isActive) {
+        const toggle = document.getElementById('statusToggle');
+        const dot    = document.getElementById('statusDot');
+        const track  = document.getElementById('statusTrack');
+        const text   = document.getElementById('statusText');
+        const icon   = document.getElementById('statusIcon');
+        const hidden = document.getElementById('statusValue');
+
+        if (!toggle) return;
+
+        toggle.checked = isActive;
+
+        if (isActive) {
+            track.classList.remove('bg-red-500');
+            track.classList.add('bg-green-500');
+            dot.style.transform   = "translateX(28px)";
+            text.textContent      = 'Aktif';
+            text.classList.remove('text-red-600');
+            text.classList.add('text-green-600');
+            icon.className        = 'fas fa-unlock text-green-500 text-xs';
+            hidden.value          = 'aktif';
+        } else {
+            track.classList.remove('bg-green-500');
+            track.classList.add('bg-red-500');
+            dot.style.transform   = "translateX(0px)";
+            text.textContent      = 'Nonaktif';
+            text.classList.remove('text-green-600');
+            text.classList.add('text-red-600');
+            icon.className        = 'fas fa-lock text-red-500 text-xs';
+            hidden.value          = 'nonaktif';
+        }
+    }
+
+    // 2. Expose ke global
+    window.updateStatusToggle = updateUI;
+
+    // 3. Baru register event (pakai .off dulu!)
+    $(document).off('click', '#statusTrack').on('click', '#statusTrack', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const toggle = document.getElementById('statusToggle');
+        updateUI(!toggle.checked);
+    });
+
+
+
+
 
         document.addEventListener('input', function (e) {
 
@@ -287,6 +363,9 @@
                     const data = res.data;
                     const profile = data.profile ?? {};
 
+                    console.log(profile);
+
+
                     const form = $('#submitFormEditIntern');
                     form.attr('action', `/data-intern/${data.id}/update`);
 
@@ -295,9 +374,10 @@
 
                     form.find('input[name="pr_no_hp"]').val(profile.pr_no_hp ?? '');
                     form.find('input[name="pr_nim"]').val(profile.pr_nim ?? '');
-                    form.find('select[name="pr_jurusan_id"]').val(profile.pr_jurusan_id ?? '');
+                    form.find('select[name="pr_jurusan_id"]').val(profile.pr_js_id ?? '');
+                    form.find('select[name="pr_pekerjaan_id"]').val(profile.pr_id_pekerjaan ?? '');
                     form.find('textarea[name="pr_alamat"]').val(profile.pr_alamat ?? '');
-                    form.find('select[name="pr_kampus_id"]').val(profile.pr_kampus_id ??
+                    form.find('select[name="pr_kampus_id"]').val(profile.pr_km_id ??
                         '');
                     form.find('select[name="pr_jenis_kelamin"]').val(profile
                         .pr_jenis_kelamin ?? '');
@@ -309,23 +389,15 @@
                     form.find('input[name="pr_internship_end"]').val(dbToDisplay(profile
                         .pr_internship_end));
 
-                    form.find('input[name="pr_supervisor_name"]').val(profile
-                        .pr_supervisor_name ?? '');
-                    form.find('input[name="pr_supervisor_contact"]').val(profile
-                        .pr_supervisor_contact ?? '');
+                    form.find('select[name="pr_supervisor_id"]').val(profile.pr_sp_id ?? '');
 
-
-                    if (profile.pr_status === 'aktif') {
-                        $('#statusToggle').prop('checked', true);
-                        $('#statusText').text('Aktif');
-                        $('input[name="pr_status"]').val('aktif');
-                    } else {
-                        $('#statusToggle').prop('checked', false);
-                        $('#statusText').text('Nonaktif');
-                        $('input[name="pr_status"]').val('nonaktif');
-                    }
 
                     $('#internEditModal').removeClass('hidden');
+                    $('body').addClass('overflow-hidden');
+
+                    setTimeout(() => {
+                        updateUI(profile.pr_status === 'aktif');
+                    }, 50);
                     $('body').addClass('overflow-hidden');
 
                 },
@@ -470,39 +542,66 @@
 
         });
 
-        $('#statusToggle').on('change', function () {
+        // $('#statusToggle').on('change', function () {
 
-            const isActive = $(this).is(':checked');
-            const hidden = $('input[name="pr_status"]');
-            const name = $('input[name="name"]').val();
+        //     const isActive = $(this).is(':checked');
+        //     const hidden = $('input[name="pr_status"]');
+        //     const name = $('input[name="name"]').val();
 
-            const nextStatus = isActive ? 'aktif' : 'nonaktif';
+        //     const nextStatus = isActive ? 'aktif' : 'nonaktif';
 
-            Swal.fire({
-                icon: 'question',
-                title: 'Konfirmasi',
-                html: `Anda yakin ingin <b>${nextStatus === 'aktif' ? 'mengaktifkan' : 'menonaktifkan'}</b> akun <b>${name}</b>?`,
-                showCancelButton: true,
-                confirmButtonText: 'Ya, lanjutkan',
-                cancelButtonText: 'Batal',
-                confirmButtonColor: nextStatus === 'aktif' ? '#16a34a' : '#dc2626'
-            }).then((result) => {
+        //     Swal.fire({
+        //         icon: 'question',
+        //         title: 'Konfirmasi',
+        //         html: `Anda yakin ingin <b>${nextStatus === 'aktif' ? 'mengaktifkan' : 'menonaktifkan'}</b> akun <b>${name}</b>?`,
+        //         showCancelButton: true,
+        //         confirmButtonText: 'Ya, lanjutkan',
+        //         cancelButtonText: 'Batal',
+        //         confirmButtonColor: nextStatus === 'aktif' ? '#16a34a' : '#dc2626'
+        //     }).then((result) => {
 
-                if (result.isConfirmed) {
-                    hidden.val(nextStatus);
+        //         if (result.isConfirmed) {
+        //             hidden.val(nextStatus);
 
-                    $('#statusText').text(
-                        nextStatus === 'aktif' ? 'Aktif' : 'Nonaktif'
-                    );
+        //             $('#statusText').text(
+        //                 nextStatus === 'aktif' ? 'Aktif' : 'Nonaktif'
+        //             );
 
-                } else {
-                    // balikkan toggle jika batal
-                    $(this).prop('checked', !isActive);
-                }
+        //         } else {
+        //             // balikkan toggle jika batal
+        //             $(this).prop('checked', !isActive);
+        //         }
 
-            });
+        //     });
 
-        });
+        // });
+
+
+//         $(document).on('click', '#statusTrack', function () {
+
+//     const toggle = document.getElementById('statusToggle');
+//     const name = $('input[name="name"]').val();
+//     const nextState = !toggle.checked;
+
+//     const nextStatus = nextState ? 'aktif' : 'nonaktif';
+
+//     Swal.fire({
+//         icon: 'question',
+//         title: 'Konfirmasi',
+//         html: `Anda yakin ingin <b>${nextStatus === 'aktif' ? 'mengaktifkan' : 'menonaktifkan'}</b> akun <b>${name}</b>?`,
+//         showCancelButton: true,
+//         confirmButtonText: 'Ya, lanjutkan',
+//         cancelButtonText: 'Batal',
+//         confirmButtonColor: nextStatus === 'aktif' ? '#16a34a' : '#dc2626'
+//     }).then((result) => {
+
+//         if (result.isConfirmed) {
+//             updateUI(nextState);
+//         }
+
+//     });
+
+// });
     });
 
 </script>
