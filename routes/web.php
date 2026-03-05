@@ -16,6 +16,7 @@ use App\Http\Controllers\Master\StatusProyekController;
 use App\Http\Controllers\ValidasiProyekController;
 
 
+
 // 1. Halaman Depan (Public)
 Route::get('/', function () {
     return view('welcome');

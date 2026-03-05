@@ -47,6 +47,7 @@
                 <thead class="bg-gray-50 text-xs uppercase font-medium text-gray-600">
                     <tr>
                         <th class="px-6 py-3 text-center w-16">No</th>
+                        <th class="px-6 py-3 text-center w-16">Foto</th>
                         <th class="px-6 py-3 text-left">Nama</th>
                         <th class="px-6 py-3 text-left">Email</th>
                         <th class="px-6 py-3 text-left">No HP</th>
@@ -95,26 +96,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 className: 'text-center',
                 width: '50px'
             },
+            { data: 'foto', name: 'foto', orderable:false, searchable:false },
             { data: 'pr_nama', name: 'pr_nama' },
             { data: 'email', name: 'email' },
             { data: 'pr_no_hp', name: 'pr_no_hp' },
             { data: 'pr_posisi', name: 'pr_posisi' },
             { data: 'status', orderable:false, searchable:false },
-            {
-                data: 'detail',
-                orderable: false,
-                searchable: false,
-                className: 'text-center'
-            },
-            {
-                data: 'aksi',
-                orderable: false,
-                searchable: false,
-                className: 'text-center'
-            }
+            { data: 'detail', orderable:false, searchable:false, className:'text-center' },
+            { data: 'aksi', orderable:false, searchable:false, className:'text-center' },
         ],
-    });
 
+    });
+    
     // EVENT TOGGLE (sekali saja)
     $(document).on('click', '.toggle-status', function () {
 
