@@ -46,11 +46,11 @@
                             {{ $profile->pr_nama ?? $user->name }}
                         </h4>
 
-                        @if($profile?->pr_status === 'Aktif')
+                        @if(strtolower($profile?->pr_status) === 'aktif')
                         <span class="px-3 py-1 text-xs font-semibold text-green-700 bg-green-100 rounded-full">
                             Aktif
                         </span>
-                        @elseif($profile?->pr_status === 'Nonaktif')
+                        @elseif($profile?->pr_status === 'nonaktif')
                         <span class="px-3 py-1 text-xs font-semibold text-red-700 bg-red-100 rounded-full">
                             Nonaktif
                         </span>

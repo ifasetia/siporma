@@ -46,6 +46,7 @@
                 <thead class="bg-gray-50 text-gray-600 uppercase text-xs font-medium">
                     <tr>
                         <th class="px-6 py-3 text-center w-16">No</th>
+                        <th class="px-6 py-3 text-left">Foto</th>
                         <th class="px-6 py-3 text-left">Nama</th>
                         <th class="px-6 py-3 text-left">Email</th>
                         <th class="px-6 py-3 text-left">Role</th>
@@ -79,7 +80,7 @@
             processing: true,
             serverSide: true,
             responsive:false,
-            scrollX:true,  
+            scrollX:true,
             ajax: "{{ route('user.datatables') }}",
         columns: [
             {
@@ -90,6 +91,7 @@
                 searchable: false,
                 className: 'text-center'
             },
+            { data: 'foto', orderable:false, searchable:false },
             {
                 data: 'name',
                 name: 'name'

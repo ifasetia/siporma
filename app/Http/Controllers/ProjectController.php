@@ -13,6 +13,7 @@ use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
@@ -82,7 +83,7 @@ class ProjectController extends Controller
         <button
             type="button"
             data-id="'.$row->id.'"
-            class="btn-edit inline-flex items-center gap-1.5 rounded-md bg-blue-50 px-2.5 py-1 text-xs font-medium text-blue-600 hover:bg-blue-100">
+            class="btn-edit cursor-pointer inline-flex items-center gap-1.5 rounded-md bg-blue-50 px-2.5 py-1 text-xs font-medium text-blue-600 hover:bg-blue-100">
             Edit
         </button>
 
@@ -95,8 +96,10 @@ class ProjectController extends Controller
 
     </div>';
 })
-            ->rawColumns(['aksi','status','technologies'])
+            ->rawColumns(['aksi', 'status', 'technologies'])
+            ->escapeColumns([])
             ->make(true);
+
     }
 
 
@@ -183,7 +186,7 @@ class ProjectController extends Controller
 
         // Sync ke pivot project_members
         $project->members()->sync($members);
-                
+
         DB::commit();
 
         return response()->json([
@@ -224,8 +227,6 @@ class ProjectController extends Controller
     // ======================
     public function update(Request $request, $id)
     {
-        if (!$request->expectsJson()) abort(400);
-
         $data = $request->validate([
             'title' => 'required',
             'description' => 'required',
@@ -240,71 +241,46 @@ class ProjectController extends Controller
 
         $project = Project::findOrFail($id);
 
-        // ========================
-        // UPDATE DATA UTAMA
-        // ========================
+        // update basic
         $project->update([
             'title' => $request->title,
             'description' => $request->description,
         ]);
 
-        // ========================
-        // SYNC RELASI
-        // ========================
+        // sync teknologi
         $project->teknologis()->sync($request->teknologis);
+
+        // sync members
         $members = $request->members ?? [];
+        if (!is_array($members)) {
+            $members = [$members];
+        }
 
-if (!is_array($members)) {
-    $members = [$members];
-}
+        $project->collaborators()->sync($members);
 
-$project->collaborators()->sync($members);
-
-        // ========================
-        // UPDATE LINKS (RESET + INSERT ULANG)
-        // ========================
+        // reset links
         $project->links()->delete();
 
         if ($request->links) {
             foreach ($request->links as $link) {
+
                 if (!empty($link['label']) && !empty($link['url'])) {
-                    $project->links()->create([
+
+                    ProjectLink::create([
+                        'project_id' => $project->id,
                         'label' => $link['label'],
                         'url' => $link['url'],
                     ]);
+
                 }
+
             }
         }
-        try {
 
-    $members = $request->members ?? [];
-
-    if (!is_array($members)) {
-        $members = [$members];
-    }
-
-    $project->collaborators()->sync($members);
-    $project->update($data);
-    $project->teknologis()->sync($data['teknologis']);
-
-    return response()->json([
-        'success'=>true,
-        'message'=>'Project berhasil diupdate'
-    ]);
-
-} catch (\Exception $e) {
-
-    return response()->json([
-        'error'=>$e->getMessage()
-    ],500);
-
-}
-
-        // ========================
         // TAMBAH FILE BARU
-        // ========================
         if ($request->hasFile('files')) {
             foreach ($request->file('files') as $file) {
+
                 $path = $file->store('project-files', 'public');
 
                 $project->files()->create([
@@ -313,11 +289,10 @@ $project->collaborators()->sync($members);
             }
         }
 
-        // ========================
         // TAMBAH FOTO BARU
-        // ========================
         if ($request->hasFile('photos')) {
             foreach ($request->file('photos') as $photo) {
+
                 $path = $photo->store('project-photos', 'public');
 
                 $project->photos()->create([
@@ -342,6 +317,45 @@ $project->collaborators()->sync($members);
         return response()->json([
             'success'=>true,
             'message'=>'Project berhasil dihapus'
+        ]);
+    }
+
+    public function deleteFile($id)
+    {
+        $file = ProjectFile::findOrFail($id);
+
+        if (Storage::disk('public')->exists($file->file_path)) {
+            Storage::disk('public')->delete($file->file_path);
+        }
+
+        $file->delete();
+
+        return response()->json([
+            'success' => true
+        ]);
+    }
+
+    public function deletePhoto($id)
+    {
+        $photo = ProjectPhoto::findOrFail($id);
+
+        if (Storage::disk('public')->exists($photo->photo)) {
+            Storage::disk('public')->delete($photo->photo);
+        }
+
+        $photo->delete();
+
+        return response()->json([
+            'success' => true
+        ]);
+    }
+
+    public function deleteLink($id)
+    {
+        ProjectLink::findOrFail($id)->delete();
+
+        return response()->json([
+            'success' => true
         ]);
     }
 

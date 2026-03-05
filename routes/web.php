@@ -16,6 +16,7 @@ use App\Http\Controllers\Master\StatusProyekController;
 use App\Http\Controllers\ValidasiProyekController;
 
 
+
 // 1. Halaman Depan (Public)
 Route::get('/', function () {
     return view('welcome');
@@ -131,7 +132,12 @@ Route::middleware('auth')->group(function () {
             Route::get('/{id}/detail', [ProjectController::class, 'detail'])->name('detail');
 
             Route::delete('/{id}', [ProjectController::class, 'destroy'])->name('destroy');
+
         });
+
+    Route::delete('/project-files/{id}', [ProjectController::class, 'deleteFile']);
+    Route::delete('/project-photos/{id}', [ProjectController::class, 'deletePhoto']);
+    Route::delete('/project-links/{id}', [ProjectController::class, 'deleteLink']);
 
     // ROUTE UNTUK VALIDASI PROYEK (ADMIN)
     Route::get('/validasi-proyek', [ValidasiProyekController::class, 'index'])->name('validasi-proyek.index');

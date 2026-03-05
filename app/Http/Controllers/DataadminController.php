@@ -14,6 +14,7 @@ use Carbon\Carbon;
 
 
 
+
 class DataadminController extends Controller
 {
     public function index()
@@ -21,7 +22,7 @@ class DataadminController extends Controller
          $kampus = Kampus::orderBy('km_nama_kampus')->get();
 
         return view('pages.data-admin.index', compact('kampus'));
-        
+
 
     }
 
@@ -37,57 +38,64 @@ class DataadminController extends Controller
 
 
     public function datatable(Request $request)
-{
-    $query = User::with(['profile'])
-        ->where('role','admin')
-        ->latest();
+    {
+        $query = User::with('profile')
+            ->whereIn('role', ['admin','super_admin'])
+            ->latest();
 
+        return DataTables::of($query)
+            ->addIndexColumn()
 
-    return DataTables::of($query)
-        ->addIndexColumn()
+            ->addColumn('foto', function ($row) {
 
-        ->addColumn('pr_nama', fn($row)=> $row->profile->pr_nama ?? '-')
-        ->addColumn('email', fn($row)=> $row->email)
-        ->addColumn('pr_no_hp', fn($row)=> $row->profile->pr_no_hp ?? '-')
-        ->addColumn('pr_posisi', fn($row)=> $row->profile->pr_posisi ?? '-')
-        //->addColumn('pr_nim', fn($row)=> $row->profile->pr_nim ?? '-')
-        //->addColumn('pr_kampus', function ($row) { 
-            //return $row->profile?->kampus?->km_nama_kampus ?? '-';
-           // })
-        //->addColumn('pr_jurusan', fn($row)=> $row->profile->pr_jurusan ?? '-')
+                if ($row->profile && $row->profile->pr_photo) {
+                    return '<img src="'.asset('storage/'.$row->profile->pr_photo).'"
+                            class="w-10 h-10 rounded-full object-cover">';
+                }
 
-        // ===== STATUS TOGGLE
-        ->addColumn('status', function($row){
+                return '<div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center font-bold text-gray-600">'
+                    . strtoupper(substr($row->name,0,1)) .
+                '</div>';
+            })
 
-            $status = $row->profile->pr_status ?? 'nonaktif';
-            $nama   = $row->profile->pr_nama ?? $row->name;
+            ->addColumn('pr_nama', function ($row) {
+                return $row->profile->pr_nama ?? '-';
+            })
 
+            ->addColumn('pr_no_hp', function ($row) {
+                return $row->profile->pr_no_hp ?? '-';
+            })
 
-            if($status == 'aktif'){
+            ->addColumn('pr_posisi', function ($row) {
+                return $row->profile->pr_posisi ?? '-';
+            })
+
+            ->addColumn('status', function ($row) {
+
+                $status = $row->profile->pr_status ?? 'nonaktif';
+                $nama   = $row->profile->pr_nama ?? $row->name;
+
+                if ($status == 'aktif') {
+                    return '
+                    <span class="toggle-status cursor-pointer inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700"
+                        data-id="'.$row->id.'"
+                        data-name="'.$nama.'"
+                        data-status="'.$status.'">
+                        Aktif
+                    </span>';
+                }
+
                 return '
-                <span
+                <span class="toggle-status cursor-pointer inline-flex items-center rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-700"
                     data-id="'.$row->id.'"
-                    data-name="'.$row->name.'"
-                    data-status="Aktif"
-                    class="toggle-status cursor-pointer inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
-                    Aktif
+                    data-name="'.$nama.'"
+                    data-status="'.$status.'">
+                    Nonaktif
                 </span>';
-            }
+            })
 
-            return '
-            <span
-                data-id="'.$row->id.'"
-                data-name="'.$row->name.'"
-                data-status="Nonaktif"
-                class="toggle-status cursor-pointer inline-flex items-center rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-700">
-                Nonaktif
-            </span>';
-        })
-
-
-        // ===== DETAIL BUTTON (STYLE KAMPUS)
-        ->addColumn('detail', function ($row) {
-            return '
+            ->addColumn('detail', function ($row) {
+                return '
                 <button
                     type="button"
                     data-id="'.$row->id.'"
@@ -101,11 +109,10 @@ class DataadminController extends Controller
 
                     Detail
                 </button>';
-        })
+            })
 
-        // ===== AKSI (EDIT + DELETE PERSIS KAMPUS)
-        ->addColumn('aksi', function ($row) {
-            return '
+            ->addColumn('aksi', function ($row) {
+                return '
                 <div class="flex items-center justify-center gap-1.5">
 
                     <!-- EDIT -->
@@ -139,10 +146,11 @@ class DataadminController extends Controller
                     </button>
 
                 </div>';
-        })
-        ->rawColumns(['aksi','detail','status'])
-        ->make(true);
-}
+            })
+
+            ->rawColumns(['foto','detail','aksi','status'])
+            ->make(true);
+    }
 
     public function store(Request $request)
     {
@@ -170,7 +178,7 @@ class DataadminController extends Controller
                 'pr_tanggal_lahir.required' => 'Tanggal lahir wajib diisi',
                 'pr_status.required' => 'Status wajib diisi',
 
-                'pr_posisi.required' => 'Posisi wajib dipilih', 
+                'pr_posisi.required' => 'Posisi wajib dipilih',
             ]);
 
             DB::beginTransaction();

@@ -60,14 +60,26 @@ class DatainternController extends Controller
 
     public function datatable(Request $request)
     {
-        $query = User::with(['profile.kampus', 'profile.jurusan'])
-            ->where('role', 'intern')
+        $query = User::with('profile')
+            ->where('role','intern')
             ->latest();
         // dd($query->get()->toArray());
 
         return DataTables::of($query)
 
             ->addIndexColumn()
+
+            ->addColumn('foto', function ($row) {
+
+                if ($row->profile && $row->profile->pr_photo) {
+                    return '<img src="'.asset('storage/'.$row->profile->pr_photo).'"
+                            class="w-10 h-10 rounded-full object-cover">';
+                }
+
+                return '<div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center font-bold text-gray-600">'
+                    . strtoupper(substr($row->name,0,1)) .
+                '</div>';
+            })
 
             ->addColumn('pr_nama', fn($row) => $row->profile->pr_nama ?? '-')
             ->addColumn('email', fn($row) => $row->email)
@@ -160,7 +172,7 @@ class DatainternController extends Controller
 
                 </div>';
             })
-            ->rawColumns(['aksi', 'detail', 'status'])
+            ->rawColumns(['foto','aksi','detail','status'])
             ->make(true);
     }
 

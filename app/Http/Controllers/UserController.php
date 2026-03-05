@@ -16,10 +16,63 @@ class UserController extends Controller
 
     public function datatable(Request $request)
     {
-        $query = User::query()->latest('created_at');
+        $query = User::with('profile')->latest();
 
         return DataTables::of($query)
             ->addIndexColumn()
+
+            ->addColumn('foto', function ($row) {
+
+                if ($row->profile && $row->profile->pr_photo) {
+                    return '<img src="'.asset('storage/'.$row->profile->pr_photo).'"
+                            class="w-10 h-10 rounded-full object-cover">';
+                }
+
+                return '<div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center font-bold text-gray-600">'
+                    . strtoupper(substr($row->name,0,1)) .
+                '</div>';
+            })
+
+            ->addColumn('pr_nama', function ($row) {
+                return $row->profile->pr_nama ?? $row->name;
+            })
+
+            ->addColumn('pr_no_hp', function ($row) {
+                return $row->profile->pr_no_hp ?? '-';
+            })
+
+            ->addColumn('foto', function ($row) {
+
+                if ($row->profile && $row->profile->pr_photo) {
+                    return '<img src="'.asset('storage/'.$row->profile->pr_photo).'"
+                            class="w-10 h-10 rounded-full object-cover">';
+                }
+
+                return '<div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center font-bold text-gray-600">'
+                    . strtoupper(substr($row->name,0,1)) .
+                '</div>';
+            })
+
+            ->addColumn('pr_nama', function ($row) {
+                return $row->profile->pr_nama ?? '-';
+            })
+
+            ->addColumn('pr_no_hp', function ($row) {
+                return $row->profile->pr_no_hp ?? '-';
+            })
+
+            ->addColumn('pr_posisi', function ($row) {
+                return $row->profile->pr_posisi ?? '-';
+            })
+
+            ->addColumn('status', function ($row) {
+                return $row->profile->pr_status ?? 'Menunggu';
+            })
+
+            ->addColumn('detail', function ($row) {
+                return '<button class="btn-detail text-blue-600" data-id="'.$row->id.'">Detail</button>';
+            })
+
             ->addColumn('aksi', function ($row) {
                 return '
                 <div class="flex items-center justify-center gap-1.5">
@@ -56,8 +109,9 @@ class UserController extends Controller
 
                 </div>';
             })
-        ->rawColumns(['aksi'])
-            ->rawColumns(['aksi'])
+
+
+            ->rawColumns(['foto','detail','aksi'])
             ->make(true);
     }
 

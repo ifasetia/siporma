@@ -51,6 +51,7 @@ class User extends Authenticatable
     public function profile()
 {
     return $this->hasOne(Profile::class, 'user_id', 'id');
+
 }
 
     protected static function booted()
@@ -73,6 +74,8 @@ public function projects()
         'project_id'
     );
 }
+
+
 
 public function isSuperAdmin()
 {
