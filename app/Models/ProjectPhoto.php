@@ -13,12 +13,19 @@ class ProjectPhoto extends Model
         'photo',
     ];
 
+    protected $keyType = 'string';   // 🔥 WAJIB
+    public $incrementing = false;    // 🔥 WAJIB
+
     protected static function boot()
     {
         parent::boot();
 
         static::creating(function ($model) {
-            $model->id = (string) Str::uuid();
+
+            if (!$model->id) {
+                $model->id = (string) Str::uuid();
+            }
+
         });
     }
 }
