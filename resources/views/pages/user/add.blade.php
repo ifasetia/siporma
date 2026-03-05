@@ -46,13 +46,28 @@
                 </div>
 
                 <!-- Password -->
-                <div>
+                 <div class="relative">
+                    <input type="password" id="passwordInput" name="password"
+                        class="input-field h-11 w-full rounded-lg border border-gray-300 px-4 pr-10 text-sm focus:ring-2 focus:outline-none"
+                        placeholder="Inputkan password...">
+
+                    <button type="button" id="togglePassword"
+                        class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700">
+
+                        <!-- icon mata -->
+                        <i class="fa-solid fa-eye"></i>
+
+                    </button>
+                </div>
+
+                <span class="text-red-500 text-xs error" data-error="password"></span>
+                <!-- <div>
                     <label class="block text-sm font-medium mb-1">Password</label>
                     <input type="password" name="password"
                         class="input-field h-11 w-full rounded-lg border border-gray-300 px-4 text-sm focus:ring-2 focus:outline-none"
                         placeholder="Inputkan password...">
                     <span class="text-red-500 text-xs error" data-error="password"></span>
-                </div>
+                </div> -->
 
                 <!-- Role -->
                 <div>
@@ -62,7 +77,6 @@
                         <option value="">-- Pilih Role --</option>
                         <option value="intern">Intern</option>
                         <option value="admin">Admin</option>
-                        <option value="super_admin">Super Admin</option>
                     </select>
                     <span class="text-red-500 text-xs error" data-error="role"></span>
                 </div>
@@ -187,6 +201,21 @@ document.addEventListener('DOMContentLoaded', function () {
             btn.prop('disabled', false).text('Simpan');
         }
     });
+});
+
+$('#togglePassword').on('click', function () {
+
+    const input = $('#passwordInput');
+    const icon = $(this).find('i');
+
+    if (input.attr('type') === 'password') {
+        input.attr('type', 'text');
+        icon.removeClass('fa-eye').addClass('fa-eye-slash');
+    } else {
+        input.attr('type', 'password');
+        icon.removeClass('fa-eye-slash').addClass('fa-eye');
+    }
+
 });
 
 

@@ -81,7 +81,9 @@ Route::middleware('auth')->group(function () {
         ->group(function () {
             Route::get('/', [DatainternController::class, 'index'])->name('index');
             Route::get('/datatables', [DatainternController::class, 'datatable'])->name('datatables');
-            Route::get('/{id}/detail', [DatainternController::class, 'detail'])->name('detail');
+            Route::get('/{id}/detail', [DatainternController::class, 'detail'])
+            ->name('detail')
+            ->middleware('ajax');
             Route::post('/store', [DatainternController::class, 'store'])->name('store');
             Route::get('/{id}/edit', [DataInternController::class, 'edit']);
             Route::post('/{id}/update', [DataInternController::class, 'update']);

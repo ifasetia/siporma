@@ -41,6 +41,9 @@ class DatainternController extends Controller
 
     public function detail($id)
     {
+        if (!request()->ajax()) {
+        abort(404);
+    }
         $data = User::with([
             'profile',
             'profile.kampus',

@@ -121,10 +121,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // OPEN DETAIL
-    $(document).on('click','.btn-detail',function(){
+    $(document).off('click', '.btn-detail').on('click','.btn-detail',function(e){
 
         e.preventDefault();
-        e.stopPropagation();
+        e.stopImmediatePropagation();
 
         console.log("DETAIL CLICKED");
         const id = $(this).data('id');
@@ -182,6 +182,8 @@ document.addEventListener('DOMContentLoaded', function () {
             $('#detailModal').removeClass('hidden');
             $('body').addClass('overflow-hidden');
         });
+
+        return false; // ⬅️ ini penting
     });
 
     // CLOSE DETAIL
