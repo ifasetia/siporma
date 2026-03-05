@@ -15,8 +15,8 @@
 
             <!-- HEADER -->
             <div>
-                <h5 class="font-semibold text-gray-800 text-xl">Detail Profil Intern</h5>
-                <p class="text-sm text-gray-500">Informasi lengkap data intern.</p>
+                <h5 class="font-semibold text-gray-800 text-xl">Detail Profil Admin</h5>
+                <p class="text-sm text-gray-500">Informasi lengkap data admin.</p>
             </div>
 
             <!-- CONTENT -->

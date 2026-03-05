@@ -59,9 +59,11 @@ class DataadminController extends Controller
         // ===== STATUS TOGGLE
         ->addColumn('status', function($row){
 
-            $status = $row->profile->pr_status ?? 'Nonaktif';
+            $status = $row->profile->pr_status ?? 'nonaktif';
+            $nama   = $row->profile->pr_nama ?? $row->name;
 
-            if($status == 'Aktif'){
+
+            if($status == 'aktif'){
                 return '
                 <span
                     data-id="'.$row->id.'"
@@ -310,9 +312,9 @@ public function update(Request $request, $id)
             $user = User::with('profile')->findOrFail($id);
 
             $user->profile->update([
-                'pr_status' => $user->profile->pr_status == 'Aktif'
-                    ? 'Nonaktif'
-                    : 'Aktif'
+                'pr_status' => $user->profile->pr_status == 'aktif'
+                    ? 'nonaktif'
+                    : 'aktif'
             ]);
 
             return response()->json(['success'=>true]);

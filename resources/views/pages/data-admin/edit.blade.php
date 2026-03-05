@@ -260,7 +260,7 @@
         function closeModal() {
             $modalEdit.addClass('hidden');
             $('body').removeClass('overflow-hidden');
-            resetAfAdminEditForm();
+            resetAdminEditForm();
         }
 
         function resetAdminEditForm() {
