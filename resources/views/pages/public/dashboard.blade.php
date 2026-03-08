@@ -28,12 +28,16 @@
 
             <div class="flex gap-4">
 
-                <a href="{{ route('public.dashboard') }}" class="text-gray-600 hover:text-blue-600 font-medium">
+                <a href="{{ route('public.dashboard') }}" class="text-blue-600 font-semibold">
                     Dashboard
                 </a>
 
                 <a href="{{ route('public.project') }}" class="text-gray-600 hover:text-blue-600 font-medium">
                     Project
+                </a>
+
+                <a href="{{ route('public.analytics') }}" class="text-gray-600 hover:text-blue-600 font-medium">
+                    Analytics
                 </a>
 
             </div>
@@ -166,6 +170,12 @@
                 </div>
 
             </div>
+
+            <a href="{{ route('public.analytics') }}"
+                class="text-blue-600 font-semibold text-sm hover:underline">
+
+                Lihat Selengkapnya →
+                </a>
 
         </div>
 
@@ -457,6 +467,12 @@
                 @endforelse
 
             </div>
+
+            <a href="{{ route('public.project') }}"
+                class="text-blue-600 font-semibold text-sm hover:underline">
+
+                Lihat Selengkapnya →
+                </a>
 
         </div>
 
