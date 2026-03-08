@@ -1,4 +1,4 @@
-{{-- @extends('layouts.app')
+@extends('layouts.app')
 
 @section('title','Profile')
 @section('content')
@@ -42,27 +42,4 @@
                 <!-- ====== Table One End -->
               </div>
             </div>
-@endsection --}}
-
-@extends('layouts.app')
-
-@section('title','Dashboard')
-
-@section('content')
-
- <!-- SUPER ADMIN -->
-@if(auth()->user()->role === 'super_admin')
-    @include('pages.dashboard.role.superadmin')
-@endif
-
- <!-- ADMIN -->
-@if(auth()->user()->role === 'admin')
-    @include('pages.dashboard.role.admin')
-@endif
-
-<!-- {{-- INTERN --}} -->
-@if(auth()->user()->role === 'intern')
-    @include('pages.dashboard.role.intern')
-@endif
-
-@endsection
+@endsection 
