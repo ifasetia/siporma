@@ -27,9 +27,9 @@
                 </span>
             </div>
 
-            <div class="flex gap-6 text-sm">
+            <div class="flex gap-4">
 
-                <a href="{{ route('public.dashboard') }}" class="hover:text-blue-600">
+                <a href="{{ route('public.dashboard') }}" class="text-gray-600 hover:text-blue-600 font-medium">
                     Dashboard
                 </a>
 
@@ -37,10 +37,8 @@
                     Project
                 </a>
 
-                <a href="{{ route('login') }}" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-
-                    Login
-
+                <a href="{{ route('public.analytics') }}" class="text-gray-600 hover:text-blue-600 font-medium">
+                    Analytics
                 </a>
 
             </div>
