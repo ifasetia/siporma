@@ -46,8 +46,13 @@ Route::middleware('auth')->group(function () {
 
     // Dashboard
     Route::get('/dashboard', function () {
-        return view('pages.dashboard.index');
+        return redirect()->route('analytics.index');
     })->name('dashboard');
+    // Route::get('/dashboard', function () {
+    //     return view('pages.dashboard.index');
+    // })->name('dashboard');
+
+
 
     // Profile (Menggunakan View di pages/profile/index.blade.php)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
