@@ -36,11 +36,6 @@
                     Project
                 </a>
 
-                <a href="{{ route('login') }}"
-                    class="px-5 py-2.5 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition shadow-lg shadow-blue-200">
-                    Masuk
-                </a>
-
             </div>
 
         </div>
@@ -55,7 +50,7 @@
             <div>
 
                 <span class="px-4 py-2 bg-blue-50 text-blue-600 text-sm font-semibold rounded-full mb-6 inline-block">
-                    Project Mahasiswa Magang
+                    Project Intern
                 </span>
 
                 <h1 class="text-5xl font-extrabold text-gray-900 leading-tight mb-6">
@@ -93,32 +88,81 @@
 
     </section>
 
-
     <!-- STATISTIK -->
-    <section class="bg-white py-16">
+    <section class="bg-white py-24 border-t border-gray-100">
 
         <div class="max-w-7xl mx-auto px-6">
 
-            <div class="grid md:grid-cols-4 gap-6 text-center">
+            <div class="text-center mb-16" data-aos="fade-up">
 
-                <div class="bg-gray-50 p-8 rounded-xl">
-                    <h3 class="text-3xl font-bold text-blue-600">150+</h3>
-                    <p class="text-sm text-gray-500">Mahasiswa Magang</p>
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">
+                    Statistik Program Magang
+                </h2>
+
+                <div class="w-20 h-1.5 bg-blue-600 mx-auto rounded-full"></div>
+
+                <p class="text-gray-500 mt-4">
+                    Data real dari sistem pengelolaan project magang
+                </p>
+
+            </div>
+
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+
+                <div class="bg-gray-50 p-8 rounded-3xl border border-gray-100 hover:shadow-xl transition duration-300"
+                    data-aos="fade-up">
+
+                    <h3 class="text-4xl font-bold text-blue-600 mb-2">
+                        {{ $totalIntern }}
+                    </h3>
+
+                    <p class="text-gray-500 text-sm">
+                        Total Intern
+                    </p>
+
                 </div>
 
-                <div class="bg-gray-50 p-8 rounded-xl">
-                    <h3 class="text-3xl font-bold text-blue-600">500+</h3>
-                    <p class="text-sm text-gray-500">Project</p>
+
+                <div class="bg-gray-50 p-8 rounded-3xl border border-gray-100 hover:shadow-xl transition"
+                    data-aos="fade-up" data-aos-delay="100">
+
+                    <h3 class="text-4xl font-bold text-blue-600 mb-2">
+                        {{ $totalProject }}
+                    </h3>
+
+                    <p class="text-gray-500 text-sm">
+                        Project Dipublikasikan
+                    </p>
+
                 </div>
 
-                <div class="bg-gray-50 p-8 rounded-xl">
-                    <h3 class="text-3xl font-bold text-blue-600">30+</h3>
-                    <p class="text-sm text-gray-500">Universitas</p>
+
+                <div class="bg-gray-50 p-8 rounded-3xl border border-gray-100 hover:shadow-xl transition"
+                    data-aos="fade-up" data-aos-delay="200">
+
+                    <h3 class="text-4xl font-bold text-blue-600 mb-2">
+                        {{ $totalKampus }}
+                    </h3>
+
+                    <p class="text-gray-500 text-sm">
+                        Universitas Terlibat
+                    </p>
+
                 </div>
 
-                <div class="bg-gray-50 p-8 rounded-xl">
-                    <h3 class="text-3xl font-bold text-blue-600">12</h3>
-                    <p class="text-sm text-gray-500">Kategori Teknologi</p>
+
+                <div class="bg-gray-50 p-8 rounded-3xl border border-gray-100 hover:shadow-xl transition"
+                    data-aos="fade-up" data-aos-delay="300">
+
+                    <h3 class="text-4xl font-bold text-blue-600 mb-2">
+                        {{ $totalTeknologi }}
+                    </h3>
+
+                    <p class="text-gray-500 text-sm">
+                        Teknologi Digunakan
+                    </p>
+
                 </div>
 
             </div>
@@ -126,6 +170,224 @@
         </div>
 
     </section>
+
+    <!-- STATISTIK -->
+    <!-- <section id="stats" class="bg-white py-24 border-t border-gray-100">
+
+        <div class="max-w-7xl mx-auto px-6">
+
+            <div class="text-center mb-16">
+
+                <h2 class="text-3xl font-bold text-gray-900">
+                    Statistik Program Magang
+                </h2>
+
+                <p class="text-gray-500 mt-2 text-sm">
+                    Data real dari sistem pengelolaan project magang
+                </p>
+
+            </div>
+
+
+            <div class="grid md:grid-cols-4 gap-8 text-center">
+
+                <div class="bg-gray-50 p-8 rounded-2xl hover:shadow-xl hover:-translate-y-1 transition duration-300">
+
+                    <div class="text-blue-600 text-4xl mb-3">🎓</div>
+
+                    <h3 class="text-4xl font-bold text-gray-900 counter" data-target="{{ $totalIntern }}">
+                        0
+                    </h3>
+
+                    <p class="text-sm text-gray-500 mt-2">
+                        Intern Aktif
+                    </p>
+
+                    <p class="text-xs text-gray-400 mt-1">
+                        Mahasiswa yang sedang mengikuti program magang
+                    </p>
+
+                </div>
+
+
+                <div class="bg-gray-50 p-8 rounded-2xl hover:shadow-xl hover:-translate-y-1 transition duration-300">
+
+                    <div class="text-blue-600 text-4xl mb-3">💻</div>
+
+                    <h3 class="text-4xl font-bold text-gray-900 counter" data-target="{{ $totalProject }}">
+                        0
+                    </h3>
+
+                    <p class="text-sm text-gray-500 mt-2">
+                        Project Dipublikasikan
+                    </p>
+
+                    <p class="text-xs text-gray-400 mt-1">
+                        Project yang telah divalidasi oleh mentor
+                    </p>
+
+                </div>
+
+
+                <div class="bg-gray-50 p-8 rounded-2xl hover:shadow-xl hover:-translate-y-1 transition duration-300">
+
+                    <div class="text-blue-600 text-4xl mb-3">🏫</div>
+
+                    <h3 class="text-4xl font-bold text-gray-900 counter" data-target="{{ $totalKampus }}">
+                        0
+                    </h3>
+
+                    <p class="text-sm text-gray-500 mt-2">
+                        Universitas Terlibat
+                    </p>
+
+                    <p class="text-xs text-gray-400 mt-1">
+                        Perguruan tinggi yang bekerja sama
+                    </p>
+
+                </div>
+
+
+                <div class="bg-gray-50 p-8 rounded-2xl hover:shadow-xl hover:-translate-y-1 transition duration-300">
+
+                    <div class="text-blue-600 text-4xl mb-3">⚙️</div>
+
+                    <h3 class="text-4xl font-bold text-gray-900 counter" data-target="{{ $totalTeknologi }}">
+                        0
+                    </h3>
+
+                    <p class="text-sm text-gray-500 mt-2">
+                        Teknologi Digunakan
+                    </p>
+
+                    <p class="text-xs text-gray-400 mt-1">
+                        Framework dan tools yang digunakan
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section> -->
+
+    <!-- STATISTIK -->
+    <!-- <section class="bg-white py-20 border-t border-gray-100">
+
+        <div class="max-w-7xl mx-auto px-6">
+
+            <h2 class="text-3xl font-bold text-center mb-14">
+                Statistik Program Magang
+            </h2>
+
+            <div class="grid md:grid-cols-4 gap-8 text-center">
+
+                <div class="bg-gray-50 p-8 rounded-2xl hover:shadow-xl hover:-translate-y-1 transition duration-300">
+
+                    <div class="text-blue-600 text-4xl mb-3">🎓</div>
+
+                    <h3 class="text-4xl font-bold text-gray-900 counter" data-target="{{ $totalIntern }}">
+                        0
+                    </h3>
+
+                    <p class="text-sm text-gray-500 mt-2">
+                        Intern Aktif
+                    </p>
+
+                </div>
+
+
+                <div class="bg-gray-50 p-8 rounded-2xl hover:shadow-lg transition">
+
+                    <div class="text-blue-600 text-4xl mb-3">💻</div>
+
+                    <h3 class="text-4xl font-bold text-gray-900 counter" data-target="{{ $totalProject }}">
+                        0
+                    </h3>
+
+                    <p class="text-sm text-gray-500 mt-2">
+                        Project Dipublikasikan
+                    </p>
+
+                </div>
+
+
+                <div class="bg-gray-50 p-8 rounded-2xl hover:shadow-lg transition">
+
+                    <div class="text-blue-600 text-4xl mb-3">🏫</div>
+
+                    <h3 class="text-4xl font-bold text-gray-900 counter" data-target="{{ $totalKampus }}">
+                        0
+                    </h3>
+
+                    <p class="text-sm text-gray-500 mt-2">
+                        Universitas Terlibat
+                    </p>
+
+                </div>
+
+
+                <div class="bg-gray-50 p-8 rounded-2xl hover:shadow-lg transition">
+
+                    <div class="text-blue-600 text-4xl mb-3">⚙️</div>
+
+                    <h3 class="text-4xl font-bold text-gray-900 counter" data-target="{{ $totalTeknologi }}">
+                        0
+                    </h3>
+
+                    <p class="text-sm text-gray-500 mt-2">
+                        Teknologi Digunakan
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section> -->
+
+    <!-- STATISTIK -->
+    <!-- <section class="bg-white py-16">
+
+        <div class="max-w-7xl mx-auto px-6">
+
+            <div class="grid md:grid-cols-4 gap-6 text-center">
+
+                <div class="bg-gray-50 p-8 rounded-xl">
+                    <h3 class="text-3xl font-bold text-blue-600">
+                    {{ $totalIntern }}
+                    </h3>
+                    <p class="text-sm text-gray-500">Mahasiswa Magang</p>
+                </div>
+
+                <div class="bg-gray-50 p-8 rounded-xl">
+                    <h3 class="text-3xl font-bold text-blue-600">
+                    {{ $totalProject }}
+                    </h3>
+                    <p class="text-sm text-gray-500">Project</p>
+                </div>
+
+                <div class="bg-gray-50 p-8 rounded-xl">
+                    <h3 class="text-3xl font-bold text-blue-600">
+                    {{ $totalKampus }}
+                    </h3>
+                    <p class="text-sm text-gray-500">Universitas</p>
+                </div>
+
+                <div class="bg-gray-50 p-8 rounded-xl">
+                    <h3 class="text-3xl font-bold text-blue-600">
+                    {{ $totalTeknologi }}
+                    </h3>
+                    <p class="text-sm text-gray-500">Kategori Teknologi</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section> -->
 
     <!-- PROJECT TERBARU -->
     <section class="py-20">
@@ -136,11 +398,12 @@
                 Project Terbaru
             </h2>
 
-            <div class="grid md:grid-cols-3 gap-8">
+            <div class="grid md:grid-cols-3 gap-8" data-aos="fade-up">
 
                 @forelse($projects as $project)
 
-                <div class="bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-xl transition">
+                <div
+                    class="bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-xl hover:-translate-y-1 transition duration-300">
 
                     <h3 class="font-bold text-lg mb-2">
                         {{ $project->title }}
@@ -163,7 +426,7 @@
                         @forelse($project->teknologis as $tech)
 
                         <span class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-lg">
-                            {{ $tech->nama }}
+                            {{ $tech->tk_nama }}
                         </span>
 
                         @empty
@@ -212,6 +475,57 @@
         AOS.init({
             duration: 1000,
             once: true
+        });
+
+    </script>
+
+    <script>
+        let started = false;
+
+        window.addEventListener("scroll", () => {
+
+            const stats = document.querySelector("#stats");
+
+            const statsTop = stats.offsetTop - window.innerHeight + 100;
+
+            if (!started && window.scrollY > statsTop) {
+
+                started = true;
+
+                const counters = document.querySelectorAll(".counter");
+
+                counters.forEach(counter => {
+
+                    const updateCount = () => {
+
+                        const target = +counter.getAttribute("data-target");
+
+                        const count = +counter.innerText;
+
+                        const speed = 120;
+
+                        const inc = target / speed;
+
+                        if (count < target) {
+
+                            counter.innerText = Math.ceil(count + inc);
+
+                            setTimeout(updateCount, 40);
+
+                        } else {
+
+                            counter.innerText = target;
+
+                        }
+
+                    };
+
+                    updateCount();
+
+                });
+
+            }
+
         });
 
     </script>

@@ -8,6 +8,7 @@ use App\Models\Master\StatusProyek;
 use Illuminate\Http\Request;
 use App\Models\Master\Teknologi;
 use App\Models\Master\Kampus;
+use App\Models\User;
 
 class PublicController extends Controller
 {
@@ -15,21 +16,43 @@ class PublicController extends Controller
     public function dashboard()
     {
 
-        $statusPublic = StatusProyek::where(
-            'sp_nama_status',
-            'Divalidasi (Public)'
-        )->first();
+    $statusPublic = StatusProyek::where(
+    'sp_nama_status',
+    'Divalidasi (Public)'
+    )->first();
 
-        $projects = Project::with([
-            'user.profile.kampus',
-            'teknologis',
-            'masterStatus'
-        ])
-        ->where('status_id', $statusPublic->sp_id)
-        ->latest()
-        ->limit(6)
-        ->get();
-        return view('pages.public.dashboard', compact('projects'));
+    $projects = Project::with([
+    'user.profile.kampus',
+    'teknologis',
+    'masterStatus'
+    ])
+    ->where('status_id', $statusPublic->sp_id)
+    ->latest()
+    ->limit(6)
+    ->get();
+
+
+    // =====================
+    // STATISTIK REAL
+    // =====================
+
+    $totalIntern = User::where('role','intern')->count();
+
+    $totalProject = Project::where('status_id',$statusPublic->sp_id)->count();
+
+    $totalKampus = Kampus::count();
+
+    $totalTeknologi = Teknologi::count();
+
+
+    return view('pages.public.dashboard', compact(
+    'projects',
+    'totalIntern',
+    'totalProject',
+    'totalKampus',
+    'totalTeknologi'
+    ));
+
     }
 
 public function projects(Request $request)
