@@ -18,6 +18,7 @@ use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\Public\PublicController;
 
 
+
 // 1. Halaman Depan (Public)
 Route::get('/', function () {
     return view('welcome');
