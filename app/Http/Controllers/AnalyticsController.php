@@ -47,6 +47,13 @@ class AnalyticsController extends Controller
             ->groupBy('ms_teknologi.tk_kategori')
             ->get();
 
+        // STATUS PROYEK
+        $statusProject = DB::table('projects')
+            ->join('master_status_proyek','projects.status_id','=','master_status_proyek.sp_id')
+            ->select('master_status_proyek.sp_nama_status', DB::raw('count(*) as total'))
+            ->groupBy('master_status_proyek.sp_nama_status')
+            ->get();
+
 
         return view('pages.analytics.index',[
             'totalIntern'=>$totalIntern,
@@ -56,7 +63,8 @@ class AnalyticsController extends Controller
             'internPerKampus'=>$internPerKampus,
             'internPerJurusan'=>$internPerJurusan,
             'techProject'=>$techProject,
-            'techCategory'=>$techCategory
+            'techCategory'=>$techCategory,
+            'statusProject'=>$statusProject
         ]);
     }
 }
