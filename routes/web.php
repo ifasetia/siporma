@@ -23,6 +23,20 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//public
+Route::prefix('public')->group(function () {
+
+
+    Route::get('/dashboard',[PublicController::class,'dashboard'])
+        ->name('public.dashboard');
+
+    Route::get('/project',[PublicController::class,'projects'])
+        ->name('public.project');
+
+    Route::get('/project/{id}',[PublicController::class,'detailProject'])
+        ->name('public.project.detail');
+});
+
 // 2. Grup Route yang Wajib Login (Auth)
 Route::middleware('auth')->group(function () {
 
@@ -182,20 +196,6 @@ Route::middleware('auth')->group(function () {
 // Route::get('/', function () {
 //     return view('pages.public.dashboard');
 // });
-
-//public
-Route::prefix('public')->group(function () {
-
-
-    Route::get('/dashboard',[PublicController::class,'dashboard'])
-        ->name('public.dashboard');
-
-    Route::get('/project',[PublicController::class,'projects'])
-        ->name('public.project');
-
-    Route::get('/project/{id}',[PublicController::class,'detailProject'])
-        ->name('public.project.detail');
-});
 
 });
 
