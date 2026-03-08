@@ -55,6 +55,30 @@
                     </li>
                     <!-- Menu Item Dashboard -->
 
+                    <!-- Menu Item Analytics -->
+                    <li>
+                        <a
+                            href="{{ route('analytics.index') }}"
+                            class="menu-dropdown-item group"
+                            :class="page === 'analytics' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'"
+                        >
+
+                            <svg class="w-5 h-5 mr-2 text-gray-500 group-hover:text-gray-700"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="1.8">
+
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M3 3v18h18M9 17V9m4 8V5m4 12v-6"/>
+                            </svg>
+
+                            Analytics
+                        </a>
+                    </li>
+                    <!-- Menu Item Analytics -->
+
                     <!-- Menu Item Profile  -->
                     <li>
                         {{-- Baris 59: Ubah 'profile' menjadi 'profile.edit' --}}
@@ -304,15 +328,7 @@
                     </a>
                 </li>
 
-                <li>
-                <a
-                    href="index.html"
-                    class="menu-dropdown-item group"
-                    :class="page === 'analytics' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'"
-                >
-                Analytics
-                </a>
-                </li>
+
             </ul>
             </div>
             <!-- Dropdown Menu End -->

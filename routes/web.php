@@ -14,6 +14,7 @@ use App\Http\Controllers\Master\SupervisorController;
 use App\Http\Controllers\Master\TeknologiController;
 use App\Http\Controllers\Master\StatusProyekController;
 use App\Http\Controllers\ValidasiProyekController;
+use App\Http\Controllers\AnalyticsController;
 
 
 
@@ -45,6 +46,11 @@ Route::middleware('auth')->group(function () {
         Route::post('/{id}/update', [UserController::class, 'update'])->name('update');
         Route::delete('/{id}', [UserController::class, 'destroy'])->name('destroy');
     });
+
+    //Analytics
+    Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics.index');
+
+
 
     // Master Data Pekerjaan
     Route::prefix('pekerjaan')->name('pekerjaan.')->group(function () {
