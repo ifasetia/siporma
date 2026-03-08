@@ -8,6 +8,7 @@ use App\Models\ProjectLink;
 use App\Models\ProjectPhoto;
 use App\Models\ProjectMember;
 use App\Models\Master\StatusProyek;
+use App\Models\Master\Teknologi;
 
 class Project extends Model
 {
@@ -54,7 +55,7 @@ public function members()
 
 public function user()
 {
-    return $this->belongsTo(User::class);
+    return $this->belongsTo(User::class, 'created_by');
 }
 
 public function files()

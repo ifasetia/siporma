@@ -15,7 +15,7 @@ use App\Http\Controllers\Master\TeknologiController;
 use App\Http\Controllers\Master\StatusProyekController;
 use App\Http\Controllers\ValidasiProyekController;
 use App\Http\Controllers\AnalyticsController;
-
+use App\Http\Controllers\Public\PublicController;
 
 
 // 1. Halaman Depan (Public)
@@ -182,6 +182,26 @@ Route::middleware('auth')->group(function () {
             Route::post('/{id}/update', [DatainternController::class, 'update'])->name('update');
             Route::post('/{id}/toggle-status', [DatainternController::class, 'toggleStatus'])->name('toggle-status');
         });
+
+        // //public
+// Route::get('/', function () {
+//     return view('pages.public.dashboard');
+// });
+
+//public
+Route::prefix('public')->group(function () {
+
+
+    Route::get('/dashboard',[PublicController::class,'dashboard'])
+        ->name('public.dashboard');
+
+    Route::get('/project',[PublicController::class,'projects'])
+        ->name('public.project');
+
+    Route::get('/project/{id}',[PublicController::class,'detailProject'])
+        ->name('public.project.detail');
+});
+
 });
 
 
