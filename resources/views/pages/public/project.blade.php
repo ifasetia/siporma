@@ -69,10 +69,10 @@
     </section>
 
     <!-- FILTER -->
-    <div class="flex flex-wrap gap-4 mb-10">
+    <div class="max-w-5xl mx-auto px-6 flex flex-wrap gap-4 mb-10">
 
         <input id="search" type="text" placeholder="Cari project, mahasiswa, atau kampus..."
-            class="border border-gray-200 rounded-xl px-4 py-2 w-64">
+            class="border border-gray-200 rounded-xl px-4 py-2 w-80">
 
         <select id="teknologi" class="border border-gray-200 rounded-xl px-4 py-2">
 
@@ -80,7 +80,7 @@
 
             @foreach($teknologis as $tech)
             <option value="{{ $tech->id }}">
-                {{ $tech->nama }}
+                {{ $tech->tk_nama }}
             </option>
             @endforeach
 
@@ -110,7 +110,7 @@
 
 
     <!-- SEARCH -->
-    <div class="max-w-5xl mx-auto px-6 mb-10">
+    <!-- <div class="max-w-5xl mx-auto px-6 mb-10">
 
         <form method="GET" action="{{ route('public.project') }}" class="flex gap-4">
 
@@ -126,13 +126,19 @@
 
         </form>
 
-    </div>
+    </div> -->
 
 
     <!-- LIST PROJECT -->
     <section class="pb-20">
 
         <div id="projectList" class="max-w-5xl mx-auto px-6 space-y-6">
+
+            @include('pages.public.components.project-list')
+
+        </div>
+
+        <!-- <div id="projectList" class="max-w-5xl mx-auto px-6 space-y-6">
 
             @forelse($projects as $project)
 
@@ -159,7 +165,7 @@
                 </div>
 
 
-                <!-- TEKNOLOGI -->
+                TEKNOLOGI
                 <div class="flex flex-wrap gap-2 mb-4">
 
                     @foreach($project->teknologis as $tech)
@@ -173,7 +179,7 @@
                 </div>
 
 
-                <!-- BUTTON -->
+                BUTTON
                 <a href="{{ route('public.project.detail',$project->id) }}"
                     class="text-blue-600 text-sm font-semibold hover:underline">
 
@@ -194,14 +200,14 @@
             @endforelse
 
 
-            <!-- PAGINATION -->
+            PAGINATION
             <div class="mt-12">
 
                 {{ $projects->links() }}
 
             </div>
 
-        </div>
+        </div> -->
 
     </section>
 
@@ -219,9 +225,9 @@
 
 </html>
 
-@push('scripts')
-    <script>
-document.addEventListener("DOMContentLoaded", function(){
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
 
 let search = document.getElementById('search')
 let teknologi = document.getElementById('teknologi')
@@ -232,9 +238,13 @@ function loadProjects(){
 
 let url = `/public/project?search=${search.value}&teknologi=${teknologi.value}&kampus=${kampus.value}&sort=${sort.value}`
 
-fetch(url)
-.then(res => res.text())
-.then(html => {
+fetch(url,{
+headers:{
+'X-Requested-With':'XMLHttpRequest'
+}
+})
+.then(res=>res.text())
+.then(html=>{
 
 document.getElementById('projectList').innerHTML = html
 
@@ -249,4 +259,3 @@ sort.addEventListener('change',loadProjects)
 
 })
 </script>
-    @endpush

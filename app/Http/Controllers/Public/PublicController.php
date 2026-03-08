@@ -8,6 +8,7 @@ use App\Models\Master\StatusProyek;
 use Illuminate\Http\Request;
 use App\Models\Master\Teknologi;
 use App\Models\Master\Kampus;
+use App\Models\User;
 
 class PublicController extends Controller
 {
@@ -15,21 +16,43 @@ class PublicController extends Controller
     public function dashboard()
     {
 
-        $statusPublic = StatusProyek::where(
-            'sp_nama_status',
-            'Divalidasi (Public)'
-        )->first();
+    $statusPublic = StatusProyek::where(
+    'sp_nama_status',
+    'Divalidasi (Public)'
+    )->first();
 
-        $projects = Project::with([
-            'user.profile.kampus',
-            'teknologis',
-            'masterStatus'
-        ])
-        ->where('status_id', $statusPublic->sp_id)
-        ->latest()
-        ->limit(6)
-        ->get();
-        return view('pages.public.dashboard', compact('projects'));
+    $projects = Project::with([
+    'user.profile.kampus',
+    'teknologis',
+    'masterStatus'
+    ])
+    ->where('status_id', $statusPublic->sp_id)
+    ->latest()
+    ->limit(6)
+    ->get();
+
+
+    // =====================
+    // STATISTIK REAL
+    // =====================
+
+    $totalIntern = User::where('role','intern')->count();
+
+    $totalProject = Project::where('status_id',$statusPublic->sp_id)->count();
+
+    $totalKampus = Kampus::count();
+
+    $totalTeknologi = Teknologi::count();
+
+
+    return view('pages.public.dashboard', compact(
+    'projects',
+    'totalIntern',
+    'totalProject',
+    'totalKampus',
+    'totalTeknologi'
+    ));
+
     }
 
 public function projects(Request $request)
@@ -73,11 +96,15 @@ public function projects(Request $request)
 
     }
 
+
+    
     // FILTER TEKNOLOGI
     if ($request->teknologi) {
 
     $query->whereHas('teknologis', function ($q) use ($request) {
-    $q->where('id',$request->teknologi);
+
+    $q->where('teknologi_id', $request->teknologi);
+
     });
 
     }
@@ -87,7 +114,7 @@ public function projects(Request $request)
     if ($request->kampus) {
 
     $query->whereHas('user.profile.kampus', function ($q) use ($request) {
-    $q->where('id',$request->kampus);
+    $q->where('km_id',$request->kampus);
     });
 
     }
@@ -96,7 +123,7 @@ public function projects(Request $request)
     // SORT
     if ($request->sort == 'popular') {
 
-    $query->orderBy('views','desc');
+    $query->latest();
 
     } else {
 
@@ -106,6 +133,12 @@ public function projects(Request $request)
 
 
         $projects = $query->latest()->paginate(9);
+
+        if ($request->ajax()) {
+
+        return view('pages.public.components.project-list', compact('projects'))->render();
+
+        }
          // 🔥 TAMBAHKAN INI
         $teknologis = Teknologi::orderBy('tk_nama')->get();
         $kampus = Kampus::orderBy('km_nama_kampus')->get();
