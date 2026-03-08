@@ -36,6 +36,9 @@ Route::prefix('public')->group(function () {
 
     Route::get('/project/{id}',[PublicController::class,'detailProject'])
         ->name('public.project.detail');
+
+    Route::get('/analytics',[PublicController::class,'analytics'])
+        ->name('public.analytics');
 });
 
 // 2. Grup Route yang Wajib Login (Auth)
