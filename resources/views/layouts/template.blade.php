@@ -15,6 +15,8 @@
         </title>
     </head>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <body
     x-data="{ page: 'ecommerce', 'loaded': true, 'darkMode': false, 'stickyMenu': false, 'sidebarToggle': false, 'scrollTop': false }"
     x-init="
