@@ -186,7 +186,7 @@
                     @csrf
                     @method('PATCH')
 
-                    <div class="border-b pb-6">
+                    <div class="pb-6">
                         <h4 class="text-lg font-semibold mb-4">Data Pribadi</h4>
                         <p class="text-sm text-gray-500">Silahkan perbarui data diri dan keamanan akun kamu di sini.</p>
                         <div class="p-5 bg-gray-50 rounded-2xl border border-dashed border-gray-300">
@@ -257,7 +257,7 @@
                     </div>
 
                     @if(auth()->user()->role === 'intern')
-                    <div class="border-b py-6">
+                    <div class="py-6">
                         <h4 class="text-lg font-semibold mb-4">Data Akademik</h4>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -312,7 +312,7 @@
                     @endif
 
                     @if(auth()->user()->role === 'admin')
-                    <div class="border-t mt-6 pt-6">
+                    <div class="mt-6 pt-6">
                         <h4 class="text-lg font-semibold mb-4">Data Kepegawaian</h4>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -334,7 +334,7 @@
                     @endif
 
 
-                    <div class="border-b py-6">
+                    <div class="mt-6 pt-6">
                         <h4 class="text-lg font-semibold mb-4">Sosial Media</h4>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
@@ -449,7 +449,7 @@
                     class="flex flex-col gap-6 text-gray-800">
                     @csrf
                     @method('PATCH')
-                    <div class="border-t mt-8 pt-8 bg-gray-50 p-6 rounded-2xl shadow-sm">
+                    <div class="mt-8 pt-8 bg-gray-50 p-6 rounded-2xl shadow-sm">
                         <h4 class="text-lg font-semibold mb-4">Ganti Password</h4>
                         <label class="text-sm font-semibold text-red-500 mb-6 flex items-center gap-2">
                             <i class="fas fa-lock"></i>
