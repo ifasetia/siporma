@@ -94,7 +94,7 @@
                     </h3>
 
                     <p class="text-gray-500 text-sm">
-                        Mahasiswa Magang
+                        Total Intern
                     </p>
 
                 </div>
