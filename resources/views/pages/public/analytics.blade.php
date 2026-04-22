@@ -85,7 +85,59 @@
 
         <div class="max-w-7xl mx-auto px-6">
 
-            <div class="grid md:grid-cols-4 gap-8 text-center">
+            <div class="grid md:grid-cols-4 gap-6">
+
+            <!-- INTERN -->
+            <div class="bg-white p-6 rounded-2xl border shadow-sm flex items-center gap-4 hover:shadow-md transition">
+                <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-xl">
+                    👤
+                </div>
+                <div>
+                    <p class="text-gray-500 text-sm">Total Intern</p>
+                    <h3 class="text-2xl font-bold text-gray-900">{{ $totalIntern }}</h3>
+                    <p class="text-xs text-gray-400">Mahasiswa magang aktif</p>
+                </div>
+            </div>
+
+            <!-- PROJECT -->
+            <div class="bg-white p-6 rounded-2xl border shadow-sm flex items-center gap-4 hover:shadow-md transition">
+                <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-xl">
+                    📁
+                </div>
+                <div>
+                    <p class="text-gray-500 text-sm">Project Publik</p>
+                    <h3 class="text-2xl font-bold text-gray-900">{{ $totalProject }}</h3>
+                    <p class="text-xs text-gray-400">Project dipublikasikan</p>
+                </div>
+            </div>
+
+            <!-- KAMPUS -->
+            <div class="bg-white p-6 rounded-2xl border shadow-sm flex items-center gap-4 hover:shadow-md transition">
+                <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center text-xl">
+                    🏫
+                </div>
+                <div>
+                    <p class="text-gray-500 text-sm">Universitas</p>
+                    <h3 class="text-2xl font-bold text-gray-900">{{ $totalKampus }}</h3>
+                    <p class="text-xs text-gray-400">Universitas terlibat</p>
+                </div>
+            </div>
+
+            <!-- TEKNOLOGI -->
+            <div class="bg-white p-6 rounded-2xl border shadow-sm flex items-center gap-4 hover:shadow-md transition">
+                <div class="w-12 h-12 bg-green-100 text-green-600 rounded-xl flex items-center justify-center text-xl">
+                    💻
+                </div>
+                <div>
+                    <p class="text-gray-500 text-sm">Teknologi</p>
+                    <h3 class="text-2xl font-bold text-gray-900">{{ $totalTeknologi }}</h3>
+                    <p class="text-xs text-gray-400">Teknologi digunakan</p>
+                </div>
+            </div>
+
+        </div>
+
+            <!-- <div class="grid md:grid-cols-4 gap-8 text-center">
 
                 <div class="p-8 rounded-3xl bg-gray-50 border hover:shadow-xl transition" data-aos="fade-up">
 
@@ -141,61 +193,58 @@
 
                 </div>
 
-            </div>
+            </div> -->
 
         </div>
 
     </section>
 
 
-
-    <!-- CHART -->
-    <section class="py-24 bg-gray-50">
+    <!-- STATUS PROJECT -->
+    <section class="py-12 bg-gray-50">
 
         <div class="max-w-7xl mx-auto px-6">
 
-            <div class="text-center mb-16">
+            <h2 class="text-center text-xl font-semibold text-gray-800 mb-8">
+                Status Project
+            </h2>
 
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">
-                    Visualisasi Data
-                </h2>
+            <div class="grid md:grid-cols-3 gap-6">
 
-                <div class="w-20 h-1.5 bg-blue-600 mx-auto rounded-full"></div>
-
-            </div>
-
-
-            <div class="grid md:grid-cols-2 gap-10">
-
-                <div class="bg-white p-8 rounded-3xl border shadow-sm" data-aos="fade-up">
-                    <h3 class="font-semibold mb-6 text-lg">
-                        Intern per Kampus
-                    </h3>
-                    <canvas id="kampusChart"></canvas>
+                <!-- MENUNGGU -->
+                <div class="bg-white p-6 rounded-2xl border shadow-sm flex items-center gap-4">
+                    <div class="w-12 h-12 bg-yellow-100 text-yellow-500 rounded-xl flex items-center justify-center text-xl">
+                        ⏳
+                    </div>
+                    <div>
+                        <p class="text-gray-500 text-sm">Menunggu Validasi</p>
+                        <h3 class="text-2xl font-bold text-yellow-500">{{ $menunggu }}</h3>
+                        <p class="text-xs text-gray-400">Project menunggu mentor</p>
+                    </div>
                 </div>
 
-
-                <div class="bg-white p-8 rounded-3xl border shadow-sm" data-aos="fade-up">
-                    <h3 class="font-semibold mb-6 text-lg">
-                        Intern per Jurusan
-                    </h3>
-                    <canvas id="jurusanChart"></canvas>
+                <!-- REVISI -->
+                <div class="bg-white p-6 rounded-2xl border shadow-sm flex items-center gap-4">
+                    <div class="w-12 h-12 bg-red-100 text-red-500 rounded-xl flex items-center justify-center text-xl">
+                        🔁
+                    </div>
+                    <div>
+                        <p class="text-gray-500 text-sm">Revisi</p>
+                        <h3 class="text-2xl font-bold text-red-500">{{ $revisi }}</h3>
+                        <p class="text-xs text-gray-400">Perlu perbaikan</p>
+                    </div>
                 </div>
 
-
-                <div class="bg-white p-8 rounded-3xl border shadow-sm" data-aos="fade-up">
-                    <h3 class="font-semibold mb-6 text-lg">
-                        Teknologi Project
-                    </h3>
-                    <canvas id="techChart"></canvas>
-                </div>
-
-
-                <div class="bg-white p-8 rounded-3xl border shadow-sm" data-aos="fade-up">
-                    <h3 class="font-semibold mb-6 text-lg">
-                        Kategori Teknologi
-                    </h3>
-                    <canvas id="kategoriTechChart"></canvas>
+                <!-- DIVALIDASI -->
+                <div class="bg-white p-6 rounded-2xl border shadow-sm flex items-center gap-4">
+                    <div class="w-12 h-12 bg-green-100 text-green-500 rounded-xl flex items-center justify-center text-xl">
+                        ✅
+                    </div>
+                    <div>
+                        <p class="text-gray-500 text-sm">Divalidasi</p>
+                        <h3 class="text-2xl font-bold text-green-500">{{ $divalidasi }}</h3>
+                        <p class="text-xs text-gray-400">Project selesai</p>
+                    </div>
                 </div>
 
             </div>
@@ -204,8 +253,71 @@
 
     </section>
 
+    <!-- CHART -->
+<section class="py-20 bg-gray-50">
+
+    <div class="max-w-7xl mx-auto px-6">
+
+        <!-- TITLE -->
+        <div class="text-center mb-14">
+            <h2 class="text-3xl font-bold text-gray-900 mb-3">
+                Visualisasi Data
+            </h2>
+            <div class="w-20 h-1.5 bg-blue-600 mx-auto rounded-full"></div>
+        </div>
+
+        <!-- GRID -->
+        <div class="grid md:grid-cols-2 gap-8">
+
+            <!-- 1 -->
+            <div class="bg-white p-6 rounded-2xl border shadow-sm hover:shadow-md transition">
+                <h3 class="font-semibold text-gray-800 mb-4">
+                    Intern per Kampus
+                </h3>
+                <div class="h-64">
+                    <canvas id="kampusChart"></canvas>
+                </div>
+            </div>
+
+            <!-- 2 -->
+            <div class="bg-white p-6 rounded-2xl border shadow-sm hover:shadow-md transition">
+                <h3 class="font-semibold text-gray-800 mb-4">
+                    Intern per Jurusan
+                </h3>
+                <div class="h-64">
+                    <canvas id="jurusanChart"></canvas>
+                </div>
+            </div>
+
+            <!-- 3 -->
+            <div class="bg-white p-6 rounded-2xl border shadow-sm hover:shadow-md transition">
+                <h3 class="font-semibold text-gray-800 mb-4">
+                    Teknologi Project
+                </h3>
+                <div class="h-64 flex items-center justify-center">
+                    <canvas id="techChart"></canvas>
+                </div>
+            </div>
+
+            <!-- 4 -->
+            <div class="bg-white p-6 rounded-2xl border shadow-sm hover:shadow-md transition">
+                <h3 class="font-semibold text-gray-800 mb-4">
+                    Kategori Teknologi
+                </h3>
+                <div class="h-64 flex items-center justify-center">
+                    <canvas id="kategoriTechChart"></canvas>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
 
 
+
+    <div class="pb-10"></div>
     <!-- FOOTER -->
     <footer class="bg-gray-900 py-12 text-white">
 
@@ -238,34 +350,46 @@
         const techData = @json($techProject->pluck('total'));
 
         new Chart(document.getElementById('techChart'), {
-
-            type: 'pie',
-
-            data: {
-                labels: techLabels,
-                datasets: [{
-                    data: techData
-                }]
+        type: 'pie',
+        data: {
+            labels: techLabels,
+            datasets: [{
+                data: techData
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'right' // 🔥 INI KUNCINYA
+                }
             }
-
-        });
+        }
+    });
 
 
         const catLabels = @json($techCategory->pluck('tk_kategori'));
         const catData = @json($techCategory->pluck('total'));
 
         new Chart(document.getElementById('kategoriTechChart'), {
-
-            type: 'doughnut',
-
-            data: {
-                labels: catLabels,
-                datasets: [{
-                    data: catData
-                }]
+        type: 'doughnut',
+        data: {
+            labels: catLabels,
+            datasets: [{
+                data: catData
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'right' // 🔥 PINDAH KE SAMPING
+                }
             }
-
-        });
+        }
+    });
 
         const kampusLabels = @json($internPerKampus->pluck('km_nama_kampus'));
         const kampusData = @json($internPerKampus->pluck('total'));

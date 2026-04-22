@@ -223,37 +223,85 @@
 
 </html>
 
-
 <script>
-document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function () {
 
-let search = document.getElementById('search')
-let teknologi = document.getElementById('teknologi')
-let kampus = document.getElementById('kampus')
-let sort = document.getElementById('sort')
+        let search = document.getElementById('search')
+        let teknologi = document.getElementById('teknologi')
+        let kampus = document.getElementById('kampus')
+        let sort = document.getElementById('sort')
 
-function loadProjects(){
+        function loadProjects(url = null) {
 
-let url = `/public/project?search=${search.value}&teknologi=${teknologi.value}&kampus=${kampus.value}&sort=${sort.value}`
+            url = url ||
+                `/public/project?search=${search.value}&teknologi=${teknologi.value}&kampus=${kampus.value}&sort=${sort.value}`
 
-fetch(url,{
-headers:{
-'X-Requested-With':'XMLHttpRequest'
-}
-})
-.then(res=>res.text())
-.then(html=>{
+            fetch(url, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(res => res.text())
+                .then(html => {
+                    document.getElementById('projectList').innerHTML = html
+                })
+        }
 
-document.getElementById('projectList').innerHTML = html
+        // 🔍 SEARCH & FILTER
+        search.addEventListener('keyup', () => loadProjects())
+        teknologi.addEventListener('change', () => loadProjects())
+        kampus.addEventListener('change', () => loadProjects())
+        sort.addEventListener('change', () => loadProjects())
 
-})
+        // 🔥 PAGINATION AJAX
+        document.addEventListener("click", function (e) {
+            let link = e.target.closest(".pagination a")
 
-}
+            if (link) {
+                e.preventDefault()
 
-search.addEventListener('keyup',loadProjects)
-teknologi.addEventListener('change',loadProjects)
-kampus.addEventListener('change',loadProjects)
-sort.addEventListener('change',loadProjects)
+                let url = link.getAttribute("href")
 
-})
+                loadProjects(url)
+            }
+        })
+
+    })
+
 </script>
+
+<!-- <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        let search = document.getElementById('search')
+        let teknologi = document.getElementById('teknologi')
+        let kampus = document.getElementById('kampus')
+        let sort = document.getElementById('sort')
+
+        function loadProjects() {
+
+            let url =
+                `/public/project?search=${search.value}&teknologi=${teknologi.value}&kampus=${kampus.value}&sort=${sort.value}`
+
+            fetch(url, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(res => res.text())
+                .then(html => {
+
+                    document.getElementById('projectList').innerHTML = html
+
+                })
+
+        }
+
+        search.addEventListener('keyup', loadProjects)
+        teknologi.addEventListener('change', loadProjects)
+        kampus.addEventListener('change', loadProjects)
+        sort.addEventListener('change', loadProjects)
+
+    })
+
+</script> -->

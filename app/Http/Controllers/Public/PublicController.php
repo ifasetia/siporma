@@ -58,15 +58,24 @@ class PublicController extends Controller
 
 public function projects(Request $request)
 {
-
     $query = Project::with([
-        'user.profile.kampus',
-        'teknologis',
-        'masterStatus'
+    'user.profile.kampus',
+    'teknologis',
+    'masterStatus'
     ])
     ->whereHas('masterStatus', function ($q) {
         $q->where('sp_nama_status', 'Divalidasi (Public)');
-    });
+    })
+    ->latest();
+
+    // $query = Project::with([
+    //     'user.profile.kampus',
+    //     'teknologis',
+    //     'masterStatus'
+    // ])
+    // ->whereHas('masterStatus', function ($q) {
+    //     $q->where('sp_nama_status', 'Divalidasi (Public)');
+    // });
 
     // SEARCH
     if ($request->search) {
@@ -133,7 +142,7 @@ public function projects(Request $request)
     }
 
 
-        $projects = $query->latest()->paginate(9);
+        $projects = $query->paginate(10)->withQueryString();
 
         if ($request->ajax()) {
 
@@ -232,18 +241,57 @@ $techCategory = DB::table('project_teknologi')
 ->groupBy('ms_teknologi.tk_kategori')
 ->get();
 
+$menunggu = Project::whereHas('masterStatus', function ($q) {
+    $q->where('sp_nama_status', 'Menunggu Validasi');
+})->count();
+
+$revisi = Project::whereHas('masterStatus', function ($q) {
+    $q->where('sp_nama_status', 'Revisi');
+})->count();
+
+$divalidasi = Project::whereHas('masterStatus', function ($q) {
+    $q->where('sp_nama_status', 'Divalidasi (Public)');
+})->count();
+
 
 return view('pages.public.analytics',[
-'totalIntern'=>$totalIntern,
-'totalProject'=>$totalProject,
-'totalKampus'=>$totalKampus,
-'totalTeknologi'=>$totalTeknologi,
-'internPerKampus'=>$internPerKampus,
-'internPerJurusan'=>$internPerJurusan,
-'techProject'=>$techProject,
-'techCategory'=>$techCategory
+    'totalIntern'=>$totalIntern,
+    'totalProject'=>$totalProject,
+    'totalKampus'=>$totalKampus,
+    'totalTeknologi'=>$totalTeknologi,
+    'internPerKampus'=>$internPerKampus,
+    'internPerJurusan'=>$internPerJurusan,
+    'techProject'=>$techProject,
+    'techCategory'=>$techCategory,
+    // TAMBAHAN INI 🔥
+    'menunggu'=>$menunggu,
+    'revisi'=>$revisi,
+    'divalidasi'=>$divalidasi
 ]);
 
+}
+public function landing()
+{
+    $statusPublic = StatusProyek::where(
+        'sp_nama_status',
+        'Divalidasi (Public)'
+    )->first();
+
+    $totalIntern = User::where('role','intern')->count();
+    $totalProject = Project::where('status_id',$statusPublic->sp_id)->count();
+    $totalKampus = Kampus::count();
+    $totalTeknologi = Teknologi::count();
+
+
+    return view('welcome', compact(
+        'totalIntern',
+        'totalProject',
+        'totalKampus',
+        'totalTeknologi',
+        'menunggu',
+        'revisi',
+        'divalidasi'
+    ));
 }
 
 }
