@@ -5,11 +5,11 @@
         class="flex items-center gap-2 pt-8 sidebar-header pb-7">
         <a href="{{ route('dashboard') }}">
             <span class="logo" :class="sidebarToggle ? 'hidden' : ''">
-                <img class="dark:hidden w-12" src="{{ asset('images/icon/prov_sumbar.png') }}" alt="Logo" />
+                <img class="dark:hidden w-12" src="{{ asset('images/icon/LOGO.png') }}" alt="Logo" />
             </span>
 
             <img class="logo-icon" :class="sidebarToggle ? 'lg:block' : 'hidden'"
-                src="{{ asset('images/icon/prov_sumbar.png') }}" alt="Logo" />
+                src="{{ asset('images/icon/LOGO.png') }}" alt="Logo" />
         </a>
     </div>
     <!-- SIDEBAR HEADER -->

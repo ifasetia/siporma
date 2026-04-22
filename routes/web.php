@@ -131,6 +131,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/{id}/edit', [StatusProyekController::class, 'edit'])->name('edit');
         Route::put('/{id}/update', [StatusProyekController::class, 'update'])->name('update');
         Route::delete('/{id}', [StatusProyekController::class, 'destroy'])->name('destroy');
+        Route::post('/projects/{id}/comment', [ProjectController::class,'saveComment']);
     });
 
 

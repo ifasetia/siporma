@@ -11,7 +11,7 @@
         <div class="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
             <div class="flex flex-col items-center w-full gap-6 xl:flex-row">
                 <div class="w-25 h-25 overflow-hidden dark:border-gray-800">
-                    <img src="{{ asset('images/icon/kampus.png') }}" alt="validasi" />
+                    <img src="{{ asset('images/icon/TEMA.png') }}" alt="validasi" />
                 </div>
                 <div class="order-3 xl:order-2">
                     <h4 class="mb-2 text-lg font-semibold text-center text-gray-800 dark:text-white/90 xl:text-left">

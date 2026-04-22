@@ -21,7 +21,7 @@
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
 
             <div class="flex items-center gap-3">
-                <img src="{{ asset('images/icon/prov_sumbar.png') }}" class="h-10">
+                <img src="{{ asset('images/icon/LOGO.png') }}" class="h-10">
                 <span class="text-xl font-bold">
                     Siporma<span class="text-blue-600">.</span>
                 </span>
@@ -262,6 +262,7 @@
 
                 let url = link.getAttribute("href")
 
+
                 loadProjects(url)
             }
         })
@@ -305,3 +306,6 @@
     })
 
 </script> -->
+
+})
+</script>
