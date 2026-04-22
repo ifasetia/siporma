@@ -20,7 +20,7 @@
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
 
             <div class="flex items-center gap-3">
-                <img src="{{ asset('images/icon/prov_sumbar.png') }}" class="h-10 w-auto">
+                <img src="{{ asset('images/icon/LOGO.png') }}" class="h-10 w-auto">
                 <span class="text-xl font-bold text-gray-900 tracking-tight">
                     Siporma<span class="text-blue-600">.</span>
                 </span>
@@ -84,7 +84,7 @@
 
                 <div class="absolute -top-20 -right-20 w-64 h-64 bg-blue-100 rounded-full blur-3xl opacity-50"></div>
 
-                <img src="{{ asset('images/icon/kampus.png') }}" class="relative z-10 w-4/5 mx-auto rounded-3xl">
+                <img src="{{ asset('images/icon/TEMA.png') }}" class="relative z-10 w-4/5 mx-auto rounded-3xl">
 
             </div>
 

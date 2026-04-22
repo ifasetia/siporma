@@ -12,7 +12,7 @@
 
             <div class="flex flex-col items-center w-full gap-6 xl:flex-row">
                 <div class="w-25 h-25 overflow-hidden">
-                    <img src="{{ asset('images/icon/kampus.png') }}" alt="intern" />
+                    <img src="{{ asset('images/icon/TEMA.png') }}" alt="intern" />
                 </div>
 
                 <div>
@@ -88,7 +88,7 @@
                     className: 'text-center',
                     width: '50px'
                 },
-                
+
                 { data: 'foto', orderable:false, searchable:false },
 
                 {

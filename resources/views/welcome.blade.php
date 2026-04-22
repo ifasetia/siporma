@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Siporma-app | Sistem Informasi Project Magang</title>
-    <link rel="icon" type="image/png" href="{{ asset('images/icon/prov_sumbar.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/icon/LOGO.png') }}">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -15,9 +15,9 @@
 
     <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <img src="{{ asset('images/icon/prov_sumbar.png') }}" class="h-10 w-auto" alt="Logo">
-                <span class="text-xl font-bold text-gray-900 tracking-tight">Siporma<span
+            <div class="flex items-center gap-4">
+                <img src="{{ asset('images/icon/LOGO.png') }}" class="h-20 w-auto" alt="Logo">
+                <span class="text-2xl font-bold text-gray-900 tracking-tight">SIPORMA<span
                         class="text-blue-600">.</span></span>
             </div>
 
@@ -31,11 +31,11 @@
                     class="px-4 py-2 bg-blue-50 text-blue-600 text-sm font-semibold rounded-full mb-6 inline-block">Proyek
                     Dinas Kominfo dan Statistik</span>
                 <h1 class="text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight mb-6">
-                    Sistem Pengumpulan <br>
-                    <span class="text-blue-600">Project Mahasiswa.</span>
+                    Sistem Informasi <br>
+                    <span class="text-blue-600">Project Magang.</span>
                 </h1>
                 <p class="text-lg text-gray-600 mb-10 leading-relaxed">
-                    Siporma-app hadir untuk memudahkan mahasiswa magang di Dinas Kominfo dan Statistik dalam mengelola,
+                    Siporma hadir untuk memudahkan mahasiswa magang di Dinas Kominfo dan Statistik Provinsi Sumatera Barat dalam mengelola,
                     memantau, dan mengumpulkan proyek magang secara terstruktur dan transparan.
                 </p>
                 <div class="flex flex-wrap gap-4">
@@ -54,7 +54,7 @@
             </div>
             <div class="relative">
                 <div class="absolute -top-20 -right-20 w-64 h-64 bg-blue-100 rounded-full blur-3xl opacity-50"></div>
-                <img src="{{ asset('images/icon/kampus.png') }}" class="relative z-10 w-4/5 mx-auto rounded-3xl"
+                <img src="{{ asset('images/icon/TEMA.png') }}" class="relative z-15 w-4/5 mx-auto rounded-3xl"
                     alt="Illustration">
             </div>
         </div>

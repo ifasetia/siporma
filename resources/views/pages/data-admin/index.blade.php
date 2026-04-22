@@ -12,7 +12,7 @@
 
             <div class="flex flex-col items-center w-full gap-6 xl:flex-row">
                 <div class="w-25 h-25 overflow-hidden">
-                    <img src="{{ asset('images/icon/kampus.png') }}" alt="admin" />
+                    <img src="{{ asset('images/icon/TEMA.png') }}" alt="admin" />
                 </div>
 
                 <div>
@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function () {
         ],
 
     });
-    
+
     // EVENT TOGGLE (sekali saja)
     $(document).on('click', '.toggle-status', function () {
 

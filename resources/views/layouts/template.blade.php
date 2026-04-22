@@ -2,7 +2,7 @@
 <html lang="en">
 
     <head>
-       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
         <meta charset="UTF-8" />
         <meta
         name="viewport"
@@ -11,8 +11,7 @@
         @vite(['resources/css/app.css','resources/js/app.js'])
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        @yield('title')
-        </title>
+        <title>SIPORMA | @yield('title', 'Dashboard')</title>
     </head>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

@@ -9,7 +9,7 @@
             <div class="flex flex-col items-center w-full gap-6 xl:flex-row">
                 <div class="w-25 h-25 overflow-hidden dark:border-gray-800">
                     {{-- Gunakan icon kampus sebagai fallback jika icon supervisor belum ada --}}
-                    <img src="{{ asset('images/icon/kampus.png') }}" alt="user" />
+                    <img src="{{ asset('images/icon/TEMA.png') }}" alt="user" />
                 </div>
                 <div class="order-3 xl:order-2">
                     <h4 class="mb-2 text-lg font-semibold text-center text-gray-800 dark:text-white/90 xl:text-left">
@@ -41,7 +41,7 @@
                         <th class="px-6 py-3 text-left">Divisi</th>
                         <th class="px-6 py-3 text-center w-28">Status</th>
                         <th class="px-6 py-3 text-center w-44">Aksi</th>
-                        
+
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-100"></tbody>

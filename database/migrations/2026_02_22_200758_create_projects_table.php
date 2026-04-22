@@ -31,6 +31,8 @@ return new class extends Migration
             // Sesuaikan 'sp_id' dan 'master_status_proyek' dengan nama kolom/tabel aslimu
             $table->foreign('status_id')->references('sp_id')->on('master_status_proyek')->cascadeOnDelete();
 
+            $table->text('admin_comment')->nullable();
+
             $table->timestamps();
         });
     }

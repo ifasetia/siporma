@@ -8,7 +8,7 @@
 
     <title>Analytics | Siporma</title>
 
-    <link rel="icon" type="image/png" href="{{ asset('images/icon/prov_sumbar.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/icon/LOGO.png') }}">
 
     @vite(['resources/css/app.css','resources/js/app.js'])
 
@@ -29,7 +29,7 @@
 
             <div class="flex items-center gap-3">
 
-                <img src="{{ asset('images/icon/prov_sumbar.png') }}" class="h-10 w-auto">
+                <img src="{{ asset('images/icon/LOGO.png') }}" class="h-10 w-auto">
 
                 <span class="text-xl font-bold text-gray-900 tracking-tight">
                     Siporma<span class="text-blue-600">.</span>

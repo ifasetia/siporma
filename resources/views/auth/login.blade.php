@@ -4,12 +4,12 @@
 
             <div class="text-center mb-10">
                 <div class="flex justify-center mb-4">
-                    <img src="{{ asset('images/icon/kampus.png') }}" class="h-16 w-auto" alt="Logo">
+                    <img src="{{ asset('images/icon/LOGO.png') }}" class="h-16 w-auto" alt="Logo">
                 </div>
-                <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Siporma-app</h2>
+                <h2 class="text-2xl font-bold text-gray-800 dark:text-white">SIPORMA</h2>
                 <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                    Sistem Pengumpulan Project Mahasiswa Magang <br>
-                    Dinas Kominfo dan Statistik
+                    Sistem Informasi Project Mahasiswa Magang <br>
+                    Dinas Kominfo dan Statistik Provinsi Sumatera Barat
                 </p>
             </div>
 
