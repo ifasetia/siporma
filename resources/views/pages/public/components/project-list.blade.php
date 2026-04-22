@@ -52,3 +52,9 @@ Belum ada project yang dipublikasikan
 </div>
 
 @endforelse
+
+@if ($projects->hasPages())
+    <div class="mt-10 flex justify-center">
+        {{ $projects->links() }}
+    </div>
+@endif
