@@ -20,9 +20,10 @@ use App\Http\Controllers\Public\PublicController;
 
 
 // 1. Halaman Depan (Public)
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+Route::get('/', [PublicController::class, 'landing']);
 
 //public
 Route::prefix('public')->group(function () {

@@ -20,19 +20,7 @@
                 <span class="text-xl font-bold text-gray-900 tracking-tight">Siporma<span
                         class="text-blue-600">.</span></span>
             </div>
-            <div class="flex gap-4">
-                @if (Route::has('login'))
-                @auth
-                <a href="{{ url('/dashboard') }}"
-                    class="px-5 py-2.5 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition shadow-lg shadow-blue-200">Ke
-                    Dashboard</a>
-                @else
-                <a href="{{ route('login') }}"
-                    class="px-5 py-2.5 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition shadow-lg shadow-blue-200">Masuk
-                    ke Sistem</a>
-                @endauth
-                @endif
-            </div>
+
         </div>
     </nav>
 
@@ -52,7 +40,7 @@
                 </p>
                 <div class="flex flex-wrap gap-4">
                     <a href="{{ route('public.dashboard') }}"
-                         class="px-8 py-4 bg-white text-gray-700 border border-gray-200 rounded-2xl font-bold hover:bg-gray-50 transition">
+                        class="px-8 py-4 bg-white text-gray-700 border border-gray-200 rounded-2xl font-bold hover:bg-gray-50 transition">
                         Lihat Project Mahasiswa
                     </a>
 
@@ -100,8 +88,10 @@
                         </svg>
                     </div>
                     <h3 class="text-xl font-bold mb-3">Beragam Pekerjaan</h3>
-                    <p class="text-gray-600 text-sm leading-relaxed">Tersedia berbagai kategori proyek mulai dari Web
-                        Development, Networking, hingga Statistik yang sudah disiapkan Admin.</p>
+                    <p class="text-gray-600 text-sm leading-relaxed"> Tersedia berbagai bidang kegiatan magang seperti
+                        Pengembangan Aplikasi,
+                        Mobile Development, Cyber Security, Komunikasi dan Publikasi, Broadcasting, serta Videografi.
+                    </p>
                 </div>
                 <div class="p-8 rounded-3xl bg-gray-50 border border-gray-100 hover:shadow-xl transition">
                     <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-6">
@@ -119,25 +109,73 @@
         </div>
     </section>
 
-    <section class="py-12 bg-blue-600">
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div data-aos="fade-up">
-                <h3 class="text-4xl font-bold text-white mb-2">30+</h3>
-                <p class="text-blue-100 text-sm">Universitas Terintegrasi</p>
+    <!-- STATISTIK -->
+    <section class="bg-white py-24 border-t border-gray-100">
+
+        <div class="max-w-7xl mx-auto px-6">
+
+            <div class="text-center mb-16" data-aos="fade-up">
+
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">
+                    Statistik Program Magang
+                </h2>
+
+                <div class="w-20 h-1.5 bg-blue-600 mx-auto rounded-full"></div>
+
+                <p class="text-gray-500 mt-4">
+                    Data real dari sistem pengelolaan project magang
+                </p>
+
             </div>
-            <div data-aos="fade-up" data-aos-delay="100">
-                <h3 class="text-4xl font-bold text-white mb-2">150+</h3>
-                <p class="text-blue-100 text-sm">Mahasiswa Magang</p>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+
+                <div class="bg-gray-50 p-8 rounded-3xl border border-gray-100 hover:shadow-xl transition">
+                    <h3 class="text-4xl font-bold text-blue-600 mb-2">
+                        {{ $totalIntern }}
+                    </h3>
+                    <p class="text-gray-500 text-sm">
+                        Total Mahasiswa Magang
+                    </p>
+                </div>
+
+                <div class="bg-gray-50 p-8 rounded-3xl border border-gray-100 hover:shadow-xl transition">
+                    <h3 class="text-4xl font-bold text-blue-600 mb-2">
+                        {{ $totalProject }}
+                    </h3>
+                    <p class="text-gray-500 text-sm">
+                        Project Dipublikasikan
+                    </p>
+                </div>
+
+                <div class="bg-gray-50 p-8 rounded-3xl border border-gray-100 hover:shadow-xl transition">
+                    <h3 class="text-4xl font-bold text-blue-600 mb-2">
+                        {{ $totalKampus }}
+                    </h3>
+                    <p class="text-gray-500 text-sm">
+                        Universitas Terlibat
+                    </p>
+                </div>
+
+                <div class="bg-gray-50 p-8 rounded-3xl border border-gray-100 hover:shadow-xl transition">
+                    <h3 class="text-4xl font-bold text-blue-600 mb-2">
+                        {{ $totalTeknologi }}
+                    </h3>
+                    <p class="text-gray-500 text-sm">
+                        Teknologi Digunakan
+                    </p>
+                </div>
+
             </div>
-            <div data-aos="fade-up" data-aos-delay="200">
-                <h3 class="text-4xl font-bold text-white mb-2">500+</h3>
-                <p class="text-blue-100 text-sm">Project Selesai</p>
+
+            <div class="text-center mt-10">
+                <a href="{{ route('public.analytics') }}" class="text-blue-600 font-semibold text-sm hover:underline">
+                    Lihat Selengkapnya →
+                </a>
             </div>
-            <div data-aos="fade-up" data-aos-delay="300">
-                <h3 class="text-4xl font-bold text-white mb-2">100%</h3>
-                <p class="text-blue-100 text-sm">Online & Transparan</p>
-            </div>
+
         </div>
+
     </section>
 
     <section id="alur" class="py-24 bg-gray-50">
