@@ -282,6 +282,18 @@ public function landing()
     $totalKampus = Kampus::count();
     $totalTeknologi = Teknologi::count();
 
+    $menunggu = Project::whereHas('masterStatus', function ($q) {
+    $q->where('sp_nama_status', 'Menunggu Validasi');
+    })->count();
+
+    $revisi = Project::whereHas('masterStatus', function ($q) {
+        $q->where('sp_nama_status', 'Revisi');
+    })->count();
+
+    $divalidasi = Project::whereHas('masterStatus', function ($q) {
+        $q->where('sp_nama_status', 'Divalidasi (Public)');
+    })->count();
+
 
     return view('welcome', compact(
         'totalIntern',
