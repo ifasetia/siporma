@@ -2,183 +2,194 @@
 
 @section('title', 'Analytics')
 
-
 @section('content')
 
-    @php
-        $menunggu = $statusProject->where('sp_nama_status', 'Menunggu Validasi')->first()->total ?? 0;
-        $revisi = $statusProject->where('sp_nama_status', 'Revisi')->first()->total ?? 0;
-        $divalidasi = $statusProject->where('sp_nama_status', 'Divalidasi (Public)')->first()->total ?? 0;
-    @endphp
+@php
+    $menunggu = $statusProject->where('sp_nama_status', 'Menunggu Validasi')->first()->total ?? 0;
+    $revisi = $statusProject->where('sp_nama_status', 'Revisi')->first()->total ?? 0;
+    $divalidasi = $statusProject->where('sp_nama_status', 'Divalidasi (Public)')->first()->total ?? 0;
+@endphp
 
-    <div class="rounded-2xl border border-gray-200 bg-white p-6 lg:p-8 mb-6">
-        <h3 class="text-xl font-semibold text-gray-800">
-            Analytics Dashboard
-        </h3>
+<!-- HEADER -->
+<div class="mb-10">
+    <h1 class="text-3xl font-bold text-gray-900">
+        Statistik Program Magang
+    </h1>
+    <p class="text-gray-500 mt-2">
+        Data statistik mahasiswa dan project dalam sistem
+    </p>
+</div>
 
-        <p class="text-gray-500 mt-2">
-            Statistik sistem akan tampil disini.
-        </p>
+<!-- STATISTIK -->
+<div class="grid md:grid-cols-4 gap-6 mb-10">
+
+    <div class="bg-white p-6 rounded-2xl shadow-sm flex items-center gap-4">
+        <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center">👤</div>
+        <div>
+            <p class="text-sm text-gray-500">Total Intern</p>
+            <h3 class="text-2xl font-bold">{{ $totalIntern }}</h3>
+        </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mt-6">
-
-        <div class="bg-white p-6 rounded-xl border shadow-sm hover:shadow-md transition">
-            <p class="text-gray-500 text-sm">Total Intern</p>
-            <h2 class="text-3xl font-bold text-indigo-600">{{ $totalIntern }}</h2>
+    <div class="bg-white p-6 rounded-2xl shadow-sm flex items-center gap-4">
+        <div class="w-12 h-12 bg-green-100 text-green-600 rounded-xl flex items-center justify-center">🧑‍💼</div>
+        <div>
+            <p class="text-sm text-gray-500">Total Admin</p>
+            <h3 class="text-2xl font-bold">{{ $totalAdmin }}</h3>
         </div>
-
-        <div class="bg-white p-6 rounded-xl border shadow-sm hover:shadow-md transition">
-            <p class="text-gray-500 text-sm">Total Admin</p>
-            <h2 class="text-3xl font-bold text-green-600">{{ $totalAdmin }}</h2>
-        </div>
-
-        <div class="bg-white p-6 rounded-xl border shadow-sm hover:shadow-md transition">
-            <p class="text-gray-500 text-sm">Total Users</p>
-            <h2 class="text-3xl font-bold text-blue-600">{{ $totalUsers }}</h2>
-        </div>
-
-        <div class="bg-white p-6 rounded-xl border shadow-sm hover:shadow-md transition">
-            <p class="text-gray-500 text-sm">Total Kampus</p>
-            <h2 class="text-3xl font-bold text-purple-600">{{ $totalKampus }}</h2>
-        </div>
-
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-
-        <div class="bg-white p-6 rounded-xl border shadow-sm">
-            <h3 class="font-semibold mb-4">Intern per Kampus</h3>
-            <canvas id="kampusChart"></canvas>
+    <div class="bg-white p-6 rounded-2xl shadow-sm flex items-center gap-4">
+        <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-xl flex items-center justify-center">👥</div>
+        <div>
+            <p class="text-sm text-gray-500">Total Users</p>
+            <h3 class="text-2xl font-bold">{{ $totalUsers }}</h3>
         </div>
-
-        <div class="bg-white p-6 rounded-xl border shadow-sm">
-            <h3 class="font-semibold mb-4">Intern per Jurusan</h3>
-            <canvas id="jurusanChart"></canvas>
-        </div>
-
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-
-        <div class="bg-white p-6 rounded-xl border shadow-sm">
-            <h3 class="font-semibold mb-4">Teknologi Project</h3>
-            <canvas id="techChart"></canvas>
+    <div class="bg-white p-6 rounded-2xl shadow-sm flex items-center gap-4">
+        <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center">🏫</div>
+        <div>
+            <p class="text-sm text-gray-500">Total Kampus</p>
+            <h3 class="text-2xl font-bold">{{ $totalKampus }}</h3>
         </div>
-
-        <div class="bg-white p-6 rounded-xl border shadow-sm">
-            <h3 class="font-semibold mb-4">Kategori Teknologi</h3>
-            <canvas id="kategoriTechChart"></canvas>
-        </div>
-
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6 w-full">
+</div>
 
-        <div class="bg-white p-6 rounded-xl border shadow-sm">
-            <p class="text-gray-500 text-sm">Menunggu Validasi</p>
-            <h2 class="text-3xl font-bold text-yellow-500">{{ $menunggu }}</h2>
+<!-- STATUS -->
+<div class="mb-12">
+    <h2 class="text-lg font-semibold text-gray-800 mb-4">Status Project</h2>
+
+    <div class="grid md:grid-cols-3 gap-6">
+
+        <div class="bg-white p-6 rounded-2xl shadow-sm flex items-center gap-4">
+            <div class="w-12 h-12 bg-yellow-100 text-yellow-500 rounded-xl flex items-center justify-center">⏳</div>
+            <div>
+                <p class="text-sm text-gray-500">Menunggu Validasi</p>
+                <h3 class="text-2xl font-bold text-yellow-500">{{ $menunggu }}</h3>
+            </div>
         </div>
 
-        <div class="bg-white p-6 rounded-xl border shadow-sm">
-            <p class="text-gray-500 text-sm">Revisi</p>
-            <h2 class="text-3xl font-bold text-red-500">{{ $revisi }}</h2>
+        <div class="bg-white p-6 rounded-2xl shadow-sm flex items-center gap-4">
+            <div class="w-12 h-12 bg-red-100 text-red-500 rounded-xl flex items-center justify-center">🔁</div>
+            <div>
+                <p class="text-sm text-gray-500">Revisi</p>
+                <h3 class="text-2xl font-bold text-red-500">{{ $revisi }}</h3>
+            </div>
         </div>
 
-        <div class="bg-white p-6 rounded-xl border shadow-sm">
-            <p class="text-gray-500 text-sm">Divalidasi</p>
-            <h2 class="text-3xl font-bold text-green-500">{{ $divalidasi }}</h2>
+        <div class="bg-white p-6 rounded-2xl shadow-sm flex items-center gap-4">
+            <div class="w-12 h-12 bg-green-100 text-green-500 rounded-xl flex items-center justify-center">✅</div>
+            <div>
+                <p class="text-sm text-gray-500">Divalidasi</p>
+                <h3 class="text-2xl font-bold text-green-500">{{ $divalidasi }}</h3>
+            </div>
         </div>
 
     </div>
+</div>
 
+<!-- CHART -->
+<div>
+    <h2 class="text-lg font-semibold text-gray-800 mb-6">Visualisasi Data</h2>
 
+    <div class="grid md:grid-cols-2 gap-6">
 
-    <script>
-        const jurusanLabels = @json($internPerJurusan->pluck('js_nama'));
-        const jurusanData = @json($internPerJurusan->pluck('total'));
+        <div class="bg-white p-6 rounded-2xl shadow-sm">
+            <h3 class="font-medium mb-4">Intern per Kampus</h3>
+            <div class="h-64">
+                <canvas id="kampusChart"></canvas>
+            </div>
+        </div>
 
-        const jurusanCtx = document.getElementById('jurusanChart');
+        <div class="bg-white p-6 rounded-2xl shadow-sm">
+            <h3 class="font-medium mb-4">Intern per Jurusan</h3>
+            <div class="h-64">
+                <canvas id="jurusanChart"></canvas>
+            </div>
+        </div>
 
-        new Chart(jurusanCtx, {
-            type: 'bar',
-            data: {
-                labels: jurusanLabels,
-                datasets: [{
-                    label: 'Jumlah Intern',
-                    data: jurusanData,
-                    borderWidth: 1
-                }]
-            }
-        });
-    </script>
+        <div class="bg-white p-6 rounded-2xl shadow-sm">
+            <h3 class="font-medium mb-4">Teknologi Project</h3>
+            <div class="h-64 flex items-center justify-center">
+                <canvas id="techChart"></canvas>
+            </div>
+        </div>
 
-    <script>
-        const kampusLabels = @json($internPerKampus->pluck('km_nama_kampus'));
-        const kampusData = @json($internPerKampus->pluck('total'));
+        <div class="bg-white p-6 rounded-2xl shadow-sm">
+            <h3 class="font-medium mb-4">Kategori Teknologi</h3>
+            <div class="h-64 flex items-center justify-center">
+                <canvas id="kategoriTechChart"></canvas>
+            </div>
+        </div>
 
-        new Chart(document.getElementById('kampusChart'), {
-            type: 'bar',
-            data: {
-                labels: kampusLabels,
-                datasets: [{
-                    label: 'Intern',
-                    data: kampusData,
-                    backgroundColor: '#6366f1'
-                }]
-            }
-        });
-    </script>
+    </div>
+</div>
 
-    <script>
-        const jurusanLabels = @json($internPerJurusan->pluck('js_nama'));
-        const jurusanData = @json($internPerJurusan->pluck('total'));
+<!-- SCRIPT -->
+<script>
+const kampusLabels = @json($internPerKampus->pluck('km_nama_kampus'));
+const kampusData = @json($internPerKampus->pluck('total'));
 
-        new Chart(document.getElementById('jurusanChart'), {
-            type: 'bar',
-            data: {
-                labels: jurusanLabels,
-                datasets: [{
-                    label: 'Intern',
-                    data: jurusanData,
-                    backgroundColor: '#10b981'
-                }]
-            }
-        });
-    </script>
+new Chart(document.getElementById('kampusChart'),{
+    type:'bar',
+    data:{
+        labels:kampusLabels,
+        datasets:[{
+            label:'Intern',
+            data:kampusData,
+            backgroundColor:'#3b82f6'
+        }]
+    }
+});
 
+const jurusanLabels = @json($internPerJurusan->pluck('js_nama'));
+const jurusanData = @json($internPerJurusan->pluck('total'));
 
-    <script>
-        const techLabels = @json($techProject->pluck('tk_nama'));
-        const techData = @json($techProject->pluck('total'));
+new Chart(document.getElementById('jurusanChart'),{
+    type:'bar',
+    data:{
+        labels:jurusanLabels,
+        datasets:[{
+            label:'Intern',
+            data:jurusanData,
+            backgroundColor:'#6366f1'
+        }]
+    }
+});
 
-        new Chart(document.getElementById('techChart'), {
-            type: 'pie',
-            data: {
-                labels: techLabels,
-                datasets: [{
-                    data: techData
-                }]
-            }
-        });
-    </script>
+const techLabels = @json($techProject->pluck('tk_nama'));
+const techData = @json($techProject->pluck('total'));
 
-    <script>
-        const catLabels = @json($techCategory->pluck('tk_kategori'));
-        const catData = @json($techCategory->pluck('total'));
+new Chart(document.getElementById('techChart'), {
+    type: 'pie',
+    data: {
+        labels: techLabels,
+        datasets: [{ data: techData }]
+    },
+    options: {
+        plugins: {
+            legend: { position: 'right' }
+        }
+    }
+});
 
-        new Chart(document.getElementById('kategoriTechChart'), {
-            type: 'doughnut',
-            data: {
-                labels: catLabels,
-                datasets: [{
-                    data: catData
-                }]
-            }
-        });
-    </script>
+const catLabels = @json($techCategory->pluck('tk_kategori'));
+const catData = @json($techCategory->pluck('total'));
 
-
-
+new Chart(document.getElementById('kategoriTechChart'), {
+    type: 'doughnut',
+    data: {
+        labels: catLabels,
+        datasets: [{ data: catData }]
+    },
+    options: {
+        plugins: {
+            legend: { position: 'right' }
+        }
+    }
+});
+</script>
 
 @endsection
