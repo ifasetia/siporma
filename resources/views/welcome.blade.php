@@ -47,9 +47,9 @@
                     <a href="{{ route('login') }}"
                         class="px-8 py-4 bg-blue-600 text-white rounded-2xl font-bold hover:scale-105 transition shadow-xl shadow-blue-200">Mulai
                         Submit Project</a>
-                    <a href="#alur"
+                    {{-- <a href="#alur"
                         class="px-8 py-4 bg-white text-gray-700 border border-gray-200 rounded-2xl font-bold hover:bg-gray-50 transition">Lihat
-                        Alur Kerja</a>
+                        Alur Kerja</a> --}}
                 </div>
             </div>
             <div class="relative">

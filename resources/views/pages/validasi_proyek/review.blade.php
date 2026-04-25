@@ -79,6 +79,11 @@
                         <textarea id="admin_comment" class="mt-2 w-full border rounded-lg px-3 py-2 text-sm"
                             placeholder="Tulis komentar untuk intern..."></textarea>
 
+                        <button id="btnSimpanKomentar"
+                            class="mt-2 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 text-sm">
+                            Simpan Komentar
+                        </button>
+
                     </div>
 
                 </div>
@@ -96,86 +101,89 @@
     </div>
 </div>
 
+
+
 @push('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
 
-            if (!window.$) return;
+<script>
+    let reviewId = null;
+    document.addEventListener('DOMContentLoaded', function () {
 
-            $(document).on('click', '.btn-review', function() {
+        if (!window.$) return;
 
-                const id = $(this).data('id');
+        $(document).on('click', '.btn-review', function () {
 
-                Swal.fire({
-                    title: 'Mengambil data...',
-                    text: 'Mohon tunggu sebentar',
-                    allowOutsideClick: false,
-                    showConfirmButton: false,
-                    didOpen: () => Swal.showLoading()
-                });
+            reviewId = $(this).data('id');
 
-                $.get(`/projects/${id}/detail`, function(res) {
+            Swal.fire({
+                title: 'Mengambil data...',
+                text: 'Mohon tunggu sebentar',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                didOpen: () => Swal.showLoading()
+            });
 
-                    Swal.close();
+            $.get(`/projects/${reviewId}/detail`, function (res) {
+                Swal.close();
 
-                    const p = res.data;
+                const p = res.data;
 
-                    $('#r_comment_display').text(p.admin_comment ?? 'Belum ada komentar');
-                    $('#admin_comment').val(p.admin_comment ?? '');
+                $('#r_comment_display').text(p.admin_comment ?? 'Belum ada komentar');
+                $('#admin_comment').val(p.admin_comment ?? '');
 
-                    // RESET
-                    $('#r_members,#r_links,#r_photos,#r_files,#r_tech,#r_status').html('');
+                // RESET
+                $('#r_members,#r_links,#r_photos,#r_files,#r_tech,#r_status').html('');
 
-                    // BASIC
-                    $('#r_title').text(p.title ?? '-');
-                    $('#r_description').text(p.description ?? '-');
+                // BASIC
+                $('#r_title').text(p.title ?? '-');
+                $('#r_description').text(p.description ?? '-');
 
-                    // STATUS
-                    if (p.master_status) {
-                        $('#r_status').html(`
+                // STATUS
+                if (p.master_status) {
+                    $('#r_status').html(`
 <span class="inline-flex rounded-full px-3 py-1 text-xs font-semibold ${p.master_status.sp_warna}">
 ${p.master_status.sp_nama_status}
 </span>
 `);
-                    }
+                }
 
-                    // TEKNOLOGI
-                    if (p.teknologis) {
-                        p.teknologis.forEach(t => {
-                            $('#r_tech').append(`
+                // TEKNOLOGI
+                if (p.teknologis) {
+                    p.teknologis.forEach(t => {
+                        $('#r_tech').append(`
 <span class="px-3 py-1 text-xs rounded-full bg-blue-100 text-blue-700">
 ${t.tk_nama}
 </span>
 `);
-                        });
-                    }
+                    });
+                }
 
-                    // LINKS
-                    if (p.links) {
-                        p.links.forEach(l => {
-                            $('#r_links').append(`
+                // LINKS
+                if (p.links) {
+                    p.links.forEach(l => {
+                        $('#r_links').append(`
 <a href="${l.url}" target="_blank" class="block underline">
 ${l.label ?? l.url}
 </a>
 `);
-                        });
-                    }
+                    });
+                }
 
-                    // FOTO
-                    if (p.photos) {
-                        p.photos.forEach(ph => {
-                            $('#r_photos').append(`
+                // FOTO
+                if (p.photos) {
+                    p.photos.forEach(ph => {
+                        $('#r_photos').append(`
 <img src="/storage/${ph.photo}"
 class="h-24 w-24 rounded-lg object-cover border">
 `);
-                        });
-                    }
+                    });
+                }
 
-                    // FILE
-                    if (p.files) {
-                        p.files.forEach(f => {
-                            const name = f.file_path.split('/').pop();
-                            $('#r_files').append(`
+                // FILE
+                if (p.files) {
+                    p.files.forEach(f => {
+                        const name = f.file_path.split('/').pop();
+                        $('#r_files').append(`
 <button
 title="${name}"
 onclick="window.open('/storage/${f.file_path}')"
@@ -187,39 +195,89 @@ class="w-full max-w-full overflow-hidden whitespace-nowrap text-ellipsis inline-
 
 </button>
 `);
-                        });
-                    }
+                    });
+                }
 
-                    // MEMBERS
-                    $('#r_members').html('');
+                // MEMBERS
+                $('#r_members').html('');
 
-                    if (p.members && p.members.length) {
+                if (p.members && p.members.length) {
 
-                        p.members.forEach(function(user) {
-                            $('#r_members').append(`<li>${user.name}</li>`);
-                        });
+                    p.members.forEach(function (user) {
+                        $('#r_members').append(`<li>${user.name}</li>`);
+                    });
 
-                    } else {
+                } else {
 
-                        $('#r_members').html(
-                            '<span class="text-gray-400">Tidak ada kolaborator</span>');
+                    $('#r_members').html(
+                        '<span class="text-gray-400">Tidak ada kolaborator</span>');
 
-                    }
+                }
 
-                    $('#reviewModal').removeClass('hidden');
-                    $('body').addClass('overflow-hidden');
+                $('#reviewModal').removeClass('hidden');
+                $('body').addClass('overflow-hidden');
 
-                }); // ← tutup $.get
+            }); // ← tutup $.get
 
-            }); // ← tutup btn-review click
+        }); // ← tutup btn-review click
 
 
-            // CLOSE
-            $(document).on('click', '.close-review', function() {
-                $('#reviewModal').addClass('hidden');
-                $('body').removeClass('overflow-hidden');
+        // CLOSE
+        $(document).on('click', '.close-review', function () {
+            $('#reviewModal').addClass('hidden');
+            $('body').removeClass('overflow-hidden');
+        });
+
+        $(document).on('click', '#btnSimpanKomentar', function () {
+
+            const komentar = $('#admin_comment').val();
+
+            if (!komentar) {
+                Swal.fire('Oops', 'Komentar tidak boleh kosong', 'warning');
+                return;
+            }
+
+            Swal.fire({
+                title: 'Menyimpan komentar...',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                didOpen: () => Swal.showLoading()
             });
 
-        }); // ← tutup DOMContentLoaded
-    </script>
+            $.ajax({
+                url: `/projects/${reviewId}/komentar`,
+                method: "POST",
+                data: {
+                    admin_comment: komentar,
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function (res) {
+                    $('#admin_comment').val('');
+                     // 🔥 kosongkan textarea
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil',
+                        text: 'Komentar berhasil disimpan'
+                    });
+
+                    // 🔥 update tampilan langsung
+                    $('#r_comment_display').html(`
+                        <div class="bg-gray-100 p-3 rounded-lg">
+                            <span class="font-semibold text-blue-600">${res.comment_by}:</span>
+                            <p class="text-gray-700 mt-1">${komentar}</p>
+                        </div>
+                    `);
+
+                },
+                error: function () {
+                    Swal.fire('Error', 'Gagal menyimpan komentar', 'error');
+                }
+            });
+
+        });
+
+    }); // ← tutup DOMContentLoaded
+
+</script>
 @endpush
