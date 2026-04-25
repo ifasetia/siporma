@@ -57,29 +57,54 @@
 
 @include('pages.validasi_proyek.review')
 @include('pages.validasi_proyek.validasi')
+@include('pages.projects.detail')
 
 @push('scripts')
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () {
 
-    if (!window.$) {
-        console.error('jQuery NOT loaded');
-        return;
-    }
+        if (!window.$) {
+            console.error('jQuery NOT loaded');
+            return;
+        }
 
-    let table = $('#validasiTable').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: "{{ route('validasi-proyek.datatables') }}",
-        columns: [
-            {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false, className: 'text-center'},
-            {data: 'intern_name', name: 'intern_name'},
-            {data: 'title', name: 'title'},
-            {data: 'status', name: 'status', orderable: false, searchable: false},
-            {data: 'aksi', name: 'aksi', orderable: false, searchable: false, className: 'text-center'},
-        ]
+        let table = $('#validasiTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('validasi-proyek.datatables') }}",
+            columns: [{
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    orderable: false,
+                    searchable: false,
+                    className: 'text-center'
+                },
+                {
+                    data: 'intern_name',
+                    name: 'intern_name'
+                },
+                {
+                    data: 'title',
+                    name: 'title'
+                },
+                {
+                    data: 'status',
+                    name: 'status',
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: 'aksi',
+                    name: 'aksi',
+                    orderable: false,
+                    searchable: false,
+                    className: 'text-center'
+                },
+            ]
+        });
+
     });
 
-});
 </script>
+@stack('scripts')
 @endpush
