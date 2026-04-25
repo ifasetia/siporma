@@ -161,6 +161,8 @@ Route::middleware('auth')->group(function () {
             Route::get('/{id}/edit', [ProjectController::class, 'edit'])->name('edit');
             Route::post('/{id}/update', [ProjectController::class, 'update'])->name('update');
             Route::get('/{id}/detail', [ProjectController::class, 'detail'])->name('detail');
+            
+
 
             Route::delete('/{id}', [ProjectController::class, 'destroy'])->name('destroy');
 
@@ -172,8 +174,11 @@ Route::middleware('auth')->group(function () {
 
     // ROUTE UNTUK VALIDASI PROYEK (ADMIN)
     Route::get('/validasi-proyek', [ValidasiProyekController::class, 'index'])->name('validasi-proyek.index');
+    Route::post('/projects/{id}/komentar', [ValidasiProyekController::class, 'saveKomentar']);
     Route::get('/validasi-proyek/datatables', [ValidasiProyekController::class, 'datatable'])->name('validasi-proyek.datatables');
     Route::put('/validasi-proyek/{id}/status', [ValidasiProyekController::class, 'updateStatus'])->name('validasi-proyek.update-status');
+
+
 
 
     // Kegiatan (Jika nanti diaktifkan oleh Admin)

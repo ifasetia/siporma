@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Models\Master\StatusProyek; // Pastikan namespace model status proyekmu benar
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class ValidasiProyekController extends Controller
 {
@@ -38,27 +39,34 @@ class ValidasiProyekController extends Controller
                 }
                 return '<span class="px-3 py-1 text-xs rounded-full bg-gray-100 text-gray-700">Belum ada status</span>';
             })
-            
+
             ->addColumn('aksi', function ($row) {
 
     return '
-    <div class="flex gap-2 justify-center">
+<div class="flex gap-2 justify-center">
 
-        <button
-            type="button"
-            data-id="'.$row->id.'"
-            class="btn-review px-3 py-1 text-xs rounded bg-indigo-100 text-indigo-700">
-            Review
-        </button>
+    <button
+        type="button"
+        data-id="'.$row->id.'"
+        class="btn-detail px-3 py-1 text-xs rounded bg-gray-100 text-gray-700">
+        Detail
+    </button>
 
-        <button
-            type="button"
-            data-id="'.$row->id.'"
-            class="btn-validasi px-3 py-1 text-xs rounded bg-blue-100 text-blue-700">
-            Validasi
-        </button>
+    <button
+        type="button"
+        data-id="'.$row->id.'"
+        class="btn-review px-3 py-1 text-xs rounded bg-indigo-100 text-indigo-700">
+        Review
+    </button>
 
-    </div>';
+    <button
+        type="button"
+        data-id="'.$row->id.'"
+        class="btn-validasi px-3 py-1 text-xs rounded bg-blue-100 text-blue-700">
+        Validasi
+    </button>
+
+</div>';
 })
 
             ->rawColumns(['aksi', 'status'])
@@ -98,5 +106,25 @@ class ValidasiProyekController extends Controller
 
     return view('pages.validasi_proyek.validasi', compact('project','statuses'));
 }
-    
+
+    public function saveKomentar(Request $request, $id)
+{
+    $request->validate([
+        'admin_comment' => 'required'
+    ]);
+
+    $project = Project::findOrFail($id);
+
+    $project->admin_comment = $request->admin_comment;
+    $project->comment_by = Auth::user()->name;
+    $project->save();
+
+    return response()->json([
+
+    'success' => true,
+    'message' => 'Komentar berhasil disimpan',
+    'comment_by' => Auth::user()->name
+]);
+}
+
 }
