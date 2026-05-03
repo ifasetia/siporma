@@ -481,7 +481,7 @@
     <!-- FOOTER -->
     <footer class="bg-gray-900 text-white text-center py-6 mt-20">
 
-        Siporma © {{ date('Y') }}
+        © {{ date('Y') }} Siporma | Diskominfotik Sumbar
 
     </footer>
 

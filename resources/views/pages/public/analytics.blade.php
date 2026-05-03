@@ -58,9 +58,37 @@
 
     </nav>
 
+    <section class="relative h-[350px] flex items-end pb-10">
+
+        <!-- BACKGROUND -->
+        <div class="absolute inset-0">
+            <img src="{{ asset('images/bg/analitik1.jpg') }}" 
+            class="w-full h-full  object-cover object-[60%_60%]">
+        </div>
+
+        <!-- OVERLAY -->
+        <div class="absolute inset-0 bg-black/60"></div>
+
+        <!-- CONTENT -->
+        <div class="relative max-w-7xl mx-auto px-6 text-white">
+
+        <div class="max-w-7xl mx-auto px-6 text-center">
+
+            <h1 class="text-5xl font-extrabold text-white-900 mb-6">
+                Statistik Program
+                <span class="text-blue-300">Magang</span>
+            </h1>
+
+            <p class="text-lg text-white-600 max-w-2xl mx-auto">
+                Data statistik mahasiswa magang dan project yang telah dipublikasikan oleh Dinas Kominfo dan Statistik.
+            </p>
+
+        </div>
+    </section>
 
 
-    <!-- HERO -->
+
+    {{-- <!-- HERO -->
     <section class="relative pt-16 pb-24 overflow-hidden">
 
         <div class="max-w-7xl mx-auto px-6 text-center">
@@ -76,7 +104,7 @@
 
         </div>
 
-    </section>
+    </section> --}}
 
 
 
@@ -88,19 +116,19 @@
             <div class="grid md:grid-cols-4 gap-6">
 
             <!-- INTERN -->
-            <div class="bg-white p-6 rounded-2xl border shadow-sm flex items-center gap-4 hover:shadow-md transition">
+            <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300 flex items-center justify-center gap-4 text-center">
                 <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-xl">
                     👤
                 </div>
                 <div>
-                    <p class="text-gray-500 text-sm">Total Intern</p>
+                    <p class="text-gray-500 text-sm ">Total Intern</p>
                     <h3 class="text-2xl font-bold text-gray-900">{{ $totalIntern }}</h3>
                     <p class="text-xs text-gray-400">Mahasiswa magang aktif</p>
                 </div>
             </div>
 
             <!-- PROJECT -->
-            <div class="bg-white p-6 rounded-2xl border shadow-sm flex items-center gap-4 hover:shadow-md transition">
+            <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300 flex items-center justify-center gap-4 text-center">
                 <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-xl">
                     📁
                 </div>
@@ -112,7 +140,7 @@
             </div>
 
             <!-- KAMPUS -->
-            <div class="bg-white p-6 rounded-2xl border shadow-sm flex items-center gap-4 hover:shadow-md transition">
+            <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300 flex items-center justify-center gap-4 text-center">
                 <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center text-xl">
                     🏫
                 </div>
@@ -124,7 +152,7 @@
             </div>
 
             <!-- TEKNOLOGI -->
-            <div class="bg-white p-6 rounded-2xl border shadow-sm flex items-center gap-4 hover:shadow-md transition">
+            <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300 flex items-center justify-center gap-4 text-center">
                 <div class="w-12 h-12 bg-green-100 text-green-600 rounded-xl flex items-center justify-center text-xl">
                     💻
                 </div>
@@ -212,7 +240,7 @@
             <div class="grid md:grid-cols-3 gap-6">
 
                 <!-- MENUNGGU -->
-                <div class="bg-white p-6 rounded-2xl border shadow-sm flex items-center gap-4">
+                <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300 flex items-center justify-center gap-4 text-center">
                     <div class="w-12 h-12 bg-yellow-100 text-yellow-500 rounded-xl flex items-center justify-center text-xl">
                         ⏳
                     </div>
@@ -224,7 +252,7 @@
                 </div>
 
                 <!-- REVISI -->
-                <div class="bg-white p-6 rounded-2xl border shadow-sm flex items-center gap-4">
+                <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300 flex items-center justify-center gap-4 text-center">
                     <div class="w-12 h-12 bg-red-100 text-red-500 rounded-xl flex items-center justify-center text-xl">
                         🔁
                     </div>
@@ -236,7 +264,7 @@
                 </div>
 
                 <!-- DIVALIDASI -->
-                <div class="bg-white p-6 rounded-2xl border shadow-sm flex items-center gap-4">
+                <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300 flex items-center justify-center gap-4 text-center">
                     <div class="w-12 h-12 bg-green-100 text-green-500 rounded-xl flex items-center justify-center text-xl">
                         ✅
                     </div>
@@ -258,6 +286,10 @@
 
     <div class="max-w-7xl mx-auto px-6">
 
+    <div class="pt-8 pb-20 bg-repeat bg-center"
+        style="background-image: url('{{ asset('images/bg/heksagonal1.jpeg') }}')">
+
+
         <!-- TITLE -->
         <div class="text-center mb-14">
             <h2 class="text-3xl font-bold text-gray-900 mb-3">
@@ -270,7 +302,7 @@
         <div class="grid md:grid-cols-2 gap-8">
 
             <!-- 1 -->
-            <div class="bg-white p-6 rounded-2xl border shadow-sm hover:shadow-md transition">
+            <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
                 <h3 class="font-semibold text-gray-800 mb-4">
                     Intern per Kampus
                 </h3>
@@ -280,7 +312,7 @@
             </div>
 
             <!-- 2 -->
-            <div class="bg-white p-6 rounded-2xl border shadow-sm hover:shadow-md transition">
+            <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
                 <h3 class="font-semibold text-gray-800 mb-4">
                     Intern per Jurusan
                 </h3>
@@ -290,7 +322,7 @@
             </div>
 
             <!-- 3 -->
-            <div class="bg-white p-6 rounded-2xl border shadow-sm hover:shadow-md transition">
+            <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
                 <h3 class="font-semibold text-gray-800 mb-4">
                     Teknologi Project
                 </h3>
@@ -300,7 +332,7 @@
             </div>
 
             <!-- 4 -->
-            <div class="bg-white p-6 rounded-2xl border shadow-sm hover:shadow-md transition">
+            <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
                 <h3 class="font-semibold text-gray-800 mb-4">
                     Kategori Teknologi
                 </h3>
@@ -319,15 +351,9 @@
 
     <div class="pb-10"></div>
     <!-- FOOTER -->
-    <footer class="bg-gray-900 py-12 text-white">
+    <footer class="bg-gray-900 text-white text-center py-6 mt-20">
 
-        <div class="max-w-7xl mx-auto px-6 text-center border-t border-gray-800 pt-8">
-
-            <p class="text-sm text-gray-500">
-                © {{ date('Y') }} Siporma | Dinas Kominfo dan Statistik
-            </p>
-
-        </div>
+        © {{ date('Y') }} Siporma | Diskominfotik Sumbar
 
     </footer>
 
@@ -342,6 +368,21 @@
         });
 
     </script>
+
+    <script>
+    Chart.defaults.font.family = "'Inter', sans-serif";
+    Chart.defaults.color = '#6b7280'; // abu soft
+
+    const gridStyle = {
+        color: 'rgba(0,0,0,0.03)', // 🔥 garis tipis banget
+        drawBorder: false
+    };
+
+    const ticksStyle = {
+        color: '#9ca3af'
+    };
+
+</script>
 
 
 

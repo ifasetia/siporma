@@ -64,7 +64,7 @@
         <!-- CONTENT -->
         <div class="relative max-w-7xl mx-auto px-6 text-white">
 
-           <p class="text-base uppercase text-blue-300 tracking-widest font-semibold">
+        <p class="text-base uppercase text-blue-300 tracking-widest font-semibold">
     Katalog
 </p>
 
@@ -83,7 +83,7 @@
 
     <div class="pt-8 pb-20 relative">
     <!-- 🔥 WRAPPER PATTERN MULAI DI SINI -->
-   <div class="pt-8 pb-20 bg-repeat bg-center"
+    <div class="pt-8 pb-20 bg-repeat bg-center"
         style="background-image: url('{{ asset('images/bg/heksagonal1.jpeg') }}')">
 
     <!-- Search -->
@@ -122,11 +122,9 @@
 
 
     <!-- FOOTER -->
-        <footer class="bg-gray-900 text-white text-center py-8 mt-20">
+    <footer class="bg-gray-900 text-white text-center py-6 mt-20">
 
-        <p class="text-sm text-gray-400">
-            © {{ date('Y') }} Siporma - Sistem Informasi Project Magang
-        </p>
+        © {{ date('Y') }} Siporma | Diskominfotik Sumbar
 
     </footer>
 
