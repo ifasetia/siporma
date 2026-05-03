@@ -62,7 +62,13 @@
                     <p id="d_posisi" class="mt-1 text-gray-800"></p>
                 </div>
 
-                </div>  
+                <div class="col-span-2 mt-4">
+                    <label class="block font-medium text-gray-500 mb-2">Sosial Media</label>
+
+                    <div id="d_sosmed" class="flex flex-wrap gap-3"></div>
+                </div>
+
+            </div>
 
             <!-- FOOTER -->
             <div class="flex justify-end gap-3 pt-6">
@@ -78,73 +84,114 @@
 
 @push('scripts')
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () {
 
-    if (!window.$) {
-        console.error('jQuery NOT loaded');
-        return;
-    }
+        if (!window.$) {
+            console.error('jQuery NOT loaded');
+            return;
+        }
 
-    function dbToDisplay(val){
-    if(!val) return '-';
-    const p = val.split('-'); // yyyy-mm-dd
-    return p[2]+'/'+p[1]+'/'+p[0];
-}
+        function dbToDisplay(val) {
+            if (!val) return '-';
+            const p = val.split('-'); // yyyy-mm-dd
+            return p[2] + '/' + p[1] + '/' + p[0];
+        }
 
-    // OPEN DETAIL
-    $(document).on('click','.btn-detail',function(){
+        // OPEN DETAIL
+        $(document).on('click', '.btn-detail', function () {
 
-        const id = $(this).data('id');
+            const id = $(this).data('id');
 
-        Swal.fire({
-            title: 'Mengambil data...',
-            text: 'Mohon tunggu sebentar',
-            allowOutsideClick: false,
-            showConfirmButton: false,
-            didOpen: () => Swal.showLoading()
-        });
+            Swal.fire({
+                title: 'Mengambil data...',
+                text: 'Mohon tunggu sebentar',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                didOpen: () => Swal.showLoading()
+            });
 
-        $.get(`/data-admin/${id}/detail`, function(res){
+            $.get(`/data-admin/${id}/detail`, function (res) {
 
-            Swal.close();
+                Swal.close();
 
-            const profile = res.data.profile;
+                const profile = res.data.profile;
 
-            $('#d_nama').text(profile?.pr_nama ?? '-');
-            $('#d_email').text(res.data.email ?? '-');
-            $('#d_hp').text(profile?.pr_no_hp ?? '-');
-            $('#d_gender').text(profile?.pr_jenis_kelamin ?? '-');
-            $('#d_birth').text(dbToDisplay(profile?.pr_tanggal_lahir));
-            $('#d_alamat').text(profile?.pr_alamat ?? '-');
-            const status = profile?.pr_status ?? 'nonaktif';
+                $('#d_nama').text(profile?.pr_nama ?? '-');
+                $('#d_email').text(res.data.email ?? '-');
+                $('#d_hp').text(profile?.pr_no_hp ?? '-');
+                $('#d_gender').text(profile?.pr_jenis_kelamin ?? '-');
+                $('#d_birth').text(dbToDisplay(profile?.pr_tanggal_lahir));
+                $('#d_alamat').text(profile?.pr_alamat ?? '-');
+                const status = profile?.pr_status ?? 'nonaktif';
 
-            if(status === 'aktif'){
-                $('#d_status').html(`
+                if (status === 'aktif') {
+                    $('#d_status').html(`
                     <span class="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
                         Aktif
                     </span>
                 `);
-            }else{
-                $('#d_status').html(`
+                } else {
+                    $('#d_status').html(`
                     <span class="inline-flex items-center rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-700">
                         Nonaktif
                     </span>
                 `);
-            }
-            $('#d_posisi').text(profile?.pr_posisi ?? '-');
+                }
+                $('#d_posisi').text(profile?.pr_posisi ?? '-');
+
+                let sosmedHtml = '';
+
+                if (profile?.pr_instagram) {
+                    sosmedHtml += `<a href="${profile.pr_instagram}" target="_blank"
+        class="px-3 py-1 bg-pink-100 text-pink-600 rounded-full text-xs hover:bg-pink-200">
+        Instagram
+    </a>`;
+                }
+
+                if (profile?.pr_linkedin) {
+                    sosmedHtml += `<a href="${profile.pr_linkedin}" target="_blank"
+        class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-xs hover:bg-blue-200">
+        LinkedIn
+    </a>`;
+                }
+
+                if (profile?.pr_github) {
+                    sosmedHtml += `<a href="${profile.pr_github}" target="_blank"
+        class="px-3 py-1 bg-gray-200 text-gray-800 rounded-full text-xs hover:bg-gray-300">
+        GitHub
+    </a>`;
+                }
+
+                if (profile?.pr_facebook) {
+                    sosmedHtml += `<a href="${profile.pr_facebook}" target="_blank"
+        class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs hover:bg-blue-200">
+        Facebook
+    </a>`;
+                }
+
+                if (profile?.pr_whatsapp) {
+                    sosmedHtml += `<a href="https://wa.me/${profile.pr_whatsapp}" target="_blank"
+        class="px-3 py-1 bg-green-100 text-green-600 rounded-full text-xs hover:bg-green-200">
+        WhatsApp
+    </a>`;
+                }
+
+                $('#d_sosmed').html(sosmedHtml ||
+                    '<span class="text-gray-400">Tidak ada</span>');
 
 
-            $('#detailModal').removeClass('hidden');
-            $('body').addClass('overflow-hidden');
+                $('#detailModal').removeClass('hidden');
+                $('body').addClass('overflow-hidden');
+            });
         });
+
+        // CLOSE DETAIL
+        $(document).on('click', '.close-detail', function () {
+            $('#detailModal').addClass('hidden');
+            $('body').removeClass('overflow-hidden');
+        });
+
     });
 
-    // CLOSE DETAIL
-    $(document).on('click','.close-detail',function(){
-        $('#detailModal').addClass('hidden');
-        $('body').removeClass('overflow-hidden');
-    });
-
-});
 </script>
 @endpush
