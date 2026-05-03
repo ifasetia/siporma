@@ -7,3 +7,53 @@
 .swal2-container {
     z-index: 9999999 !important;
 }
+
+.menu-item {
+    @apply flex items-center gap-3 px-3 py-2 rounded-lg text-gray-300 transition;
+}
+
+.menu-item {
+    @apply flex items-center gap-3 px-3 py-2 rounded-lg;
+}
+
+.sidebar.lg\:w-\[90px\] .menu-item {
+    justify-content: center;
+}
+
+.menu-item:hover {
+    @apply bg-white/10 text-white;
+}
+
+.menu-item-active {
+    @apply bg-blue-600 text-white shadow-md;
+}
+
+.menu-item-inactive {
+    @apply text-gray-300;
+}
+
+/* ICON */
+.menu-item-icon-active {
+    @apply text-white;
+}
+
+.menu-item-icon-inactive {
+    @apply text-gray-400;
+}
+
+/* DROPDOWN */
+.menu-dropdown-item {
+    @apply block px-3 py-2 rounded-lg text-sm text-gray-300 transition;
+}
+
+.menu-dropdown-item:hover {
+    @apply bg-white/10 text-white;
+}
+
+.menu-dropdown-item-active {
+    @apply bg-blue-500 text-white;
+}
+
+.menu-dropdown-item-inactive {
+    @apply text-gray-400;
+}
