@@ -2,7 +2,6 @@
 
 @section('title', 'Analytics')
 
-
 @section('content')
 
 @php
@@ -51,6 +50,7 @@ $divalidasi = $statusProject->where('sp_nama_status', 'Divalidasi (Public)')->fi
         <h3 class="font-semibold mb-4">Intern per Kampus</h3>
         <canvas id="kampusChart"></canvas>
     </div>
+</div>
 
     <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
         <h3 class="font-semibold mb-4">Intern per Jurusan</h3>
