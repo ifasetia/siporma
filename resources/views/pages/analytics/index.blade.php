@@ -23,22 +23,22 @@ $divalidasi = $statusProject->where('sp_nama_status', 'Divalidasi (Public)')->fi
 
 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mt-6">
 
-    <div class="rounded-2xl border border-gray-200 bg-white p-6 lg:p-8 mb-6">
+    <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
         <p class="text-gray-500 text-sm">Total Intern</p>
         <h2 class="text-3xl font-bold text-indigo-600">{{ $totalIntern }}</h2>
     </div>
 
-    <div class="rounded-2xl border border-gray-200 bg-white p-6 lg:p-8 mb-6">
+    <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
         <p class="text-gray-500 text-sm">Total Admin</p>
         <h2 class="text-3xl font-bold text-green-600">{{ $totalAdmin }}</h2>
     </div>
 
-    <div class="rounded-2xl border border-gray-200 bg-white p-6 lg:p-8 mb-6">
+    <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
         <p class="text-gray-500 text-sm">Total Users</p>
         <h2 class="text-3xl font-bold text-blue-600">{{ $totalUsers }}</h2>
     </div>
 
-    <div class="rounded-2xl border border-gray-200 bg-white p-6 lg:p-8 mb-6">
+    <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
         <p class="text-gray-500 text-sm">Total Kampus</p>
         <h2 class="text-3xl font-bold text-purple-600">{{ $totalKampus }}</h2>
     </div>
@@ -47,12 +47,12 @@ $divalidasi = $statusProject->where('sp_nama_status', 'Divalidasi (Public)')->fi
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
 
-    <div class="rounded-2xl border border-gray-200 bg-white p-6 lg:p-8 mb-6">
+    <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
         <h3 class="font-semibold mb-4">Intern per Kampus</h3>
         <canvas id="kampusChart"></canvas>
     </div>
 
-    <div class="rounded-2xl border border-gray-200 bg-white p-6 lg:p-8 mb-6">
+    <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
         <h3 class="font-semibold mb-4">Intern per Jurusan</h3>
         <canvas id="jurusanChart"></canvas>
     </div>
@@ -61,12 +61,12 @@ $divalidasi = $statusProject->where('sp_nama_status', 'Divalidasi (Public)')->fi
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
 
-    <div class="rounded-2xl border border-gray-200 bg-white p-6 lg:p-8 mb-6">
+    <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
         <h3 class="font-semibold mb-4">Teknologi Project</h3>
         <canvas id="techChart"></canvas>
     </div>
 
-    <div class="rounded-2xl border border-gray-200 bg-white p-6 lg:p-8 mb-6">
+    <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
         <h3 class="font-semibold mb-4">Kategori Teknologi</h3>
         <canvas id="kategoriTechChart"></canvas>
     </div>
@@ -75,17 +75,17 @@ $divalidasi = $statusProject->where('sp_nama_status', 'Divalidasi (Public)')->fi
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6 w-full">
 
-    <div class="rounded-2xl border border-gray-200 bg-white p-6 lg:p-8 mb-6">
+    <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
         <p class="text-gray-500 text-sm">Menunggu Validasi</p>
         <h2 class="text-3xl font-bold text-yellow-500">{{ $menunggu }}</h2>
     </div>
 
-    <div class="rounded-2xl border border-gray-200 bg-white p-6 lg:p-8 mb-6">
+    <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
         <p class="text-gray-500 text-sm">Revisi</p>
         <h2 class="text-3xl font-bold text-red-500">{{ $revisi }}</h2>
     </div>
 
-    <div class="rounded-2xl border border-gray-200 bg-white p-6 lg:p-8 mb-6">
+    <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
         <p class="text-gray-500 text-sm">Divalidasi</p>
         <h2 class="text-3xl font-bold text-green-500">{{ $divalidasi }}</h2>
     </div>
