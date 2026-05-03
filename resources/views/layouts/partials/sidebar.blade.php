@@ -1,30 +1,28 @@
 <aside :class="sidebarToggle ? 'translate-x-0 lg:w-[90px]' : '-translate-x-full'"
-    class="sidebar fixed left-0 top-0 z-9999 flex h-screen w-[290px] flex-col overflow-y-hidden border-r border-gray-200 bg-white px-5 dark:border-gray-800 dark:bg-black lg:static lg:translate-x-0">
+    class="sidebar fixed left-0 top-0 z-9999 flex h-screen w-[290px] flex-col overflow-y-hidden border-r border-gray-200 bg-gradient-to-b from-[#1e3a5f] via-[#172554] to-[#020617] shadow-2xl px-5 dark:border-gray-800 dark:bg-black lg:static lg:translate-x-0">
     <!-- SIDEBAR HEADER -->
-    <div :class="sidebarToggle ? 'justify-center' : 'justify-between'"
-        class="flex items-center gap-2 pt-8 sidebar-header pb-7">
-        <a href="{{ route('dashboard') }}">
-            <span class="logo" :class="sidebarToggle ? 'hidden' : ''">
+    <div :class="sidebarToggle ? 'justify-center' : 'justify-between'" <a href="{{ route('dashboard') }}">
+        {{-- <span class="logo" :class="sidebarToggle ? 'hidden' : ''">
                 <img class="dark:hidden w-12" src="{{ asset('images/icon/LOGO.png') }}" alt="Logo" />
-            </span>
+        </span> --}}
 
-            <img class="logo-icon" :class="sidebarToggle ? 'lg:block' : 'hidden'"
-                src="{{ asset('images/icon/LOGO.png') }}" alt="Logo" />
+        {{-- <img class="logo-icon" :class="sidebarToggle ? 'lg:block' : 'hidden'"
+                src="{{ asset('images/icon/LOGO.png') }}" alt="Logo" /> --}}
         </a>
     </div>
     <!-- SIDEBAR HEADER -->
 
-    <div class="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar">
+    <div class="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar  mt-3">
         <!-- Sidebar Menu -->
         <nav x-data="{selected: $persist('Dashboard')}">
             <!-- Menu Group -->
             <div>
-                <h3 class="mb-4 text-xs uppercase leading-[20px] text-gray-400">
+                <h3 class=" mt-4 mb-4 text-xs uppercase tracking-wider text-gray-400 px-2">
                     <span class="menu-group-title" :class="sidebarToggle ? 'lg:hidden' : ''">
                         MENU
                     </span>
                     <svg :class="sidebarToggle ? 'lg:block hidden' : 'hidden'"
-                        class="mx-auto fill-current menu-group-icon" width="24" height="24" viewBox="0 0 24 24"
+                        class="mx-auto fill-current menu-group-icon" width="24" height="24" viewBox="0 0 24 24 "
                         fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" clip-rule="evenodd"
                             d="M5.99915 10.2451C6.96564 10.2451 7.74915 11.0286 7.74915 11.9951V12.0051C7.74915 12.9716 6.96564 13.7551 5.99915 13.7551C5.03265 13.7551 4.24915 12.9716 4.24915 12.0051V11.9951C4.24915 11.0286 5.03265 10.2451 5.99915 10.2451ZM17.9991 10.2451C18.9656 10.2451 19.7491 11.0286 19.7491 11.9951V12.0051C19.7491 12.9716 18.9656 13.7551 17.9991 13.7551C17.0326 13.7551 16.2491 12.9716 16.2491 12.0051V11.9951C16.2491 11.0286 17.0326 10.2451 17.9991 10.2451ZM13.7491 11.9951C13.7491 11.0286 12.9656 10.2451 11.9991 10.2451C11.0326 10.2451 10.2491 11.0286 10.2491 11.9951V12.0051C10.2491 12.9716 11.0326 13.7551 11.9991 13.7551C12.9656 13.7551 13.7491 12.9716 13.7491 12.0051V11.9951Z"
@@ -32,7 +30,7 @@
                     </svg>
                 </h3>
 
-                <ul class="flex flex-col gap-4 mb-6">
+                <ul class="flex flex-col gap-2 mb-6 px-1">
                     <!-- Menu Item Dashboard -->
                     <!-- <li>
                         <a href="{{ route('dashboard') }}"
@@ -57,24 +55,20 @@
 
                     <!-- Menu Item Analytics -->
                     <li>
-                        <a
-                            href="{{ route('analytics.index') }}"
-                            class="menu-dropdown-item group"
-                            :class="page === 'analytics' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'"
-                        >
+                        <a href="{{ route('analytics.index') }}"
+                            class="menu-item group {{ request()->routeIs('analytics.index') ? 'menu-item-active' : 'menu-item-inactive' }}">
 
-                            <svg class="w-5 h-5 mr-2 text-gray-500 group-hover:text-gray-700"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                stroke-width="1.8">
+                            <svg class="menu-item-icon-inactive w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
 
                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M3 3v18h18M9 17V9m4 8V5m4 12v-6"/>
+                                    d="M3 3v18h18M9 17V9m4 8V5m4 12v-6" />
                             </svg>
 
-                            Analytics
+                            <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">
+                                Analytics
+                            </span>
+
                         </a>
                     </li>
                     <!-- Menu Item Analytics -->
@@ -83,14 +77,15 @@
                     <li>
                         {{-- Baris 59: Ubah 'profile' menjadi 'profile.edit' --}}
                         <a href="{{ route('profile.edit') }}"
-                        class="menu-item group {{ request()->routeIs('profile.edit') ? 'menu-item-active' : 'menu-item-inactive' }}">
-                        <svg class="{{ request()->routeIs('profile')
+                            class="menu-item group {{ request()->routeIs('profile.edit') ? 'menu-item-active' : 'menu-item-inactive' }}">
+                            <svg class="{{ request()->routeIs('profile')
                             ? 'menu-item-icon-active'
-                            : 'menu-item-icon-inactive' }}"
-                        width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 3.5C7.30558 3.5 3.5 7.30558 3.5 12C3.5 14.1526 4.3002 16.1184 5.61936 17.616C6.17279 15.3096 8.24852 13.5955 10.7246 13.5955H13.2746C15.7509 13.5955 17.8268 15.31 18.38 17.6167C19.6996 16.119 20.5 14.153 20.5 12C20.5 7.30558 16.6944 3.5 12 3.5ZM17.0246 18.8566V18.8455C17.0246 16.7744 15.3457 15.0955 13.2746 15.0955H10.7246C8.65354 15.0955 6.97461 16.7744 6.97461 18.8455V18.856C8.38223 19.8895 10.1198 20.5 12 20.5C13.8798 20.5 15.6171 19.8898 17.0246 18.8566ZM2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12ZM11.9991 7.25C10.8847 7.25 9.98126 8.15342 9.98126 9.26784C9.98126 10.3823 10.8847 11.2857 11.9991 11.2857C13.1135 11.2857 14.0169 10.3823 14.0169 9.26784C14.0169 8.15342 13.1135 7.25 11.9991 7.25ZM8.48126 9.26784C8.48126 7.32499 10.0563 5.75 11.9991 5.75C13.9419 5.75 15.5169 7.32499 15.5169 9.26784C15.5169 11.2107 13.9419 12.7857 11.9991 12.7857C10.0563 12.7857 8.48126 11.2107 8.48126 9.26784Z" fill="currentColor"></path>
-                        </svg>
+                            : 'menu-item-icon-inactive' }}" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M12 3.5C7.30558 3.5 3.5 7.30558 3.5 12C3.5 14.1526 4.3002 16.1184 5.61936 17.616C6.17279 15.3096 8.24852 13.5955 10.7246 13.5955H13.2746C15.7509 13.5955 17.8268 15.31 18.38 17.6167C19.6996 16.119 20.5 14.153 20.5 12C20.5 7.30558 16.6944 3.5 12 3.5ZM17.0246 18.8566V18.8455C17.0246 16.7744 15.3457 15.0955 13.2746 15.0955H10.7246C8.65354 15.0955 6.97461 16.7744 6.97461 18.8455V18.856C8.38223 19.8895 10.1198 20.5 12 20.5C13.8798 20.5 15.6171 19.8898 17.0246 18.8566ZM2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12ZM11.9991 7.25C10.8847 7.25 9.98126 8.15342 9.98126 9.26784C9.98126 10.3823 10.8847 11.2857 11.9991 11.2857C13.1135 11.2857 14.0169 10.3823 14.0169 9.26784C14.0169 8.15342 13.1135 7.25 11.9991 7.25ZM8.48126 9.26784C8.48126 7.32499 10.0563 5.75 11.9991 5.75C13.9419 5.75 15.5169 7.32499 15.5169 9.26784C15.5169 11.2107 13.9419 12.7857 11.9991 12.7857C10.0563 12.7857 8.48126 11.2107 8.48126 9.26784Z"
+                                    fill="currentColor"></path>
+                            </svg>
 
                             <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">
                                 Profil Saya
@@ -102,256 +97,176 @@
                     @if(auth()->user()->role === 'admin' || auth()->user()->role === 'super_admin')
                     <!-- MANAGEMENT DATA -->
                     <li>
-                    <a
-                        href="#"
-                        @click.prevent="selected = (selected === 'Management' ? '' : 'Management')"
-                        class="menu-item group"
-                        :class="(selected === 'Management') ? 'menu-item-active' : 'menu-item-inactive'"
-                    >
+                        <a href="#" @click.prevent="selected = (selected === 'Management' ? '' : 'Management')"
+                            class="menu-item group"
+                            :class="(selected === 'Management') ? 'menu-item-active' : 'menu-item-inactive'">
 
-                        <!-- ICON GROUP / USERS -->
-                        <svg
-                            :class="(selected === 'Management') ? 'menu-item-icon-active' : 'menu-item-icon-inactive'"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"
-                                stroke="currentColor"
-                                stroke-width="1.5"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                            />
-                            <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="1.5" />
-                            <path
-                                d="M23 21v-2a4 4 0 00-3-3.87"
-                                stroke="currentColor"
-                                stroke-width="1.5"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                            />
-                            <path
-                                d="M16 3.13a4 4 0 010 7.75"
-                                stroke="currentColor"
-                                stroke-width="1.5"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                            />
-                        </svg>
+                            <!-- ICON GROUP / USERS -->
+                            <svg :class="(selected === 'Management') ? 'menu-item-icon-active' : 'menu-item-icon-inactive'"
+                                width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke="currentColor"
+                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="1.5" />
+                                <path d="M23 21v-2a4 4 0 00-3-3.87" stroke="currentColor" stroke-width="1.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M16 3.13a4 4 0 010 7.75" stroke="currentColor" stroke-width="1.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
 
-                        <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">
-                            Management Data
-                        </span>
+                            <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">
+                                Management Data
+                            </span>
 
-                        <!-- ARROW -->
-                        <svg
-                            class="menu-item-arrow"
-                            :class="[
+                            <!-- ARROW -->
+                            <svg class="menu-item-arrow" :class="[
                                 (selected === 'Management') ? 'menu-item-arrow-active' : 'menu-item-arrow-inactive',
                                 sidebarToggle ? 'lg:hidden' : ''
-                            ]"
-                            width="20"
-                            height="20"
-                            viewBox="0 0 20 20"
-                            fill="none"
-                        >
-                            <path
-                                d="M4.79175 7.39584L10.0001 12.6042L15.2084 7.39585"
-                                stroke="currentColor"
-                                stroke-width="1.5"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                            />
-                        </svg>
+                            ]" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M4.79175 7.39584L10.0001 12.6042L15.2084 7.39585" stroke="currentColor"
+                                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
 
-                    </a>
+                        </a>
 
-                    <!-- DROPDOWN -->
-                    <div :class="(selected === 'Management') ? 'block' : 'hidden'">
-                        <ul class="menu-dropdown mt-2 flex flex-col gap-1 pl-9">
+                        <!-- DROPDOWN -->
+                        <div :class="(selected === 'Management') ? 'block' : 'hidden'">
+                            <ul class="menu-dropdown mt-2 flex flex-col gap-1 pl-9 bg-white/5 rounded-lg p-2">
 
-                        @if(auth()->user()->role === 'super_admin')
-                            <li>
-                                <a
-                                    href="{{ route('user.index') }}"
-                                    class="menu-dropdown-item
-                                    {{ request()->routeIs('user.index') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}"
-                                >
-                                    Data User
-                                </a>
-                            </li>
+                                @if(auth()->user()->role === 'super_admin')
+                                <li>
+                                    <a href="{{ route('user.index') }}"
+                                        class="menu-dropdown-item
+                                    {{ request()->routeIs('user.index') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}">
+                                        Data User
+                                    </a>
+                                </li>
 
-                            <li>
-                                <a
-                                    href="{{ route('data-admin.index') }}"
-                                    class="menu-dropdown-item
-                                    {{ request()->routeIs('data-admin.index') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}"
-                                >
-                                    Data Admin
-                                </a>
-                            </li>
+                                <li>
+                                    <a href="{{ route('data-admin.index') }}"
+                                        class="menu-dropdown-item
+                                    {{ request()->routeIs('data-admin.index') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}">
+                                        Data Admin
+                                    </a>
+                                </li>
 
-                            @endif
+                                @endif
 
-                            <li>
-                                <a
-                                    href="{{ route('data-intern.index') }}"
-                                    class="menu-dropdown-item
-                                    {{ request()->routeIs('data-intern.index') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}"
-                                >
-                                    Data Intern
-                                </a>
-                            </li>
+                                <li>
+                                    <a href="{{ route('data-intern.index') }}"
+                                        class="menu-dropdown-item
+                                    {{ request()->routeIs('data-intern.index') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}">
+                                        Data Intern
+                                    </a>
+                                </li>
 
-                        </ul>
-                    </div>
-                </li>
-                <!-- MANAGEMENT DATA -->
+                            </ul>
+                        </div>
+                    </li>
+                    <!-- MANAGEMENT DATA -->
 
 
                     <!-- Menu Master Data-->
-        <li>
-            <a
-            href="#"
-            @click.prevent="selected = (selected === 'Master' ? '':'Master')"
-            class="menu-item group"
-            :class=" (selected === 'Master') || (page === 'kampus' || page === 'analytics' || page === 'pekerjaan' || page === 'crm' || page === 'stocks') ? 'menu-item-active' : 'menu-item-inactive'"
-            >
-            <svg
-                :class="(selected === 'Master') || (page === 'kampus' || page === 'analytics' || page === 'pekerjaan' || page === 'crm' || page === 'stocks') ? 'menu-item-icon-active'  :'menu-item-icon-inactive'"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-            >
-                <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M5.5 3.25C4.25736 3.25 3.25 4.25736 3.25 5.5V8.99998C3.25 10.2426 4.25736 11.25 5.5 11.25H9C10.2426 11.25 11.25 10.2426 11.25 8.99998V5.5C11.25 4.25736 10.2426 3.25 9 3.25H5.5ZM4.75 5.5C4.75 5.08579 5.08579 4.75 5.5 4.75H9C9.41421 4.75 9.75 5.08579 9.75 5.5V8.99998C9.75 9.41419 9.41421 9.74998 9 9.74998H5.5C5.08579 9.74998 4.75 9.41419 4.75 8.99998V5.5ZM5.5 12.75C4.25736 12.75 3.25 13.7574 3.25 15V18.5C3.25 19.7426 4.25736 20.75 5.5 20.75H9C10.2426 20.75 11.25 19.7427 11.25 18.5V15C11.25 13.7574 10.2426 12.75 9 12.75H5.5ZM4.75 15C4.75 14.5858 5.08579 14.25 5.5 14.25H9C9.41421 14.25 9.75 14.5858 9.75 15V18.5C9.75 18.9142 9.41421 19.25 9 19.25H5.5C5.08579 19.25 4.75 18.9142 4.75 18.5V15ZM12.75 5.5C12.75 4.25736 13.7574 3.25 15 3.25H18.5C19.7426 3.25 20.75 4.25736 20.75 5.5V8.99998C20.75 10.2426 19.7426 11.25 18.5 11.25H15C13.7574 11.25 12.75 10.2426 12.75 8.99998V5.5ZM15 4.75C14.5858 4.75 14.25 5.08579 14.25 5.5V8.99998C14.25 9.41419 14.5858 9.74998 15 9.74998H18.5C18.9142 9.74998 19.25 9.41419 19.25 8.99998V5.5C19.25 5.08579 18.9142 4.75 18.5 4.75H15ZM15 12.75C13.7574 12.75 12.75 13.7574 12.75 15V18.5C12.75 19.7426 13.7574 20.75 15 20.75H18.5C19.7426 20.75 20.75 19.7427 20.75 18.5V15C20.75 13.7574 19.7426 12.75 18.5 12.75H15ZM14.25 15C14.25 14.5858 14.5858 14.25 15 14.25H18.5C18.9142 14.25 19.25 14.5858 19.25 15V18.5C19.25 18.9142 18.9142 19.25 18.5 19.25H15C14.5858 19.25 14.25 18.9142 14.25 18.5V15Z"
-                fill=""
-                />
-            </svg>
+                    <li>
+                        <a href="#" @click.prevent="selected = (selected === 'Master' ? '':'Master')"
+                            class="menu-item group"
+                            :class=" (selected === 'Master') || (page === 'kampus' || page === 'analytics' || page === 'pekerjaan' || page === 'crm' || page === 'stocks') ? 'menu-item-active' : 'menu-item-inactive'">
+                            <svg :class="(selected === 'Master') || (page === 'kampus' || page === 'analytics' || page === 'pekerjaan' || page === 'crm' || page === 'stocks') ? 'menu-item-icon-active'  :'menu-item-icon-inactive'"
+                                width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M5.5 3.25C4.25736 3.25 3.25 4.25736 3.25 5.5V8.99998C3.25 10.2426 4.25736 11.25 5.5 11.25H9C10.2426 11.25 11.25 10.2426 11.25 8.99998V5.5C11.25 4.25736 10.2426 3.25 9 3.25H5.5ZM4.75 5.5C4.75 5.08579 5.08579 4.75 5.5 4.75H9C9.41421 4.75 9.75 5.08579 9.75 5.5V8.99998C9.75 9.41419 9.41421 9.74998 9 9.74998H5.5C5.08579 9.74998 4.75 9.41419 4.75 8.99998V5.5ZM5.5 12.75C4.25736 12.75 3.25 13.7574 3.25 15V18.5C3.25 19.7426 4.25736 20.75 5.5 20.75H9C10.2426 20.75 11.25 19.7427 11.25 18.5V15C11.25 13.7574 10.2426 12.75 9 12.75H5.5ZM4.75 15C4.75 14.5858 5.08579 14.25 5.5 14.25H9C9.41421 14.25 9.75 14.5858 9.75 15V18.5C9.75 18.9142 9.41421 19.25 9 19.25H5.5C5.08579 19.25 4.75 18.9142 4.75 18.5V15ZM12.75 5.5C12.75 4.25736 13.7574 3.25 15 3.25H18.5C19.7426 3.25 20.75 4.25736 20.75 5.5V8.99998C20.75 10.2426 19.7426 11.25 18.5 11.25H15C13.7574 11.25 12.75 10.2426 12.75 8.99998V5.5ZM15 4.75C14.5858 4.75 14.25 5.08579 14.25 5.5V8.99998C14.25 9.41419 14.5858 9.74998 15 9.74998H18.5C18.9142 9.74998 19.25 9.41419 19.25 8.99998V5.5C19.25 5.08579 18.9142 4.75 18.5 4.75H15ZM15 12.75C13.7574 12.75 12.75 13.7574 12.75 15V18.5C12.75 19.7426 13.7574 20.75 15 20.75H18.5C19.7426 20.75 20.75 19.7427 20.75 18.5V15C20.75 13.7574 19.7426 12.75 18.5 12.75H15ZM14.25 15C14.25 14.5858 14.5858 14.25 15 14.25H18.5C18.9142 14.25 19.25 14.5858 19.25 15V18.5C19.25 18.9142 18.9142 19.25 18.5 19.25H15C14.5858 19.25 14.25 18.9142 14.25 18.5V15Z"
+                                    fill="" />
+                            </svg>
 
-            <span
-                class="menu-item-text"
-                :class="sidebarToggle ? 'lg:hidden' : ''"
-            >
-                Master Data
-            </span>
+                            <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">
+                                Master Data
+                            </span>
 
-            <svg
-                class="menu-item-arrow"
-                :class="[(selected === 'Master') ? 'menu-item-arrow-active' : 'menu-item-arrow-inactive', sidebarToggle ? 'lg:hidden' : '' ]"
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-            >
-                <path
-                d="M4.79175 7.39584L10.0001 12.6042L15.2084 7.39585"
-                stroke=""
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                />
-            </svg>
-            </a>
+                            <svg class="menu-item-arrow"
+                                :class="[(selected === 'Master') ? 'menu-item-arrow-active' : 'menu-item-arrow-inactive', sidebarToggle ? 'lg:hidden' : '' ]"
+                                width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M4.79175 7.39584L10.0001 12.6042L15.2084 7.39585" stroke="" stroke-width="1.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </a>
 
-            <!-- Dropdown Menu Start -->
-            <div
-            class="translate transform overflow-hidden"
-            :class="(selected === 'Master') ? 'block' :'hidden'"
-            >
-            <ul
-                :class="sidebarToggle ? 'lg:hidden' : 'flex'"
-                class="menu-dropdown mt-2 flex flex-col gap-1 pl-9"
-            >
-                <li>
-                    <a
-                    href="{{ route('pekerjaan.index') }}"
-                    class="menu-dropdown-item group
+                        <!-- Dropdown Menu Start -->
+                        <div class="translate transform overflow-hidden"
+                            :class="(selected === 'Master') ? 'block' :'hidden'">
+                            <ul :class="sidebarToggle ? 'lg:hidden' : 'flex'"
+                                class="menu-dropdown mt-2 flex flex-col gap-1 pl-9">
+                                <li>
+                                    <a href="{{ route('pekerjaan.index') }}" class="menu-dropdown-item group
                         {{ request()->routeIs('pekerjaan.index')
                             ? 'menu-dropdown-item-active'
-                            : 'menu-dropdown-item-inactive' }}"
-                >
-                    Tipe Pekerjaan
-                </a>
-                </li>
+                            : 'menu-dropdown-item-inactive' }}">
+                                        Tipe Pekerjaan
+                                    </a>
+                                </li>
 
-                <li>
-                    <a
-                    href="{{ route('kampus.index') }}"
-                    class="menu-dropdown-item group
+                                <li>
+                                    <a href="{{ route('kampus.index') }}" class="menu-dropdown-item group
                         {{ request()->routeIs('kampus.index')
                             ? 'menu-dropdown-item-active'
-                            : 'menu-dropdown-item-inactive' }}"
-                >
-                    Kampus
-                </a>
-                </li>
+                            : 'menu-dropdown-item-inactive' }}">
+                                        Kampus
+                                    </a>
+                                </li>
 
-                <li>
-                    <a
-                    href="{{ route('jurusan.index') }}"
-                    class="menu-dropdown-item group
+                                <li>
+                                    <a href="{{ route('jurusan.index') }}" class="menu-dropdown-item group
                         {{ request()->routeIs('jurusan.index')
                             ? 'menu-dropdown-item-active'
-                            : 'menu-dropdown-item-inactive' }}"
-                >
-                    Jurusan
-                </a>
-                </li>
+                            : 'menu-dropdown-item-inactive' }}">
+                                        Jurusan
+                                    </a>
+                                </li>
 
-                <li>
-                    <a href="{{ route('supervisor.index') }}"
-                    class="menu-dropdown-item group {{ request()->routeIs('supervisor.index') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}">
-                    Supervisor
-                    </a>
-                </li>
+                                <li>
+                                    <a href="{{ route('supervisor.index') }}"
+                                        class="menu-dropdown-item group {{ request()->routeIs('supervisor.index') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}">
+                                        Supervisor
+                                    </a>
+                                </li>
 
-                <li>
-                    <a href="{{ route('teknologi.index') }}"
-                    class="menu-dropdown-item group {{ request()->routeIs('teknologi.index') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}">
-                    Teknologi
-                    </a>
-                </li>
+                                <li>
+                                    <a href="{{ route('teknologi.index') }}"
+                                        class="menu-dropdown-item group {{ request()->routeIs('teknologi.index') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}">
+                                        Teknologi
+                                    </a>
+                                </li>
 
-                <li>
-                    <a href="{{ route('status-proyek.index') }}"
-                    class="menu-dropdown-item group {{ request()->routeIs('status-proyek.index') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}">
-                    Status Proyek
-                    </a>
-                </li>
+                                <li>
+                                    <a href="{{ route('status-proyek.index') }}"
+                                        class="menu-dropdown-item group {{ request()->routeIs('status-proyek.index') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}">
+                                        Status Proyek
+                                    </a>
+                                </li>
 
 
-            </ul>
-            </div>
-            <!-- Dropdown Menu End -->
-        </li>
+                            </ul>
+                        </div>
+                        <!-- Dropdown Menu End -->
+                    </li>
                     <!-- Menu Master Data-->
 
-                                       <!-- Menu Validasi Project -->
+                    <!-- Menu Validasi Project -->
                     <li>
-                        <a href="{{ route('validasi-proyek.index') }}"
-                            class="menu-item group
+                        <a href="{{ route('validasi-proyek.index') }}" class="menu-item group
                             {{ request()->routeIs('validasi-proyek.*') ? 'menu-item-active' : 'menu-item-inactive' }}">
 
                             <!-- ICON PROJECT -->
                             <svg class="{{ request()->routeIs('validasi-proyek.*')
                                     ? 'menu-item-icon-active'
-                                    : 'menu-item-icon-inactive' }}"
-                                width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
+                                    : 'menu-item-icon-inactive' }}" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" xmlns="http://www.w3.org/2000/svg">
 
                                 <!-- folder + file icon -->
                                 <path fill-rule="evenodd" clip-rule="evenodd"
                                     d="M3 6.75C3 5.7835 3.7835 5 4.75 5H9L11 7H19.25C20.2165 7 21 7.7835 21 8.75V17.25C21 18.2165 20.2165 19 19.25 19H4.75C3.7835 19 3 18.2165 3 17.25V6.75Z"
-                                    fill="currentColor"/>
+                                    fill="currentColor" />
                             </svg>
 
                             <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">
@@ -366,21 +281,19 @@
                     @if(auth()->user()->role === 'intern')
                     <!-- Menu Project Saya -->
                     <li>
-                        <a href="{{ route('projects.index') }}"
-                            class="menu-item group
+                        <a href="{{ route('projects.index') }}" class="menu-item group
                             {{ request()->routeIs('projects.*') ? 'menu-item-active' : 'menu-item-inactive' }}">
 
                             <!-- ICON PROJECT -->
                             <svg class="{{ request()->routeIs('projects.*')
                                     ? 'menu-item-icon-active'
-                                    : 'menu-item-icon-inactive' }}"
-                                width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
+                                    : 'menu-item-icon-inactive' }}" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" xmlns="http://www.w3.org/2000/svg">
 
                                 <!-- folder + file icon -->
                                 <path fill-rule="evenodd" clip-rule="evenodd"
                                     d="M3 6.75C3 5.7835 3.7835 5 4.75 5H9L11 7H19.25C20.2165 7 21 7.7835 21 8.75V17.25C21 18.2165 20.2165 19 19.25 19H4.75C3.7835 19 3 18.2165 3 17.25V6.75Z"
-                                    fill="currentColor"/>
+                                    fill="currentColor" />
                             </svg>
 
                             <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">
@@ -389,14 +302,14 @@
                         </a>
                     </li>
                     <!-- End Project -->
-                     @endif
+                    @endif
 
 
 
-        <!-- Menu Item Dashboard -->
+                    <!-- Menu Item Dashboard -->
                 </ul>
             </div>
 
             <!-- Others Group -->
-            
+
 </aside>
