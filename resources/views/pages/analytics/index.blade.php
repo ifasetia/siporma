@@ -5,191 +5,291 @@
 @section('content')
 
 @php
-    $menunggu = $statusProject->where('sp_nama_status', 'Menunggu Validasi')->first()->total ?? 0;
-    $revisi = $statusProject->where('sp_nama_status', 'Revisi')->first()->total ?? 0;
-    $divalidasi = $statusProject->where('sp_nama_status', 'Divalidasi (Public)')->first()->total ?? 0;
+$menunggu = $statusProject->where('sp_nama_status', 'Menunggu Validasi')->first()->total ?? 0;
+$revisi = $statusProject->where('sp_nama_status', 'Revisi')->first()->total ?? 0;
+$divalidasi = $statusProject->where('sp_nama_status', 'Divalidasi (Public)')->first()->total ?? 0;
 @endphp
 
-<!-- HEADER -->
-<div class="mb-10">
-    <h1 class="text-3xl font-bold text-gray-900">
-        Statistik Program Magang
-    </h1>
+<div class="rounded-2xl border border-gray-200 bg-white p-6 lg:p-8 mb-6">
+    <h3 class="text-xl font-semibold text-gray-800">
+        Analytics Dashboard
+    </h3>
+
     <p class="text-gray-500 mt-2">
-        Data statistik mahasiswa dan project dalam sistem
+        Statistik sistem akan tampil disini.
     </p>
 </div>
 
-<!-- STATISTIK -->
-<div class="grid md:grid-cols-4 gap-6 mb-10">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mt-6">
 
-    <div class="bg-white p-6 rounded-2xl shadow-sm flex items-center gap-4">
-        <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center">👤</div>
-        <div>
-            <p class="text-sm text-gray-500">Total Intern</p>
-            <h3 class="text-2xl font-bold">{{ $totalIntern }}</h3>
-        </div>
+    <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
+        <p class="text-gray-500 text-sm">Total Intern</p>
+        <h2 class="text-3xl font-bold text-indigo-600">{{ $totalIntern }}</h2>
     </div>
 
-    <div class="bg-white p-6 rounded-2xl shadow-sm flex items-center gap-4">
-        <div class="w-12 h-12 bg-green-100 text-green-600 rounded-xl flex items-center justify-center">🧑‍💼</div>
-        <div>
-            <p class="text-sm text-gray-500">Total Admin</p>
-            <h3 class="text-2xl font-bold">{{ $totalAdmin }}</h3>
-        </div>
+    <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
+        <p class="text-gray-500 text-sm">Total Admin</p>
+        <h2 class="text-3xl font-bold text-green-600">{{ $totalAdmin }}</h2>
     </div>
 
-    <div class="bg-white p-6 rounded-2xl shadow-sm flex items-center gap-4">
-        <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-xl flex items-center justify-center">👥</div>
-        <div>
-            <p class="text-sm text-gray-500">Total Users</p>
-            <h3 class="text-2xl font-bold">{{ $totalUsers }}</h3>
-        </div>
+    <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
+        <p class="text-gray-500 text-sm">Total Users</p>
+        <h2 class="text-3xl font-bold text-blue-600">{{ $totalUsers }}</h2>
     </div>
 
-    <div class="bg-white p-6 rounded-2xl shadow-sm flex items-center gap-4">
-        <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center">🏫</div>
-        <div>
-            <p class="text-sm text-gray-500">Total Kampus</p>
-            <h3 class="text-2xl font-bold">{{ $totalKampus }}</h3>
-        </div>
+    <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
+        <p class="text-gray-500 text-sm">Total Kampus</p>
+        <h2 class="text-3xl font-bold text-purple-600">{{ $totalKampus }}</h2>
     </div>
 
 </div>
 
-<!-- STATUS -->
-<div class="mb-12">
-    <h2 class="text-lg font-semibold text-gray-800 mb-4">Status Project</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
 
-    <div class="grid md:grid-cols-3 gap-6">
-
-        <div class="bg-white p-6 rounded-2xl shadow-sm flex items-center gap-4">
-            <div class="w-12 h-12 bg-yellow-100 text-yellow-500 rounded-xl flex items-center justify-center">⏳</div>
-            <div>
-                <p class="text-sm text-gray-500">Menunggu Validasi</p>
-                <h3 class="text-2xl font-bold text-yellow-500">{{ $menunggu }}</h3>
-            </div>
-        </div>
-
-        <div class="bg-white p-6 rounded-2xl shadow-sm flex items-center gap-4">
-            <div class="w-12 h-12 bg-red-100 text-red-500 rounded-xl flex items-center justify-center">🔁</div>
-            <div>
-                <p class="text-sm text-gray-500">Revisi</p>
-                <h3 class="text-2xl font-bold text-red-500">{{ $revisi }}</h3>
-            </div>
-        </div>
-
-        <div class="bg-white p-6 rounded-2xl shadow-sm flex items-center gap-4">
-            <div class="w-12 h-12 bg-green-100 text-green-500 rounded-xl flex items-center justify-center">✅</div>
-            <div>
-                <p class="text-sm text-gray-500">Divalidasi</p>
-                <h3 class="text-2xl font-bold text-green-500">{{ $divalidasi }}</h3>
-            </div>
-        </div>
-
+    <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
+        <h3 class="font-semibold mb-4">Intern per Kampus</h3>
+        <canvas id="kampusChart"></canvas>
     </div>
 </div>
 
-<!-- CHART -->
-<div>
-    <h2 class="text-lg font-semibold text-gray-800 mb-6">Visualisasi Data</h2>
-
-    <div class="grid md:grid-cols-2 gap-6">
-
-        <div class="bg-white p-6 rounded-2xl shadow-sm">
-            <h3 class="font-medium mb-4">Intern per Kampus</h3>
-            <div class="h-64">
-                <canvas id="kampusChart"></canvas>
-            </div>
-        </div>
-
-        <div class="bg-white p-6 rounded-2xl shadow-sm">
-            <h3 class="font-medium mb-4">Intern per Jurusan</h3>
-            <div class="h-64">
-                <canvas id="jurusanChart"></canvas>
-            </div>
-        </div>
-
-        <div class="bg-white p-6 rounded-2xl shadow-sm">
-            <h3 class="font-medium mb-4">Teknologi Project</h3>
-            <div class="h-64 flex items-center justify-center">
-                <canvas id="techChart"></canvas>
-            </div>
-        </div>
-
-        <div class="bg-white p-6 rounded-2xl shadow-sm">
-            <h3 class="font-medium mb-4">Kategori Teknologi</h3>
-            <div class="h-64 flex items-center justify-center">
-                <canvas id="kategoriTechChart"></canvas>
-            </div>
-        </div>
-
+    <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
+        <h3 class="font-semibold mb-4">Intern per Jurusan</h3>
+        <canvas id="jurusanChart"></canvas>
     </div>
+
 </div>
 
-<!-- SCRIPT -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+
+    <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
+        <h3 class="font-semibold mb-4">Teknologi Project</h3>
+        <canvas id="techChart"></canvas>
+    </div>
+
+    <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
+        <h3 class="font-semibold mb-4">Kategori Teknologi</h3>
+        <canvas id="kategoriTechChart"></canvas>
+    </div>
+
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6 w-full">
+
+    <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
+        <p class="text-gray-500 text-sm">Menunggu Validasi</p>
+        <h2 class="text-3xl font-bold text-yellow-500">{{ $menunggu }}</h2>
+    </div>
+
+    <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
+        <p class="text-gray-500 text-sm">Revisi</p>
+        <h2 class="text-3xl font-bold text-red-500">{{ $revisi }}</h2>
+    </div>
+
+    <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
+        <p class="text-gray-500 text-sm">Divalidasi</p>
+        <h2 class="text-3xl font-bold text-green-500">{{ $divalidasi }}</h2>
+    </div>
+
+</div>
+
+
 <script>
-const kampusLabels = @json($internPerKampus->pluck('km_nama_kampus'));
-const kampusData = @json($internPerKampus->pluck('total'));
+    Chart.defaults.font.family = "'Inter', sans-serif";
+    Chart.defaults.color = '#6b7280'; // abu soft
 
-new Chart(document.getElementById('kampusChart'),{
-    type:'bar',
-    data:{
-        labels:kampusLabels,
-        datasets:[{
-            label:'Intern',
-            data:kampusData,
-            backgroundColor:'#3b82f6'
-        }]
-    }
-});
+    const gridStyle = {
+        color: 'rgba(0,0,0,0.03)', // 🔥 garis tipis banget
+        drawBorder: false
+    };
 
-const jurusanLabels = @json($internPerJurusan->pluck('js_nama'));
-const jurusanData = @json($internPerJurusan->pluck('total'));
+    const ticksStyle = {
+        color: '#9ca3af'
+    };
 
-new Chart(document.getElementById('jurusanChart'),{
-    type:'bar',
-    data:{
-        labels:jurusanLabels,
-        datasets:[{
-            label:'Intern',
-            data:jurusanData,
-            backgroundColor:'#6366f1'
-        }]
-    }
-});
-
-const techLabels = @json($techProject->pluck('tk_nama'));
-const techData = @json($techProject->pluck('total'));
-
-new Chart(document.getElementById('techChart'), {
-    type: 'pie',
-    data: {
-        labels: techLabels,
-        datasets: [{ data: techData }]
-    },
-    options: {
-        plugins: {
-            legend: { position: 'right' }
-        }
-    }
-});
-
-const catLabels = @json($techCategory->pluck('tk_kategori'));
-const catData = @json($techCategory->pluck('total'));
-
-new Chart(document.getElementById('kategoriTechChart'), {
-    type: 'doughnut',
-    data: {
-        labels: catLabels,
-        datasets: [{ data: catData }]
-    },
-    options: {
-        plugins: {
-            legend: { position: 'right' }
-        }
-    }
-});
 </script>
+
+
+
+<script>
+    const jurusanLabels = @json($internPerJurusan->pluck('js_nama'));
+    const jurusanData = @json($internPerJurusan->pluck('total'));
+
+    const jurusanCtx = document.getElementById('jurusanChart');
+
+
+    new Chart(jurusanCtx, {
+        type: 'bar',
+        data: {
+            labels: jurusanLabels,
+            datasets: [{
+                label: 'Jumlah Intern',
+                data: jurusanData,
+                borderWidth: 1
+            }]
+        }
+    });
+
+</script>
+
+<script>
+    const kampusLabels = @json($internPerKampus->pluck('km_nama_kampus'));
+    const kampusData = @json($internPerKampus->pluck('total'));
+
+    new Chart(document.getElementById('kampusChart'), {
+        type: 'bar',
+        data: {
+            labels: kampusLabels,
+            datasets: [{
+                label: 'Intern',
+                data: kampusData,
+                backgroundColor: '#3b82f6',
+                borderRadius: 8, // 🔥 bikin rounded
+                barThickness: 30
+            }]
+        },
+        animation: {
+            duration: 1200,
+            easing: 'easeOutQuart'
+        },
+        options: {
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: ticksStyle
+                },
+                y: {
+                    grid: gridStyle,
+                    ticks: ticksStyle
+                }
+            }
+        }
+    });
+
+</script>
+
+<script>
+    const jurusanLabels = @json($internPerJurusan->pluck('js_nama'));
+    const jurusanData = @json($internPerJurusan->pluck('total'));
+
+    new Chart(document.getElementById('jurusanChart'), {
+        type: 'bar',
+        data: {
+            labels: jurusanLabels,
+            datasets: [{
+                label: 'Intern',
+                data: jurusanData,
+                backgroundColor: '#10b981',
+                borderRadius: 8,
+                barThickness: 30
+            }]
+        },
+        animation: {
+            duration: 1200,
+            easing: 'easeOutQuart'
+        },
+        options: {
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: ticksStyle
+                },
+                y: {
+                    grid: gridStyle,
+                    ticks: ticksStyle
+                }
+            }
+        }
+    });
+
+</script>
+
+
+<script>
+    const techLabels = @json($techProject->pluck('tk_nama'));
+    const techData = @json($techProject->pluck('total'));
+
+    new Chart(document.getElementById('techChart'), {
+        type: 'pie',
+        data: {
+            labels: techLabels,
+            datasets: [{
+                data: techData,
+                backgroundColor: [
+                    '#3b82f6',
+                    '#6366f1',
+                    '#8b5cf6',
+                    '#10b981',
+                    '#f59e0b'
+                ],
+                borderWidth: 0
+            }]
+        },
+        animation: {
+            duration: 1200,
+            easing: 'easeOutQuart'
+        },
+        options: {
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+
+</script>
+
+<script>
+    const catLabels = @json($techCategory->pluck('tk_kategori'));
+    const catData = @json($techCategory->pluck('total'));
+
+    new Chart(document.getElementById('kategoriTechChart'), {
+        type: 'doughnut',
+        data: {
+            labels: catLabels,
+            datasets: [{
+                data: catData,
+                backgroundColor: [
+                    '#6366f1',
+                    '#3b82f6',
+                    '#10b981',
+                    '#f59e0b'
+                ],
+                borderWidth: 0,
+                hoverOffset: 12 // 🔥 efek naik saat hover
+            }]
+        },
+        animation: {
+            duration: 1200,
+            easing: 'easeOutQuart'
+        },
+        options: {
+            cutout: '70%', // 🔥 bikin donut modern
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+
+</script>
+
+
+
 
 @endsection
