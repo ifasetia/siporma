@@ -13,7 +13,7 @@
 
 </head>
 
-<body class="bg-gray-50 text-gray-800">
+    <body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
 
     <!-- NAVBAR -->
     <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
@@ -49,82 +49,63 @@
 
 
     <!-- HEADER -->
-    <section class="py-16">
 
-        <div class="max-w-5xl mx-auto px-6 text-center">
+    <section class="relative h-[350px] flex items-end pb-10">
 
-            <h1 class="text-4xl font-bold mb-4">
-                Katalog Project Mahasiswa Magang
+        <!-- BACKGROUND -->
+        <div class="absolute inset-0">
+            <img src="{{ asset('images/bg/diskominfotik sumbar.jpg') }}" 
+            class="w-full h-full  object-cover object-[60%_60%]">
+        </div>
+
+        <!-- OVERLAY -->
+        <div class="absolute inset-0 bg-black/60"></div>
+
+        <!-- CONTENT -->
+        <div class="relative max-w-7xl mx-auto px-6 text-white">
+
+           <p class="text-base uppercase text-blue-300 tracking-widest font-semibold">
+    Katalog
+</p>
+
+            <h1 class="text-4xl md:text-5xl font-bold leading-tight">
+                Project Magang Intern
             </h1>
 
-            <p class="text-gray-600">
-                Menampilkan seluruh project mahasiswa magang yang telah divalidasi oleh
-                Dinas Kominfo dan Statistik.
+            <p class="text-gray-200 mt-3 max-w-xl">
+                Menampilkan seluruh project mahasiswa magang yang telah divalidasi oleh Dinas Kominfo dan Statistik.
             </p>
 
         </div>
 
     </section>
+    
 
-    <!-- FILTER -->
-    <div class="max-w-5xl mx-auto px-6 flex flex-wrap gap-4 mb-10">
+    <div class="pt-8 pb-20 relative">
+    <!-- 🔥 WRAPPER PATTERN MULAI DI SINI -->
+   <div class="pt-8 pb-20 bg-repeat bg-center"
+        style="background-image: url('{{ asset('images/bg/heksagonal1.jpeg') }}')">
 
-        <input id="search" type="text" placeholder="Cari project, mahasiswa, atau kampus..."
-            class="border border-gray-200 rounded-xl px-4 py-2 w-80">
+    <!-- Search -->
+    <div class="max-w-xl mx-auto -mt-10 mb-12 px-6 relative z-10">
 
-        <select id="teknologi" class="border border-gray-200 rounded-xl px-4 py-2">
+        <div class="bg-white border border-gray-200 rounded-2xl shadow-md px-5 py-3 flex items-center gap-3 focus-within:ring-2 focus-within:ring-blue-500">
 
-            <option value="">Semua Teknologi</option>
+            <!-- ICON -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 100-15 7.5 7.5 0 000 15z" />
+            </svg>
 
-            @foreach($teknologis as $tech)
-            <option value="{{ $tech->id }}">
-                {{ $tech->tk_nama }}
-            </option>
-            @endforeach
+            <!-- INPUT -->
+            <input id="search" type="text" placeholder="Cari project, mahasiswa, atau kampus..."
+                class="w-full bg-transparent text-sm focus:outline-none focus:ring-0">
 
-        </select>
-
-        <select id="kampus" class="border border-gray-200 rounded-xl px-4 py-2">
-
-            <option value="">Semua Kampus</option>
-
-            @foreach($kampus as $k)
-            <option value="{{ $k->id }}">
-                {{ $k->km_nama_kampus }}
-            </option>
-            @endforeach
-
-        </select>
-
-
-        <select id="sort" class="border border-gray-200 rounded-xl px-4 py-2">
-
-            <option value="latest">Terbaru</option>
-            <option value="popular">Populer</option>
-
-        </select>
+        </div>
 
     </div>
 
-
-    <!-- SEARCH -->
-    <!-- <div class="max-w-5xl mx-auto px-6 mb-10">
-
-        <form method="GET" action="{{ route('public.project') }}" class="flex gap-4">
-
-            <input type="text" name="search" placeholder="Cari project..."
-                class="w-full border border-gray-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-                value="{{ request('search') }}">
-
-            <button class="bg-blue-600 text-white px-6 py-2 rounded-xl hover:bg-blue-700">
-
-                Cari
-
-            </button>
-
-        </form>
-
-    </div> -->
 
 
     <!-- LIST PROJECT -->
@@ -136,82 +117,12 @@
 
         </div>
 
-        <!-- <div id="projectList" class="max-w-5xl mx-auto px-6 space-y-6">
-
-            @forelse($projects as $project)
-
-            <div class="bg-white border border-gray-100 rounded-xl p-6 hover:shadow-lg transition">
-
-                <h2 class="text-xl font-semibold mb-2">
-                    {{ $project->title }}
-                </h2>
-
-                <p class="text-gray-600 text-sm mb-4 line-clamp-2">
-                    {{ $project->description }}
-                </p>
-
-                <div class="text-sm text-gray-500 mb-3">
-
-                    <span class="font-medium text-gray-700">
-                        {{ $project->user->profile->pr_nama ?? '-' }}
-                    </span>
-
-                    —
-
-                    {{ $project->user->profile->kampus->km_nama_kampus ?? '-' }}
-
-                </div>
-
-
-                TEKNOLOGI
-                <div class="flex flex-wrap gap-2 mb-4">
-
-                    @foreach($project->teknologis as $tech)
-
-                    <span class="text-xs bg-blue-100 text-blue-600 px-3 py-1 rounded-full">
-                        {{ $tech->nama }}
-                    </span>
-
-                    @endforeach
-
-                </div>
-
-
-                BUTTON
-                <a href="{{ route('public.project.detail',$project->id) }}"
-                    class="text-blue-600 text-sm font-semibold hover:underline">
-
-                    Lihat Detail →
-
-                </a>
-
-            </div>
-
-            @empty
-
-            <div class="text-center text-gray-500 py-20">
-
-                Belum ada project yang dipublikasikan
-
-            </div>
-
-            @endforelse
-
-
-            PAGINATION
-            <div class="mt-12">
-
-                {{ $projects->links() }}
-
-            </div>
-
-        </div> -->
 
     </section>
 
 
     <!-- FOOTER -->
-    <footer class="bg-gray-900 text-white text-center py-8">
+        <footer class="bg-gray-900 text-white text-center py-8 mt-20">
 
         <p class="text-sm text-gray-400">
             © {{ date('Y') }} Siporma - Sistem Informasi Project Magang
@@ -227,14 +138,11 @@
     document.addEventListener("DOMContentLoaded", function () {
 
         let search = document.getElementById('search')
-        let teknologi = document.getElementById('teknologi')
-        let kampus = document.getElementById('kampus')
-        let sort = document.getElementById('sort')
 
         function loadProjects(url = null) {
 
             url = url ||
-                `/public/project?search=${search.value}&teknologi=${teknologi.value}&kampus=${kampus.value}&sort=${sort.value}`
+                `/public/project?search=${search.value}`
 
             fetch(url, {
                     headers: {
@@ -249,9 +157,9 @@
 
         // 🔍 SEARCH & FILTER
         search.addEventListener('keyup', () => loadProjects())
-        teknologi.addEventListener('change', () => loadProjects())
-        kampus.addEventListener('change', () => loadProjects())
-        sort.addEventListener('change', () => loadProjects())
+        // teknologi.addEventListener('change', () => loadProjects())
+        // kampus.addEventListener('change', () => loadProjects())
+        // sort.addEventListener('change', () => loadProjects())
 
         // 🔥 PAGINATION AJAX
         document.addEventListener("click", function (e) {
@@ -271,41 +179,4 @@
 
 </script>
 
-<!-- <script>
-    document.addEventListener("DOMContentLoaded", function () {
 
-        let search = document.getElementById('search')
-        let teknologi = document.getElementById('teknologi')
-        let kampus = document.getElementById('kampus')
-        let sort = document.getElementById('sort')
-
-        function loadProjects() {
-
-            let url =
-                `/public/project?search=${search.value}&teknologi=${teknologi.value}&kampus=${kampus.value}&sort=${sort.value}`
-
-            fetch(url, {
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                })
-                .then(res => res.text())
-                .then(html => {
-
-                    document.getElementById('projectList').innerHTML = html
-
-                })
-
-        }
-
-        search.addEventListener('keyup', loadProjects)
-        teknologi.addEventListener('change', loadProjects)
-        kampus.addEventListener('change', loadProjects)
-        sort.addEventListener('change', loadProjects)
-
-    })
-
-</script> -->
-
-})
-</script>

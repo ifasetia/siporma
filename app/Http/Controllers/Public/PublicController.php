@@ -142,7 +142,7 @@ public function projects(Request $request)
     }
 
 
-        $projects = $query->paginate(10)->withQueryString();
+        $projects = $query->paginate(2)->withQueryString();
 
         if ($request->ajax()) {
 
@@ -168,8 +168,9 @@ public function detailProject($id)
         'user.profile.kampus',
         'teknologis',
         'photos',
-        'links',
-        'collaborators'
+        'files',
+        'collaborators.profile',
+        'masterStatus'
     ])->findOrFail($id);
 
     return view('pages.public.project-detail', compact('project'));

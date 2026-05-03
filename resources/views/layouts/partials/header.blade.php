@@ -10,9 +10,8 @@
             <button @click.stop="sidebarToggle = !sidebarToggle"
                 class="flex h-10 w-10 items-center justify-center rounded-lg border text-gray-500 hover:bg-gray-100 dark:border-gray-800 dark:text-gray-400 dark:hover:bg-gray-800">
 
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
-                    viewBox="0 0 24 24">
-                    <path d="M4 6h16M4 12h16M4 18h16"/>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
             </button>
 
@@ -38,12 +37,12 @@
                     <!-- Avatar -->
                     <div class="h-9 w-9 rounded-full bg-gray-200 overflow-hidden flex items-center justify-center">
                         @if(Auth::user()->profile && Auth::user()->profile->pr_photo)
-                            <img src="{{ asset('storage/' . Auth::user()->profile->pr_photo) }}"
-                                class="h-full w-full object-cover">
+                        <img src="{{ asset('storage/' . Auth::user()->profile->pr_photo) }}"
+                            class="h-full w-full object-cover">
                         @else
-                            <span class="text-blue-600 font-bold">
-                                {{ substr(Auth::user()->name, 0, 1) }}
-                            </span>
+                        <span class="text-blue-600 font-bold">
+                            {{ substr(Auth::user()->name, 0, 1) }}
+                        </span>
                         @endif
                     </div>
 
@@ -53,45 +52,42 @@
                     </span>
 
                     <!-- Arrow -->
-                    <svg class="w-4 h-4 transition-transform"
-                        :class="open && 'rotate-180'"
-                        fill="none" stroke="currentColor" stroke-width="2"
-                        viewBox="0 0 24 24">
-                        <path d="M6 9l6 6 6-6"/>
+                    <svg class="w-4 h-4 transition-transform" :class="open && 'rotate-180'" fill="none"
+                        stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M6 9l6 6 6-6" />
                     </svg>
 
                 </button>
 
                 <!-- Dropdown -->
-                <div x-show="open"
-                    class="absolute right-0 mt-2 w-56 rounded-xl border bg-white shadow-lg dark:bg-gray-900 dark:border-gray-700">
+                <div x-show="open" x-transition
+                    class="absolute right-0 mt-3 w-60 rounded-2xl bg-white shadow-xl overflow-hidden">
 
-                    <div class="p-4 border-b dark:border-gray-700">
-                        <p class="font-medium text-gray-800 dark:text-white">
+                    <!-- USER -->
+                    <div class="px-5 py-4">
+                        <p class="text-sm font-semibold text-gray-800">
                             {{ Auth::user()->name }}
                         </p>
-                        <p class="text-sm text-gray-500">
+                        <p class="text-xs text-gray-500 mt-1">
                             {{ Auth::user()->email }}
                         </p>
                     </div>
 
-                    <div class="p-2">
+                    <!-- MENU -->
+                    <div class="py-2">
 
+                        <!-- PROFILE -->
                         <a href="{{ route('profile.edit') }}"
-                            class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
-                            👤 Edit Profil
+                            class="flex items-center px-5 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition">
+                            Edit Profil
                         </a>
 
-                        <a href="#"
-                            class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
-                            ⚙️ Settings
-                        </a>
-
+                        <!-- LOGOUT -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit"
-                                class="w-full text-left flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-red-100 text-red-600">
-                                🚪 Logout
+                                class="w-full text-left px-5 py-2.5 text-sm text-red-500 hover:bg-red-50 transition">
+                                Logout
                             </button>
                         </form>
 

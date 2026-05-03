@@ -8,6 +8,24 @@
     z-index: 9999999 !important;
 }
 
+/* .bg-pattern {
+    background-color: #f8fafc;
+
+    background-image:
+        radial-gradient(circle at 1px 1px, rgba(0,0,0,0.05) 1px, transparent 0),
+        linear-gradient(135deg, rgba(0,0,0,0.02) 25%, transparent 25%),
+        linear-gradient(225deg, rgba(0,0,0,0.02) 25%, transparent 25%);
+
+    background-size: 20px 20px, 40px 40px, 40px 40px;
+} */
+
+.bg-pattern {
+    background-color: #f8fafc; /* abu sangat soft */
+
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23d1d5db' stroke-width='0.5'%3E%3Cpath d='M30 0 L60 30 L30 60 L0 30 Z'/%3E%3C/g%3E%3C/svg%3E");
+
+    background-size: 60px 60px;
+}
 .menu-item {
     @apply flex items-center gap-3 px-3 py-2 rounded-lg text-gray-300 transition;
 }
