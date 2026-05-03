@@ -19,13 +19,94 @@
     background-size: 20px 20px, 40px 40px, 40px 40px;
 } */
 
-.bg-pattern {
-    background-color: #f8fafc; /* abu sangat soft */
+/* .bg-pattern {
+    background-color: #f8fafc; 
 
     background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23d1d5db' stroke-width='0.5'%3E%3Cpath d='M30 0 L60 30 L30 60 L0 30 Z'/%3E%3C/g%3E%3C/svg%3E");
 
     background-size: 60px 60px;
+} */
+
+/* .bg-pattern {
+    background-color: #f9fafb;
+
+    background-image:
+        linear-gradient(30deg, #e5e7eb 12%, transparent 12.5%, transparent 87%, #e5e7eb 87.5%, #e5e7eb),
+        linear-gradient(150deg, #e5e7eb 12%, transparent 12.5%, transparent 87%, #e5e7eb 87.5%, #e5e7eb),
+        linear-gradient(30deg, #e5e7eb 12%, transparent 12.5%, transparent 87%, #e5e7eb 87.5%, #e5e7eb),
+        linear-gradient(150deg, #e5e7eb 12%, transparent 12.5%, transparent 87%, #e5e7eb 87.5%, #e5e7eb);
+
+    background-size: 40px 70px;
+    background-position: 0 0, 0 0, 20px 35px, 20px 35px;
+} */
+
+/* .bg-pattern {
+    background-color: #f9fafb;
+
+    background-image:
+        repeating-linear-gradient(
+            135deg,
+            #e5e7eb 0px,
+            #e5e7eb 1px,
+            transparent 1px,
+            transparent 20px
+        ),
+        repeating-linear-gradient(
+            45deg,
+            #e5e7eb 0px,
+            #e5e7eb 1px,
+            transparent 1px,
+            transparent 20px
+        );
+
+    background-size: 40px 40px;
+} */
+
+/* .bg-pattern {
+    background-color: #f9fafb;
+
+    background-image:
+        repeating-linear-gradient(
+            45deg,
+            #e5e7eb 0px,
+            #e5e7eb 1px,
+            transparent 1px,
+            transparent 20px
+        ),
+        repeating-linear-gradient(
+            -45deg,
+            #e5e7eb 0px,
+            #e5e7eb 1px,
+            transparent 1px,
+            transparent 20px
+        );
+
+    background-size: 40px 40px;
+    background-position: 0 0, 0 0;
+} */
+
+.bg-pattern {
+    background-color: #f6fafd;
+
+    background-image:
+        repeating-linear-gradient(
+            135deg,
+            #cfcfcf 0px,
+            #cfcfcf 1px,
+            transparent 1px,
+            transparent 60px
+        ),
+        repeating-linear-gradient(
+            45deg,
+            #e5e7eb 0px,
+            #e5e7eb 1px,
+            transparent 1px,
+            transparent 60px
+        );
+
+    background-size: 60px 60px;
 }
+
 .menu-item {
     @apply flex items-center gap-3 px-3 py-2 rounded-lg text-gray-300 transition;
 }
