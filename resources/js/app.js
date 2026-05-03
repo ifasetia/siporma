@@ -1,6 +1,10 @@
 import "./bootstrap";
 import "./template/index";
 
+import { createIcons, icons } from 'lucide';
+
+createIcons({ icons });
+
 // ✅ jQuery 3.x (GLOBAL)
 import $ from "jquery";
 window.$ = window.jQuery = $;

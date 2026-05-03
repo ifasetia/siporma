@@ -57,7 +57,7 @@
                     Project Intern
                 </span>
 
-                <h1 class="text-5xl font-extrabold text-gray-900 leading-tight mb-6">
+                <h1 class="text-5xl → text-4xl font-extrabold → font-bold text-gray-900 leading-tight mb-6">
                     Dashboard Publik
                     <span class="text-blue-600">Project Magang</span>
                 </h1>
@@ -92,10 +92,12 @@
 
     </section>
 
-    <!-- STATISTIK -->
-    <section class="bg-white py-24 border-t border-gray-100">
 
-        <div class="max-w-7xl mx-auto px-6">
+
+    <!-- STATISTIK -->
+    <section class="py-20">
+
+        <div class="max-w-6xl mx-auto px-6">
 
             <div class="text-center mb-16" data-aos="fade-up">
 
@@ -112,72 +114,150 @@
             </div>
 
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 justify-items-center">
 
-                <div class="bg-gray-50 p-8 rounded-3xl border border-gray-100 hover:shadow-xl transition duration-300"
-                    data-aos="fade-up">
+                <div class="bg-white/80 backdrop-blur-md 
+                                p-7 rounded-2xl 
+                                border border-gray-200/50 
+                                shadow-[0_10px_30px_rgba(0,0,0,0.06)]
+                                hover:shadow-xl 
+                                hover:-translate-y-1
+                                transition-all duration-300 ease-out
+                                flex flex-col gap-4
+                                max-w-[220px] w-full">
+                    <div class="flex items-center gap-4">
 
-                    <h3 class="text-4xl font-bold text-blue-600 mb-2">
-                        {{ $totalIntern }}
-                    </h3>
+                        <div class="w-12 h-12 
+        bg-gradient-to-br from-blue-50 to-blue-100 
+        rounded-xl flex items-center justify-center 
+        shadow-sm">
+                            <i data-lucide="user" class="w-6 h-6 text-blue-600"></i>
+                        </div>
 
-                    <p class="text-gray-500 text-sm">
-                        Total Intern
+                        <div>
+                            <p class="text-gray-500 text-xs font-bold uppercase tracking-wide">Total Intern</p>
+                            <h3 class="text-2xl font-semibold text-gray-900 leading-tight">
+                                {{ $totalIntern }}
+                            </h3>
+                        </div>
+
+                    </div>
+
+                    <p class="text-xs text-gray-400 mt-1">
+                        Mahasiswa magang aktif
+                    </p>
+                </div>
+
+                <div class="bg-white/80 backdrop-blur-md 
+    p-6 rounded-2xl 
+    border border-gray-200/60 
+    shadow-[0_10px_30px_rgba(0,0,0,0.06)]
+    hover:shadow-2xl 
+    hover:-translate-y-2 
+    hover:scale-[1.02]
+    transition-all duration-500 ease-out
+    flex flex-col gap-4
+    max-w-[220px] w-full">
+
+                    <div class="flex items-center gap-4">
+
+                        <div class="w-12 h-12 
+            bg-gradient-to-br from-blue-50 to-blue-100 
+            rounded-xl flex items-center justify-center 
+            shadow-sm">
+                            <i data-lucide="folder" class="w-6 h-6 text-indigo-600"></i>
+                        </div>
+
+                        <div>
+                            <p class="text-gray-500 text-xs font-bold uppercase tracking-wide">Project Publik</p>
+                            <h3 class="text-2xl font-semibold tracking-tight text-gray-900">
+                                {{ $totalProject }}
+                            </h3>
+                        </div>
+
+                    </div>
+
+                    <p class="text-xs text-gray-400 mt-1">
+                        Project dipublikasikan
                     </p>
 
                 </div>
 
 
-                <div class="bg-gray-50 p-8 rounded-3xl border border-gray-100 hover:shadow-xl transition"
-                    data-aos="fade-up" data-aos-delay="100">
+                <!-- KAMPUS -->
+                <div class="bg-white/80 backdrop-blur-md 
+    p-6 rounded-2xl 
+    border border-gray-200/60 
+    shadow-[0_10px_30px_rgba(0,0,0,0.06)]
+    hover:shadow-2xl 
+    hover:-translate-y-2 
+    hover:scale-[1.02]
+    transition-all duration-500 ease-out
+    flex flex-col gap-4
+    max-w-[220px] w-full">
 
-                    <h3 class="text-4xl font-bold text-blue-600 mb-2">
-                        {{ $totalProject }}
-                    </h3>
+                    <div class="flex items-center gap-4">
 
-                    <p class="text-gray-500 text-sm">
-                        Project Dipublikasikan
+                        <div class="w-12 h-12 
+            bg-gradient-to-br from-blue-50 to-blue-100 
+            rounded-xl flex items-center justify-center 
+            shadow-sm">
+                            <i data-lucide="building-2" class="w-6 h-6 text-purple-600"></i>
+                        </div>
+
+                        <div>
+                            <p class="text-gray-500 text-xs font-bold uppercase tracking-wide">Universitas</p>
+                            <h3 class="text-2xl font-semibold tracking-tight text-gray-900">
+                                {{ $totalKampus }}
+                            </h3>
+                        </div>
+
+                    </div>
+
+                    <p class="text-xs text-gray-400 mt-1">
+                        Universitas terlibat
                     </p>
 
                 </div>
 
+                <!-- TEKNOLOGI -->
+                <div class="bg-white/80 backdrop-blur-md 
+    p-6 rounded-2xl 
+    border border-gray-200/60 
+    shadow-[0_10px_30px_rgba(0,0,0,0.06)]
+    hover:shadow-2xl 
+    hover:-translate-y-2 
+    hover:scale-[1.02]
+    transition-all duration-500 ease-out
+    flex flex-col gap-4
+    max-w-[220px] w-full">
 
-                <div class="bg-gray-50 p-8 rounded-3xl border border-gray-100 hover:shadow-xl transition"
-                    data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex items-center gap-4">
 
-                    <h3 class="text-4xl font-bold text-blue-600 mb-2">
-                        {{ $totalKampus }}
-                    </h3>
+                        <div class="w-12 h-12 
+            bg-gradient-to-br from-blue-50 to-blue-100 
+            rounded-xl flex items-center justify-center 
+            shadow-sm">
+                            <i data-lucide="laptop" class="w-6 h-6 text-emerald-600"></i>
+                        </div>
 
-                    <p class="text-gray-500 text-sm">
-                        Universitas Terlibat
-                    </p>
+                        <div>
+                            <p class="text-gray-500 text-xs font-bold uppercase tracking-wide">Teknologi</p>
+                            <h3 class="text-2xl font-semibold tracking-tight text-gray-900">
+                                {{ $totalTeknologi }}
+                            </h3>
+                        </div>
+
+                    </div>
 
                 </div>
 
+                <a href="{{ route('public.analytics') }}" class="text-blue-600 font-semibold text-sm hover:underline">
 
-                <div class="bg-gray-50 p-8 rounded-3xl border border-gray-100 hover:shadow-xl transition"
-                    data-aos="fade-up" data-aos-delay="300">
-
-                    <h3 class="text-4xl font-bold text-blue-600 mb-2">
-                        {{ $totalTeknologi }}
-                    </h3>
-
-                    <p class="text-gray-500 text-sm">
-                        Teknologi Digunakan
-                    </p>
-
-                </div>
-
-            </div>
-
-            <a href="{{ route('public.analytics') }}"
-                class="text-blue-600 font-semibold text-sm hover:underline">
-
-                Lihat Selengkapnya →
+                    Lihat Selengkapnya →
                 </a>
 
-        </div>
+            </div>
 
     </section>
 
@@ -468,20 +548,21 @@
 
             </div>
 
-            <a href="{{ route('public.project') }}"
-                class="text-blue-600 font-semibold text-sm hover:underline">
+            <a href="{{ route('public.project') }}" class="text-blue-600 font-semibold text-sm hover:underline">
 
                 Lihat Selengkapnya →
-                </a>
+            </a>
 
         </div>
 
     </section>
 
     <!-- FOOTER -->
-    <footer class="bg-gray-900 text-white text-center py-6 mt-20">
+    <footer class="bg-gray-900 text-white text-center py-8 mt-auto">
 
-        © {{ date('Y') }} Siporma | Diskominfotik Sumbar
+        <p class="text-sm text-gray-500">
+            © {{ date('Y') }} Siporma | Dinas Kominfo dan Statistik Provinsi Sumatra Barat
+        </p>
 
     </footer>
 
