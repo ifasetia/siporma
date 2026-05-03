@@ -62,18 +62,18 @@
         <div class="absolute inset-0 bg-black/60"></div>
 
         <!-- CONTENT -->
-        <div class="relative max-w-7xl mx-auto px-6 text-white">
+        <div class="relative max-w-7xl mx-auto px-6 text-white -translate-y-14">
 
-        <p class="text-base uppercase text-blue-300 tracking-widest font-semibold">
-    Katalog
-</p>
+           <p class="text-base uppercase text-blue-300 tracking-widest font-semibold">
+                Katalog
+           </p>
 
             <h1 class="text-4xl md:text-5xl font-bold leading-tight">
                 Project Magang Intern
             </h1>
 
             <p class="text-gray-200 mt-3 max-w-xl">
-                Menampilkan seluruh project mahasiswa magang yang telah divalidasi oleh Dinas Kominfo dan Statistik.
+                Menampilkan seluruh project mahasiswa magang yang telah divalidasi oleh Dinas Kominfo dan Statistik Provinsi Sumbar.
             </p>
 
         </div>
@@ -81,50 +81,42 @@
     </section>
     
 
-    <div class="pt-8 pb-20 relative">
-    <!-- 🔥 WRAPPER PATTERN MULAI DI SINI -->
-    <div class="pt-8 pb-20 bg-repeat bg-center"
-        style="background-image: url('{{ asset('images/bg/heksagonal1.jpeg') }}')">
+   <!-- 🔥 WRAPPER PATTERN -->
+<div class="bg-pattern pt-8 pb-20 bg-repeat bg-center">
 
-    <!-- Search -->
+    <!-- SEARCH -->
     <div class="max-w-xl mx-auto -mt-10 mb-12 px-6 relative z-10">
 
         <div class="bg-white border border-gray-200 rounded-2xl shadow-md px-5 py-3 flex items-center gap-3 focus-within:ring-2 focus-within:ring-blue-500">
 
-            <!-- ICON -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 100-15 7.5 7.5 0 000 15z" />
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-width="2" d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 100-15 7.5 7.5 0 000 15z"/>
             </svg>
 
-            <!-- INPUT -->
-            <input id="search" type="text" placeholder="Cari project, mahasiswa, atau kampus..."
-                class="w-full bg-transparent text-sm focus:outline-none focus:ring-0">
+            <input id="search" type="text"
+                placeholder="Cari project, mahasiswa, atau kampus..."
+                class="w-full bg-transparent text-sm focus:outline-none">
 
         </div>
 
     </div>
 
-
-
-    <!-- LIST PROJECT -->
-    <section class="pb-20">
-
+    <!-- LIST -->
+    <section class="pb-10">
         <div id="projectList" class="max-w-5xl mx-auto px-6 space-y-6">
-
             @include('pages.public.components.project-list')
-
         </div>
-
-
     </section>
+
+</div>
 
 
     <!-- FOOTER -->
-    <footer class="bg-gray-900 text-white text-center py-6 mt-20">
-
-        © {{ date('Y') }} Siporma | Diskominfotik Sumbar
+       <footer class="bg-gray-900 text-white text-center py-8 mt-auto">
+        
+            <p class="text-sm text-gray-500">
+                © {{ date('Y') }} Siporma | Dinas Kominfo dan Statistik Provinsi Sumatra Barat
+            </p>
 
     </footer>
 

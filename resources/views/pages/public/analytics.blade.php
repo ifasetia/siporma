@@ -19,7 +19,7 @@
 </head>
 
 
-<body class="antialiased bg-gray-50 text-gray-800 font-sans">
+<body class="min-h-screen flex flex-col antialiased bg-transparent text-gray-800 font-sans">
 
 
     <!-- NAVBAR -->
@@ -58,302 +58,430 @@
 
     </nav>
 
-    <section class="relative h-[350px] flex items-end pb-10">
-
-        <!-- BACKGROUND -->
-        <div class="absolute inset-0">
-            <img src="{{ asset('images/bg/analitik1.jpg') }}" 
-            class="w-full h-full  object-cover object-[60%_60%]">
-        </div>
-
-        <!-- OVERLAY -->
-        <div class="absolute inset-0 bg-black/60"></div>
-
-        <!-- CONTENT -->
-        <div class="relative max-w-7xl mx-auto px-6 text-white">
-
-        <div class="max-w-7xl mx-auto px-6 text-center">
-
-            <h1 class="text-5xl font-extrabold text-white-900 mb-6">
-                Statistik Program
-                <span class="text-blue-300">Magang</span>
-            </h1>
-
-            <p class="text-lg text-white-600 max-w-2xl mx-auto">
-                Data statistik mahasiswa magang dan project yang telah dipublikasikan oleh Dinas Kominfo dan Statistik.
-            </p>
-
-        </div>
-    </section>
 
 
+    <div class="flex-1">
+        <!-- HERO -->
+        <section class="relative h-[350px] flex items-end pb-10">
 
-    {{-- <!-- HERO -->
-    <section class="relative pt-16 pb-24 overflow-hidden">
-
-        <div class="max-w-7xl mx-auto px-6 text-center">
-
-            <h1 class="text-5xl font-extrabold text-gray-900 mb-6">
-                Statistik Program
-                <span class="text-blue-600">Magang</span>
-            </h1>
-
-            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-                Data statistik mahasiswa magang dan project yang telah dipublikasikan oleh Dinas Kominfo dan Statistik.
-            </p>
-
-        </div>
-
-    </section> --}}
-
-
-
-    <!-- STATISTIC -->
-    <section class="py-20 bg-white border-y border-gray-100">
-
-        <div class="max-w-7xl mx-auto px-6">
-
-            <div class="grid md:grid-cols-4 gap-6">
-
-            <!-- INTERN -->
-            <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300 flex items-center justify-center gap-4 text-center">
-                <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-xl">
-                    👤
-                </div>
-                <div>
-                    <p class="text-gray-500 text-sm ">Total Intern</p>
-                    <h3 class="text-2xl font-bold text-gray-900">{{ $totalIntern }}</h3>
-                    <p class="text-xs text-gray-400">Mahasiswa magang aktif</p>
-                </div>
+            <!-- BACKGROUND -->
+            <div class="absolute inset-0">
+                <img src="{{ asset('images/bg/diskominfotik sumbar.jpg') }}"
+                    class="w-full h-full object-cover object-[60%_60%]">
             </div>
 
-            <!-- PROJECT -->
-            <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300 flex items-center justify-center gap-4 text-center">
-                <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-xl">
-                    📁
-                </div>
-                <div>
-                    <p class="text-gray-500 text-sm">Project Publik</p>
-                    <h3 class="text-2xl font-bold text-gray-900">{{ $totalProject }}</h3>
-                    <p class="text-xs text-gray-400">Project dipublikasikan</p>
-                </div>
+            <!-- OVERLAY -->
+            <div class="absolute inset-0 bg-black/60"></div>
+
+            <!-- CONTENT -->
+            <div class="relative max-w-7xl mx-auto px-6 text-white -translate-y-14">
+
+                <p class="text-base uppercase text-blue-300 tracking-widest font-semibold">
+                    Analytics
+                </p>
+
+                <h1 class="text-4xl md:text-5xl font-bold leading-tight">
+                    Statistik Program Magang
+                </h1>
+
+                <p class="text-gray-200 mt-3 max-w-xl">
+                    Data statistik mahasiswa magang dan project yang telah dipublikasikan oleh Dinas Kominfo dan
+                    Statistik.
+                </p>
+
             </div>
 
-            <!-- KAMPUS -->
-            <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300 flex items-center justify-center gap-4 text-center">
-                <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center text-xl">
-                    🏫
-                </div>
-                <div>
-                    <p class="text-gray-500 text-sm">Universitas</p>
-                    <h3 class="text-2xl font-bold text-gray-900">{{ $totalKampus }}</h3>
-                    <p class="text-xs text-gray-400">Universitas terlibat</p>
-                </div>
-            </div>
-
-            <!-- TEKNOLOGI -->
-            <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300 flex items-center justify-center gap-4 text-center">
-                <div class="w-12 h-12 bg-green-100 text-green-600 rounded-xl flex items-center justify-center text-xl">
-                    💻
-                </div>
-                <div>
-                    <p class="text-gray-500 text-sm">Teknologi</p>
-                    <h3 class="text-2xl font-bold text-gray-900">{{ $totalTeknologi }}</h3>
-                    <p class="text-xs text-gray-400">Teknologi digunakan</p>
-                </div>
-            </div>
-
-        </div>
-
-            <!-- <div class="grid md:grid-cols-4 gap-8 text-center">
-
-                <div class="p-8 rounded-3xl bg-gray-50 border hover:shadow-xl transition" data-aos="fade-up">
-
-                    <h3 class="text-4xl font-bold text-blue-600 mb-2">
-                        {{ $totalIntern }}
-                    </h3>
-
-                    <p class="text-gray-500 text-sm">
-                        Total Intern
-                    </p>
-
-                </div>
+        </section>
 
 
-                <div class="p-8 rounded-3xl bg-gray-50 border hover:shadow-xl transition" data-aos="fade-up"
-                    data-aos-delay="100">
 
-                    <h3 class="text-4xl font-bold text-blue-600 mb-2">
-                        {{ $totalProject }}
-                    </h3>
+        <div class="bg-pattern -mt-20 pt-16 pb-24 min-h-screen">
+            <!-- <div class="bg-pattern min-h-screen"> -->
+            <!-- STATISTIC -->
+            <section class="py-10">
 
-                    <p class="text-gray-500 text-sm">
-                        Project Publik
-                    </p>
-
-                </div>
+                <div class="max-w-6xl mx-auto px-6 md:px-10">
+                    
 
 
-                <div class="p-8 rounded-3xl bg-gray-50 border hover:shadow-xl transition" data-aos="fade-up"
-                    data-aos-delay="200">
+                    <!-- ✅ JUDUL -->
+                    <div class="text-center mb-14 py-6 rounded-2xl 
+                            backdrop-blur-md 
+                            bg-transparent/5 
+                            border border-white/10 
+                            shadow-[0_10px_30px_rgba(0,0,0,0.06)]">
+                        <div class="text-center mb-10">
+                            <h2 class="text-3xl font-bold text-gray-900 mb-3">
+                                Ringkasan Data
+                            </h2>
+                            <span class="block w-20 h-1.5 bg-blue-600 mx-auto rounded-full"></span>
+                            <p class="text-gray-600 text-sm mt-3 max-w-xl mx-auto">
+                                Statistik umum program magang berdasarkan data terbaru.
+                            </p>
+                        </div>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 justify-items-center">
 
-                    <h3 class="text-4xl font-bold text-blue-600 mb-2">
-                        {{ $totalKampus }}
-                    </h3>
+                            <!-- INTERN -->
+                            <div class="bg-white/80 backdrop-blur-md 
+                                p-7 rounded-2xl 
+                                border border-gray-200/50 
+                                shadow-[0_10px_30px_rgba(0,0,0,0.06)]
+                                hover:shadow-xl 
+                                hover:-translate-y-1
+                                transition-all duration-300 ease-out
+                                flex flex-col gap-4
+                                max-w-[220px] w-full">
+                                <div class="flex items-center gap-4">
 
-                    <p class="text-gray-500 text-sm">
-                        Universitas
-                    </p>
+                                    <div class="w-12 h-12 
+        bg-gradient-to-br from-blue-50 to-blue-100 
+        rounded-xl flex items-center justify-center 
+        shadow-sm">
+                                        <i data-lucide="user" class="w-6 h-6 text-blue-600"></i>
+                                    </div>
 
-                </div>
+                                    <div>
+                                        <p class="text-gray-500 text-xs font-bold uppercase tracking-wide">Total Intern</p>
+                                        <h3 class="text-2xl font-semibold text-gray-900 leading-tight">
+                                            {{ $totalIntern }}
+                                        </h3>
+                                    </div>
 
+                                </div>
 
-                <div class="p-8 rounded-3xl bg-gray-50 border hover:shadow-xl transition" data-aos="fade-up"
-                    data-aos-delay="300">
+                                <p class="text-xs text-gray-400 mt-1">
+                                    Mahasiswa magang aktif
+                                </p>
+                            </div>
 
-                    <h3 class="text-4xl font-bold text-blue-600 mb-2">
-                        {{ $totalTeknologi }}
-                    </h3>
+                            <!-- PROJECT -->
+                            <div class="bg-white/80 backdrop-blur-md 
+    p-6 rounded-2xl 
+    border border-gray-200/60 
+    shadow-[0_10px_30px_rgba(0,0,0,0.06)]
+    hover:shadow-2xl 
+    hover:-translate-y-2 
+    hover:scale-[1.02]
+    transition-all duration-500 ease-out
+    flex flex-col gap-4
+    max-w-[220px] w-full">
 
-                    <p class="text-gray-500 text-sm">
-                        Teknologi Digunakan
-                    </p>
+                                <div class="flex items-center gap-4">
 
-                </div>
+                                    <div class="w-12 h-12 
+            bg-gradient-to-br from-blue-50 to-blue-100 
+            rounded-xl flex items-center justify-center 
+            shadow-sm">
+                                        <i data-lucide="folder" class="w-6 h-6 text-indigo-600"></i>
+                                    </div>
 
-            </div> -->
+                                    <div>
+                                        <p class="text-gray-500 text-xs font-bold uppercase tracking-wide">Project Publik</p>
+                                        <h3 class="text-2xl font-semibold tracking-tight text-gray-900">
+                                            {{ $totalProject }}
+                                        </h3>
+                                    </div>
 
-        </div>
+                                </div>
 
-    </section>
+                                <p class="text-xs text-gray-400 mt-1">
+                                    Project dipublikasikan
+                                </p>
 
+                            </div>
 
-    <!-- STATUS PROJECT -->
-    <section class="py-12 bg-gray-50">
+                            <!-- KAMPUS -->
+                            <div class="bg-white/80 backdrop-blur-md 
+    p-6 rounded-2xl 
+    border border-gray-200/60 
+    shadow-[0_10px_30px_rgba(0,0,0,0.06)]
+    hover:shadow-2xl 
+    hover:-translate-y-2 
+    hover:scale-[1.02]
+    transition-all duration-500 ease-out
+    flex flex-col gap-4
+    max-w-[220px] w-full">
 
-        <div class="max-w-7xl mx-auto px-6">
+                                <div class="flex items-center gap-4">
 
-            <h2 class="text-center text-xl font-semibold text-gray-800 mb-8">
-                Status Project
-            </h2>
+                                    <div class="w-12 h-12 
+            bg-gradient-to-br from-blue-50 to-blue-100 
+            rounded-xl flex items-center justify-center 
+            shadow-sm">
+                                        <i data-lucide="building-2" class="w-6 h-6 text-purple-600"></i>
+                                    </div>
 
-            <div class="grid md:grid-cols-3 gap-6">
+                                    <div>
+                                        <p class="text-gray-500 text-xs font-bold uppercase tracking-wide">Universitas</p>
+                                        <h3 class="text-2xl font-semibold tracking-tight text-gray-900">
+                                            {{ $totalKampus }}
+                                        </h3>
+                                    </div>
 
-                <!-- MENUNGGU -->
-                <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300 flex items-center justify-center gap-4 text-center">
-                    <div class="w-12 h-12 bg-yellow-100 text-yellow-500 rounded-xl flex items-center justify-center text-xl">
-                        ⏳
+                                </div>
+
+                                <p class="text-xs text-gray-400 mt-1">
+                                    Universitas terlibat
+                                </p>
+
+                            </div>
+
+                            <!-- TEKNOLOGI -->
+                            <div class="bg-white/80 backdrop-blur-md 
+    p-6 rounded-2xl 
+    border border-gray-200/60 
+    shadow-[0_10px_30px_rgba(0,0,0,0.06)]
+    hover:shadow-2xl 
+    hover:-translate-y-2 
+    hover:scale-[1.02]
+    transition-all duration-500 ease-out
+    flex flex-col gap-4
+    max-w-[220px] w-full">
+
+                                <div class="flex items-center gap-4">
+
+                                    <div class="w-12 h-12 
+            bg-gradient-to-br from-blue-50 to-blue-100 
+            rounded-xl flex items-center justify-center 
+            shadow-sm">
+                                        <i data-lucide="laptop" class="w-6 h-6 text-emerald-600"></i>
+                                    </div>
+
+                                    <div>
+                                        <p class="text-gray-500 text-xs font-bold uppercase tracking-wide">Teknologi</p>
+                                        <h3 class="text-2xl font-semibold tracking-tight text-gray-900">
+                                            {{ $totalTeknologi }}
+                                        </h3>
+                                    </div>
+
+                                </div>
+
+                                <p class="text-xs text-gray-400 mt-1">
+                                    Teknologi digunakan
+                                </p>
+
+                            </div>
+
+                        </div>
+                        
                     </div>
-                    <div>
-                        <p class="text-gray-500 text-sm">Menunggu Validasi</p>
-                        <h3 class="text-2xl font-bold text-yellow-500">{{ $menunggu }}</h3>
-                        <p class="text-xs text-gray-400">Project menunggu mentor</p>
+
+                </div>
+
+            </section>
+
+
+            <!-- STATUS PROJECT -->
+            <section class="py-1">
+                <div class="max-w-6xl mx-auto px-6 md:px-10">
+                
+
+
+                    <!-- 🔥 STATUS (GLASS) -->
+                    <div class="text-center mb-14 py-6 rounded-2xl 
+                            backdrop-blur-xl 
+                            bg-white/5 
+                            border border-white/10
+                            shadow-lg">
+
+                        <div class="text-center mb-10">
+
+                            <h2 class="text-3xl font-bold text-gray-900 mb-3">
+                                Status Project
+                            </h2>
+
+                            <span class="block w-20 h-1.5 bg-blue-600 mx-auto rounded-full"></span>
+
+                            <p class="text-gray-600 text-sm mt-3 max-w-xl mx-auto">
+                                Ringkasan status validasi project mahasiswa magang berdasarkan progres terbaru.
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-6 justify-items-center">
+
+                            <!-- MENUNGGU -->
+                            <div class="bg-white/80 backdrop-blur-md 
+                p-6 rounded-2xl 
+                border border-gray-200/60 
+                shadow-[0_10px_30px_rgba(0,0,0,0.06)]
+                hover:shadow-2xl 
+                hover:-translate-y-2 
+                hover:scale-[1.02]
+                transition-all duration-500 ease-out
+                flex flex-col gap-4
+    max-w-[220px] w-full">
+                                <i data-lucide="clock" class="w-6 h-6 text-yellow-500"></i>
+                                <div>
+                                    <p class="text-gray-500 text-xs font-bold uppercase tracking-wide">Menunggu Validasi</p>
+                                    <h3 class="text-2xl font-semibold tracking-tight text-yellow-500">{{ $menunggu }}
+                                    </h3>
+                                    <p class="text-xs text-gray-400">Project menunggu mentor</p>
+                                </div>
+                            </div>
+
+                            <!-- REVISI -->
+                            <div class="bg-white/80 backdrop-blur-md 
+                p-6 rounded-2xl 
+                border border-gray-200/60 
+                shadow-[0_10px_30px_rgba(0,0,0,0.06)]
+                hover:shadow-2xl 
+                hover:-translate-y-2 
+                hover:scale-[1.02]
+                transition-all duration-500 ease-out
+                flex flex-col gap-4
+    max-w-[220px] w-full">
+                                <i data-lucide="refresh-cw" class="w-6 h-6 text-red-500"></i>
+                                <div>
+                                    <p class="text-gray-500 text-xs font-bold uppercase tracking-wide">Revisi</p>
+                                    <h3 class="text-2xl font-semibold tracking-tight text-red-500">{{ $revisi }}</h3>
+                                    <p class="text-xs text-gray-400">Perlu perbaikan</p>
+                                </div>
+                            </div>
+
+                            <!-- DIVALIDASI -->
+                            <div class="bg-white/80 backdrop-blur-md 
+                p-6 rounded-2xl 
+                border border-gray-200/60 
+                shadow-[0_10px_30px_rgba(0,0,0,0.06)]
+                hover:shadow-2xl 
+                hover:-translate-y-2 
+                hover:scale-[1.02]
+                transition-all duration-500 ease-out
+                flex flex-col gap-4
+    max-w-[220px] w-full">
+                                <i data-lucide="check-circle" class="w-6 h-6 text-green-500"></i>
+                                <div>
+                                    <p class="text-gray-500 text-xs font-bold uppercase tracking-wide">Divalidasi</p>
+                                    <h3 class="text-2xl font-semibold tracking-tight text-green-500">{{ $divalidasi }}
+                                    </h3>
+                                    <p class="text-xs text-gray-400">Project selesai</p>
+                                </div>
+                            </div>
+
+                        </div>
+
                     </div>
+                    
                 </div>
+            </section>
 
-                <!-- REVISI -->
-                <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300 flex items-center justify-center gap-4 text-center">
-                    <div class="w-12 h-12 bg-red-100 text-red-500 rounded-xl flex items-center justify-center text-xl">
-                        🔁
+            <!-- CHART -->
+            <section class="py-10">
+
+                <div class="max-w-6xl mx-auto px-6 md:px-10">
+    
+
+                    <!-- TITLE -->
+                    <div class="text-center mb-10 py-6 rounded-2xl
+                backdrop-blur-xl
+                bg-white/20
+                border border-white/30
+                shadow-xl">
+
+                        <div class="text-center mb-10">
+                            <h2 class="text-3xl font-bold text-gray-900 mb-3">
+                                Visualisasi Data
+                            </h2>
+
+                            <div class="w-20 h-1.5 bg-blue-600 mx-auto rounded-full"></div>
+
+                            <p class="text-gray-600 text-sm mt-3 max-w-xl mx-auto">
+                                Grafik distribusi data mahasiswa magang dan teknologi yang digunakan.
+                            </p>
+                        </div>
+
+                        <!-- GRID -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 justify-items-center">
+
+                            <!-- 1 -->
+                            <div class="bg-white/80 backdrop-blur-md 
+                p-6 rounded-2xl 
+                border border-gray-200/60 
+                shadow-[0_10px_30px_rgba(0,0,0,0.06)]
+                hover:shadow-2xl 
+                hover:-translate-y-2 
+                hover:scale-[1.02]
+                transition-all duration-500 ease-out
+                max-w-[480px] w-full mx-auto">
+                                <h3 class="font-semibold text-gray-800 mb-4">
+                                    Intern per Kampus
+                                </h3>
+                                <div class="h-64">
+                                    <canvas id="kampusChart"></canvas>
+                                </div>
+                            </div>
+
+                            <!-- 2 -->
+                            <div class="bg-white/80 backdrop-blur-md 
+                p-6 rounded-2xl 
+                border border-gray-200/60 
+                shadow-[0_10px_30px_rgba(0,0,0,0.06)]
+                hover:shadow-2xl 
+                hover:-translate-y-2 
+                hover:scale-[1.02]
+                transition-all duration-500 ease-out
+                max-w-[480px] w-full mx-auto">
+                                <h3 class="font-semibold text-gray-800 mb-4">
+                                    Intern per Jurusan
+                                </h3>
+                                <div class="h-64">
+                                    <canvas id="jurusanChart"></canvas>
+                                </div>
+                            </div>
+
+                            <!-- 3 -->
+                            <div class="bg-white/80 backdrop-blur-md 
+                p-6 rounded-2xl 
+                border border-gray-200/60 
+                shadow-[0_10px_30px_rgba(0,0,0,0.06)]
+                hover:shadow-2xl 
+                hover:-translate-y-2 
+                hover:scale-[1.02]
+                transition-all duration-500 ease-out
+                max-w-[480px] w-full mx-auto">
+                                <h3 class="font-semibold text-gray-800 mb-4">
+                                    Teknologi Project
+                                </h3>
+                                <div class="h-64 flex items-center justify-center">
+                                    <canvas id="techChart"></canvas>
+                                </div>
+                            </div>
+
+                            <!-- 4 -->
+                            <div class="bg-white/80 backdrop-blur-md 
+                p-6 rounded-2xl 
+                border border-gray-200/60 
+                shadow-[0_10px_30px_rgba(0,0,0,0.06)]
+                hover:shadow-2xl 
+                hover:-translate-y-2 
+                hover:scale-[1.02]
+                transition-all duration-500 ease-out
+                max-w-[480px] w-full mx-auto">
+                                <h3 class="font-semibold text-gray-800 mb-4">
+                                    Kategori Teknologi
+                                </h3>
+                                <div class="h-64 flex items-center justify-center">
+                                    <canvas id="kategoriTechChart"></canvas>
+                                </div>
+                            </div>
+
+                        </div>
+
                     </div>
-                    <div>
-                        <p class="text-gray-500 text-sm">Revisi</p>
-                        <h3 class="text-2xl font-bold text-red-500">{{ $revisi }}</h3>
-                        <p class="text-xs text-gray-400">Perlu perbaikan</p>
-                    </div>
+                    
                 </div>
-
-                <!-- DIVALIDASI -->
-                <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300 flex items-center justify-center gap-4 text-center">
-                    <div class="w-12 h-12 bg-green-100 text-green-500 rounded-xl flex items-center justify-center text-xl">
-                        ✅
-                    </div>
-                    <div>
-                        <p class="text-gray-500 text-sm">Divalidasi</p>
-                        <h3 class="text-2xl font-bold text-green-500">{{ $divalidasi }}</h3>
-                        <p class="text-xs text-gray-400">Project selesai</p>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- CHART -->
-<section class="py-20 bg-gray-50">
-
-    <div class="max-w-7xl mx-auto px-6">
-
-    <div class="pt-8 pb-20 bg-repeat bg-center"
-        style="background-image: url('{{ asset('images/bg/heksagonal1.jpeg') }}')">
-
-
-        <!-- TITLE -->
-        <div class="text-center mb-14">
-            <h2 class="text-3xl font-bold text-gray-900 mb-3">
-                Visualisasi Data
-            </h2>
-            <div class="w-20 h-1.5 bg-blue-600 mx-auto rounded-full"></div>
-        </div>
-
-        <!-- GRID -->
-        <div class="grid md:grid-cols-2 gap-8">
-
-            <!-- 1 -->
-            <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
-                <h3 class="font-semibold text-gray-800 mb-4">
-                    Intern per Kampus
-                </h3>
-                <div class="h-64">
-                    <canvas id="kampusChart"></canvas>
-                </div>
-            </div>
-
-            <!-- 2 -->
-            <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
-                <h3 class="font-semibold text-gray-800 mb-4">
-                    Intern per Jurusan
-                </h3>
-                <div class="h-64">
-                    <canvas id="jurusanChart"></canvas>
-                </div>
-            </div>
-
-            <!-- 3 -->
-            <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
-                <h3 class="font-semibold text-gray-800 mb-4">
-                    Teknologi Project
-                </h3>
-                <div class="h-64 flex items-center justify-center">
-                    <canvas id="techChart"></canvas>
-                </div>
-            </div>
-
-            <!-- 4 -->
-            <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
-                <h3 class="font-semibold text-gray-800 mb-4">
-                    Kategori Teknologi
-                </h3>
-                <div class="h-64 flex items-center justify-center">
-                    <canvas id="kategoriTechChart"></canvas>
-                </div>
-            </div>
+            </section>
 
         </div>
 
     </div>
 
-</section>
-
-
-
-    <div class="pb-10"></div>
     <!-- FOOTER -->
-    <footer class="bg-gray-900 text-white text-center py-6 mt-20">
+    <footer class="bg-gray-900 text-white text-center py-8 mt-auto">
 
-        © {{ date('Y') }} Siporma | Diskominfotik Sumbar
+        <p class="text-sm text-gray-500">
+            © {{ date('Y') }} Siporma | Dinas Kominfo dan Statistik Provinsi Sumatra Barat
+        </p>
 
     </footer>
 
@@ -369,21 +497,6 @@
 
     </script>
 
-    <script>
-    Chart.defaults.font.family = "'Inter', sans-serif";
-    Chart.defaults.color = '#6b7280'; // abu soft
-
-    const gridStyle = {
-        color: 'rgba(0,0,0,0.03)', // 🔥 garis tipis banget
-        drawBorder: false
-    };
-
-    const ticksStyle = {
-        color: '#9ca3af'
-    };
-
-</script>
-
 
 
     <script>
@@ -391,77 +504,178 @@
         const techData = @json($techProject->pluck('total'));
 
         new Chart(document.getElementById('techChart'), {
-        type: 'pie',
-        data: {
-            labels: techLabels,
-            datasets: [{
-                data: techData
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'right' // 🔥 INI KUNCINYA
+            type: 'pie',
+            data: {
+                labels: techLabels,
+                datasets: [{
+                    data: techData
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            usePointStyle: true,
+                            pointStyle: 'circle',
+                            padding: 20,
+                            color: '#374151',
+                            font: {
+                                size: 12
+                            }
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: '#111827',
+                        titleColor: '#fff',
+                        bodyColor: '#d1d5db',
+                        padding: 10,
+                        cornerRadius: 8
+                    }
                 }
             }
-        }
-    });
+        });
 
 
         const catLabels = @json($techCategory->pluck('tk_kategori'));
         const catData = @json($techCategory->pluck('total'));
 
         new Chart(document.getElementById('kategoriTechChart'), {
-        type: 'doughnut',
-        data: {
-            labels: catLabels,
-            datasets: [{
-                data: catData
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'right' // 🔥 PINDAH KE SAMPING
+            type: 'doughnut',
+            data: {
+                labels: catLabels,
+                datasets: [{
+                    data: catData
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            usePointStyle: true,
+                            pointStyle: 'circle',
+                            padding: 20,
+                            color: '#374151',
+                            font: {
+                                size: 12
+                            }
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: '#111827',
+                        titleColor: '#fff',
+                        bodyColor: '#d1d5db',
+                        padding: 10,
+                        cornerRadius: 8
+                    }
                 }
             }
-        }
-    });
+        });
 
         const kampusLabels = @json($internPerKampus->pluck('km_nama_kampus'));
         const kampusData = @json($internPerKampus->pluck('total'));
 
-        new Chart(document.getElementById('kampusChart'),{
-        type:'bar',
-        data:{
-        labels:kampusLabels,
-        datasets:[{
-        label:'Intern',
-        data:kampusData,
-        backgroundColor:'#3b82f6'
-        }]
-        }
+        new Chart(document.getElementById('kampusChart'), {
+            type: 'bar',
+            data: {
+                labels: kampusLabels,
+                datasets: [{
+                    label: 'Intern',
+                    data: kampusData,
+                    backgroundColor: '#3b82f6'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: '#111827',
+                        titleColor: '#fff',
+                        bodyColor: '#d1d5db',
+                        padding: 10,
+                        cornerRadius: 8
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            color: '#6b7280'
+                        }
+                    },
+                    y: {
+                        grid: {
+                            color: '#e5e7eb'
+                        },
+                        ticks: {
+                            color: '#6b7280'
+                        }
+                    }
+                }
+            }
         });
 
 
         const jurusanLabels = @json($internPerJurusan->pluck('js_nama'));
         const jurusanData = @json($internPerJurusan->pluck('total'));
 
-        new Chart(document.getElementById('jurusanChart'),{
-        type:'bar',
-        data:{
-        labels:jurusanLabels,
-        datasets:[{
-        label:'Intern',
-        data:jurusanData,
-        backgroundColor:'#6366f1'
-        }]
-        }
+        new Chart(document.getElementById('jurusanChart'), {
+            type: 'bar',
+            data: {
+                labels: jurusanLabels,
+                datasets: [{
+                    label: 'Intern',
+                    data: jurusanData,
+                    backgroundColor: '#6366f1'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: '#111827',
+                        titleColor: '#fff',
+                        bodyColor: '#d1d5db',
+                        padding: 10,
+                        cornerRadius: 8
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            color: '#6b7280'
+                        }
+                    },
+                    y: {
+                        grid: {
+                            color: '#e5e7eb'
+                        },
+                        ticks: {
+                            color: '#6b7280'
+                        }
+                    }
+                }
+            }
         });
+
     </script>
 
 
