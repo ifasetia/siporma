@@ -1,8 +1,13 @@
 <!-- DETAIL MODAL PROJECT -->
 <div id="detailModal" class="fixed inset-0 z-999999 hidden p-5 overflow-y-auto">
-    <div id="photoPreviewModal" class="fixed inset-0 z-[999999] hidden bg-black/60 flex items-center justify-center">
-        <img id="previewImg" class="max-h-[90vh] rounded-xl shadow-xl">
-    </div>
+    <!-- PHOTO PREVIEW (DI LUAR SEMUA MODAL) -->
+<div id="photoPreviewModal"
+     class="fixed inset-0 z-[9999999] hidden flex items-center justify-center bg-black/60">
+
+    <img id="previewImg"
+         class="max-h-[90vh] rounded-xl shadow-xl">
+
+</div>
 
     <div class="fixed inset-0 bg-gray-400/50 backdrop-blur-sm"></div>
 
@@ -155,23 +160,37 @@
                             const name = f.file_path.split('/').pop();
 
                             $('#d_files').append(`
-            <div class="flex items-center justify-between gap-3 p-3 border rounded-xl bg-gray-50">
+    <div class="flex items-center justify-between gap-4 
+        px-4 py-3 
+        rounded-xl 
+        bg-gray-50/80 
+        backdrop-blur-sm
+        shadow-[0_4px_20px_rgba(0,0,0,0.04)]
+        hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)]
+        hover:-translate-y-0.5
+        transition-all duration-300">
 
                 <div class="flex items-center gap-2 overflow-hidden">
                     <span class="text-lg">📄</span>
 
-                    <div class="truncate max-w-[180px] text-sm text-gray-700">
-                        ${name}
-                    </div>
-                </div>
-
-                <button onclick="window.open('/storage/${f.file_path}')"
-                    class="text-blue-600 text-sm hover:underline whitespace-nowrap">
-                    Lihat
-                </button>
-
+            <div class="truncate max-w-[200px] text-sm text-gray-700 font-medium">
+                ${name}
             </div>
-        `);
+
+        </div>
+
+        <!-- RIGHT -->
+        <button onclick="window.open('/storage/${f.file_path}')"
+            class="text-xs font-medium text-blue-600 
+                   hover:text-blue-700 
+                   transition">
+            Lihat
+        </button>
+
+    </div>
+`);
+
+
 
                         });
                     } else {
@@ -238,13 +257,26 @@
     });
 
     function openPhoto(src) {
-        $('#previewImg').attr('src', src);
-        $('#photoPreviewModal').removeClass('hidden');
+    const modal = document.getElementById('photoPreviewModal');
+    const img = document.getElementById('previewImg');
+
+    img.src = src;
+
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+}
+
+
+// klik luar gambar = close
+document.getElementById('photoPreviewModal')
+.addEventListener('click', function (e) {
+
+    if (e.target === this) {
+        this.classList.add('hidden');
+        this.classList.remove('flex');
     }
 
-    $('#photoPreviewModal').on('click', function () {
-        $(this).addClass('hidden');
-    });
+});
 
 </script>
 @endpush
