@@ -44,6 +44,25 @@ $divalidasi = $statusProject->where('sp_nama_status', 'Divalidasi (Public)')->fi
 
 </div>
 
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6 w-full">
+
+    <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
+        <p class="text-gray-500 text-sm">Menunggu Validasi</p>
+        <h2 class="text-3xl font-bold text-yellow-500">{{ $menunggu }}</h2>
+    </div>
+
+    <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
+        <p class="text-gray-500 text-sm">Revisi</p>
+        <h2 class="text-3xl font-bold text-red-500">{{ $revisi }}</h2>
+    </div>
+
+    <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
+        <p class="text-gray-500 text-sm">Divalidasi</p>
+        <h2 class="text-3xl font-bold text-green-500">{{ $divalidasi }}</h2>
+    </div>
+
+</div>
+
 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
     <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
         <h3 class="font-semibold mb-4">Intern per Kampus</h3>
@@ -68,25 +87,6 @@ $divalidasi = $statusProject->where('sp_nama_status', 'Divalidasi (Public)')->fi
     <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
         <h3 class="font-semibold mb-4">Kategori Teknologi</h3>
         <canvas id="kategoriTechChart"></canvas>
-    </div>
-
-</div>
-
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6 w-full">
-
-    <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
-        <p class="text-gray-500 text-sm">Menunggu Validasi</p>
-        <h2 class="text-3xl font-bold text-yellow-500">{{ $menunggu }}</h2>
-    </div>
-
-    <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
-        <p class="text-gray-500 text-sm">Revisi</p>
-        <h2 class="text-3xl font-bold text-red-500">{{ $revisi }}</h2>
-    </div>
-
-    <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition duration-300">
-        <p class="text-gray-500 text-sm">Divalidasi</p>
-        <h2 class="text-3xl font-bold text-green-500">{{ $divalidasi }}</h2>
     </div>
 
 </div>
